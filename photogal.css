@@ -1,0 +1,277 @@
+#doAction {
+  display:  none;
+}
+
+#doAction.canEdit {
+  display:  block;
+}
+
+#doReconcile {
+  display:  none;
+}
+
+/*#galleryContainer.canEdit #doReconcile {
+  display: block;
+}*/
+
+
+/* BASIC: https://css-tricks.com/adaptive-photo-layout-with-flexbox/ */
+/* Previous Next selector for folder selection box */
+
+#groupSelector {
+    text-align:  center;
+    margin-bottom:  10px;
+  }
+  #selectionChamp, #prevSelect, #nextSelect {
+    display:  inline-block;
+  }
+  #selectionChamp {
+    width:  auto;
+  }
+
+/* Override some Bootstrap defaults */
+
+@media (min-width: 992px) {
+  div.container, .container-lg, .container-md, .container-sm {
+    max-width: 1280px;
+  }
+}
+
+/* Remove the border and slim up top padding */
+
+#primary {
+   padding-top:  0;
+}
+
+#primary #main article {
+   border:  none;
+}
+
+#cards figure {
+   display:  none;
+   position:  relative;
+}
+
+#cards figure.active {
+   display:  block;
+}
+
+div.info {
+  text-align: center;
+  font-style: italic;
+  width: 80%;
+  text-align: c;
+  margin: 0 auto;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+div.info span {
+  display: block;
+}
+
+div.info span.info-title {
+  font-weight:  bold;
+}
+
+div.info span.message {
+
+}
+
+
+div.marker {
+  position:  absolute;
+  top:  20px;
+  left:  20px;
+  color:  white;
+  display:  none;
+  background-color: rgba(256,256,256,.5);
+  border-radius: 10px;
+  padding: 0 10px;
+  color: black;
+}
+
+#cards.addMarker div.marker {
+  display:  block;
+}
+
+div.thePhotos {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+#cards figure{
+  flex: 0 0 calc(20% - 10px);
+  margin: 5px;
+  /*background: #E9D2FF;*/
+  overflow: hidden;
+}
+
+#showing {
+  margin:  5px;
+  display: inline-block;
+}
+
+#displayType { 
+  display:  none;
+}
+
+#doRefresh {
+  display:  none;
+}
+
+#galleryContainer {
+  width:  90%;
+  margin:  0 auto;
+}
+
+#galleryContainer.canEdit #displayType  {
+  margin: 5px;
+  display: block;
+}
+
+@media (min-width: 992px) {
+  #galleryContainer {
+  width:  100%;
+}
+}
+
+#cards figure figcaption {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+#cards figure figcaption textarea{
+  font-weight:  600;
+}
+
+#cards li:last-child {
+  // There's no science in using "10" here. In all my testing, this delivered the best results.
+  flex-grow: 10;
+}
+
+#cards img {
+  max-height: 100%;
+  min-width: 100%;
+  object-fit: cover;
+  vertical-align: bottom;
+  height: auto;
+  width:  100%;
+   aspect-ratio:  6 / 6;
+}
+
+#cards figure.hidden img {
+  border:  5px solid purple;
+}
+
+#cards .imageGalleryCheck {
+  position: absolute;
+    top: 10px;
+    right: 10px;
+
+    color: white;
+    padding: 6px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#cards .imageGalleryEdit {
+  position: absolute;
+  top: 15px;
+  left: 10px;
+  
+  padding: 0 3px;
+  border-radius: 5px;
+  cursor: pointer;
+  
+  background: white;
+  color: black;
+}
+
+input[type=checkbox] {
+    transform: scale(1.5);
+}
+
+
+
+/* Smaller screens in portrait */
+
+@media (max-aspect-ratio: 1/1) and (max-width: 480px) {
+  div.thePhotos {
+    flex-direction: row;
+  }
+
+  #cards figure{
+  flex: 0 0 calc(50% - 10px);
+}
+
+   #cards figure {
+    height: auto;
+    width: 100%;
+    max-width:  unset;
+  }
+  #cards img {
+    width: 100%;
+    max-height: 75vh;
+    min-width: 0;
+    max-width:  unset;
+  }
+}
+
+#cards {
+    width:  100%;
+    margin:  0 auto;
+}
+
+div.slick-lightbox .slick-prev, 
+div.slick-lightbox .slick-next {
+  top: 50%; 
+  z-index:  1;
+}
+
+
+
+#cards .imageGalleryCheck,
+#cards .imageGalleryEdit {
+  display:  none;
+}
+
+/*#cards.canEdit .imageGalleryCheck,
+#cards.canEdit .imageGalleryEdit {
+  display:  block;
+}*/
+
+##cards.canEdit {
+  /*margin: 0 2%;*/
+}
+
+#cards.canEdit figure a {
+  cursor: default;
+}
+
+#content h3 {
+  text-align:  center;
+}
+
+#content h1.page-title {
+   display:  none;
+}
+
+x.modal-body img {
+  width: 100%;
+}
+
+#galleryContainer #searchBox {
+  background:  unset;
+  text-align:  center;
+}
+
+#content #searchBox input {
+  line-height: 1em;
+}
+
+#content #selectionChamp select.showSearch {
+  text-decoration: line-through;
+  text-decoration-thickness: 2px;  
+}
