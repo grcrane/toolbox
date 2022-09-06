@@ -75,7 +75,7 @@ function fillImages(grouping, memberRows) {
         temp += `<figure class="active ${gclass}${distype}" data-key="${key}" data-name="${value[5]}">
              <a href="${fullimg}" >
              <img src="" 
-             data-src="${thumbimg}" title="${title}">
+             data-src="${thumbimg}" title="${title}" loading="lazy">
              <div class="marker">${marker}</div></a>
              <div class="imageGalleryCheck"><input tabindex="-1" type="checkbox" ${checked}></i></div>
               
