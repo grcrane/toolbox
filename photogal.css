@@ -74,8 +74,8 @@ div.info span.info-title {
   font-weight:  bold;
 }
 
-div.info span.message {
-
+div.info span.info-message {
+  display: none;
 }
 
 
@@ -141,6 +141,8 @@ div.thePhotos {
   overflow: hidden;
   text-overflow: ellipsis;
   font-weight:  600;
+  font-size:  13px;
+  text-align:  center;
 }
 
 #cards figure figcaption textarea{
