@@ -122,7 +122,7 @@ function isEqual(a, b)
     return JSON.stringify(a) === JSON.stringify(b);
 }
 
-function saveDataRow(cmd, key, newrow) {
+function saveDataRow(cmd, key, newrow, baseURI = '') {
   
   isEqual = JSON.stringify(newrow) === JSON.stringify(rows[key]);
   if (isEqual) {console.log('Equal - nothing to update'); return;}
@@ -158,7 +158,7 @@ function saveDataRow(cmd, key, newrow) {
             jQuery('#doRefresh').show(); 
           }
           else if (results['status'] == 'reconciled') {
-            jQuery('#message').text(data);
+            jQuery('#message').html(results['out']);
           }
           else {
             jQuery('#message').text(data);
@@ -442,10 +442,10 @@ function do_photoList(
         setupLightbox();
       });
 
-      jQuery('#doReconcile').click(function(event) {
-        saveDataRow('RECONCILE','', []);
+      jQuery('#doReconcile').off().click(function(event) {
+        console.log('doReconcile ' + baseURI);
+        saveDataRow('RECONCILE','', [], baseURI);
       });
       
   })
 }
-  
