@@ -197,6 +197,12 @@ input[type=checkbox] {
 }
 
 
+@media (max-width: 940px) {
+  #cards figure{
+    flex: 0 0 calc(33% - 10px);
+  }
+}
+
 
 /* Smaller screens in portrait */
 
