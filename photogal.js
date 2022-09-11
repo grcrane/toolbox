@@ -28,44 +28,50 @@ function fillImages(grouping, memberRows) {
   var m1 = '';
   var mm = '';
 
-  var result = memberRows.filter(checkGroup);
-  function checkGroup(age, group) {
-    return age[0] == grouping;
-  }
+  var distype = '';
+  var checked = '';
+  var marker = '';
+  var gclass = '';
+  var fillimg = '';
+  var thumbimg = '';
+  var temprow = []; 
+  var marktemp = []; 
+  var capvalue = '';
+  var title = '';
+  var href = '';
+  var temparr = []; 
+  var templabel = '';
+
+  //var result = memberRows.filter(checkGroup);
+  //function checkGroup(age, group) {
+  //  return age[0] == grouping;
+  //}
 
   result = memberRows;
 
-  console.log(memberRows);
-
-  const thetest = groupRows.filter(checkGroup);
+  //const thetest = groupRows.filter(checkGroup);
   var admin = jQuery('#cards').hasClass('canEdit');
   var total = result.length;
       jQuery.each( result, function( key, value ) {
         if (value.length > 1) {
         m1 = value[0].split('_');
         mm = m1[1];
-        var title = value[1] + ' (' + (key+1) + ')'; 
-        if (value[5] != '' && value[5] != null) {
-          //var caption = value[4] + ' (' + (key+1) + ' of ' + total + ')'; 
-          var capvalue = value[5];
-          title = capvalue;
-        }
-        else { 
-          //var caption = value[1] + ' (' + (key+1) + ' of ' + total + ')'; 
-          var capvalue = '';
-          value[5] = ''; 
-        }   
+        title = value[1] + ' (' + (key+1) + ')'; 
+        capvalue = (typeof value[5] != 'undefined') ? value[5] : '';
+        title = (capvalue) ? capvalue : title; 
          
-        //var href= `https://gallery.aahs63.com/${value[0]}/${value[1]}`;
-        var href= `${photoBase}/${value[0]}/${value[2]}`;
+        href= `${photoBase}/${value[0]}/${value[2]}`;
 
-        var distype = (value[4] == 'Y') ? ' show' : ' hidden';
-        var checked = (value[4] == 'Y')  ? ' checked ' : ''; 
-        var marker = (value[0] in groupLabels) ? groupRows[groupLabels[value[0]]][1] : ''; 
-        var gclass = (value[0] in groupLabels) ? groupLabels[value[0]] : '';
-        var fullimg = `${photoBase}/${value[0]}/${value[2]}`;
-        var thumbimg = `${photoBase}/${value[0]}/${value[3]}`;
-        console.log('startswith=' + fullimg.startsWith('http'));
+        distype = (value[4] == 'Y') ? ' show' : ' hidden';
+        checked = (value[4] == 'Y')  ? ' checked ' : ''; 
+        marker = (value[0] in groupLabels) ? groupRows[groupLabels[value[0]]][1] : ''; 
+        marktemp = marker.split(' ');
+        marker = marktemp[0];
+        temparr = value[0].split('/');
+        templabel = temparr[0] + '/' + temparr[1];
+        gclass = (templabel in groupLabels) ? groupLabels[templabel] : '';
+        fullimg = `${photoBase}/${value[0]}/${value[2]}`;
+        thumbimg = `${photoBase}/${value[0]}/${value[3]}`;
         if (value[2].startsWith('http')) {
           fullimg = value[2];
         }
@@ -94,6 +100,7 @@ function fillImages(grouping, memberRows) {
       
   return;
 }
+
 
 function setupLightbox() {
   if (typeof simpleGallery == 'object') {
@@ -199,7 +206,10 @@ function do_photoList(
     baseURI = '/home2/grcranet/public_html/' + base;
   }
 
-  console.log(csvURI);
+  var folderDate = ''; 
+  var folderLoc = '';
+  var folderDesc = ''; 
+  var tempinfo = ''; 
 
   var temp = `
   <div id="galleryContainer" class="${theClass}">
@@ -229,15 +239,12 @@ function do_photoList(
   </div>
   <div id="cards" class="cards ${theClass}"></div>
   </div>`;
-  console.log(selectorID);
   jQuery(selectorID).html(temp);
 
-  console.log(photoBase + '/returndata.php');
   const d = new Date();
   var time = d.getTime();
   var csvurl = photoBase + '/returndata.php?t=' + time;
   jQuery.get(csvurl, function(data, status){
-    console.log(data);
     memberRows = data[0];
     memberRows.shift(); 
     rows = memberRows;
@@ -249,12 +256,14 @@ function do_photoList(
       groupLabels[item[0]] = key; 
     })
 
-
     /* --- Build the navigation dropdown list */
 
     var temp = '';
     var prev = ''; 
     groupRows.forEach(function(item,key) {
+      var temp2 = item[0].split('/');
+      var level = 'level' + temp2.length;
+      if (item[5] != '' && temp2.length < 3) {
        if (prev == '' || prev != item[2]){
         // new group
         if (prev != '') {
@@ -264,7 +273,8 @@ function do_photoList(
         var gclass = item[2].replace(' ','').toLowerCase(); 
         temp += `<optgroup label="${item[2]}">`;
        }
-       temp += `<option value="${key}">${item[1]}</option>`
+       temp += `<option class="${level}" value="${key}">${item[1]}</option>`
+     }
     })
     temp += '</optgroup>';
     jQuery('#selectionChamp select').html(temp);
@@ -277,9 +287,12 @@ function do_photoList(
     jQuery('figure').removeClass('active');
     currentSearch = 'figure.' + group;
     jQuery(currentSearch + searchModifier + searchName).addClass('active');
-    var tempinfo = `<span class="info-title">${groupRows[group][1]}, ${groupRows[group][3]}, ${groupRows[group][4]}</span>
-      <span class="info-location"></span>
-      <span class="info-message">${groupRows[group][5]}</span>`;
+    folderDate = (typeof groupRows[group][3] !== 'undefined') ? groupRows[3] : '';
+    folderLoc  = (typeof groupRows[group][4] !== 'undefined') ? groupRows[4] : '';
+    folderDesc = (typeof groupRows[group][5] !== 'undefined') ? groupRows[5] : '';
+    tempinfo = `<span class="info-title">${groupRows[group][1]}, ${groupRows[group][3]}, ${groupRows[group][4]}</span>
+          <span class="info-location"></span>
+      <span class="info-message">${folderDesc}</span>`;
     jQuery('div.info').html(tempinfo);
     setupLightbox();
 
@@ -381,7 +394,6 @@ function do_photoList(
       else {
         newrow[4] = 'N';
       }
-      console.log(newrow);
       saveDataRow('SAVEROW', key, newrow); 
     })
 
@@ -404,7 +416,6 @@ function do_photoList(
         jQuery(this).closest('figure').attr("data-name", newrow[5]);
         saveDataRow('SAVEROW',key, newrow);
         event.preventDefault();
-        console.log(newrow);
       }
     });
 
@@ -419,7 +430,6 @@ function do_photoList(
       newrow[5] = jQuery(this).val();
       jQuery(this).closest('figure').attr("data-name", newrow[5]);
       saveDataRow('SAVEROW',key, newrow);
-      console.log(newrow);
     })
 
     jQuery('#selectionChamp select').on('change', function() {
@@ -434,7 +444,7 @@ function do_photoList(
         
         jQuery('#search').val('');
 
-        var tempinfo = `<span class="info-title">${groupRows[group][1]}, ${groupRows[group][3]}, ${groupRows[group][4]}</span>
+        tempinfo = `<span class="info-title">${groupRows[group][1]}, ${groupRows[group][3]}, ${groupRows[group][4]}</span>
           <span class="info-location"></span>
           <span class="info-message">${groupRows[group][5]}</span>`;
         jQuery('div.info').html(tempinfo);
