@@ -286,7 +286,7 @@ function do_photoList(
     jQuery('#selectionChamp select').html(temp);
 
     /* -- Kick things off by selecting the first item in dropdown */
-    var group = $('#selectionChamp option:first-child').val();
+    var group = jQuery('#selectionChamp option:first-child').val();
     fillImages(group,memberRows);
     jQuery('#cards').data("group",group);
     jQuery('figure').removeClass('active');
