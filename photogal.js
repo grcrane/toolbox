@@ -193,7 +193,7 @@ function do_photoList(
   base = 'AAHS_Gallery2',
   theClass = '') {
 
-  if (location.hostname == 'localhost' && base != 'Gallery') {
+  if (location.hostname == 'localhost' && base != 'xGallery') {
     photoBase = 'http://localhost/' + base;
     csvURI = '/Users/george/Sites/' + base + '/gallery2.csv'; 
     logURI = '/Users/george/Sites/' + base + '/logfile.csv'; 
@@ -252,6 +252,11 @@ function do_photoList(
     groupRows.shift();
     groupLabels = [];
 
+    //WITH FIRST COLUMN
+    groupRows = groupRows.sort(function(a,b) {
+        return a[0] - b[0];
+    });
+
     groupRows.forEach(function(item,key) {
       groupLabels[item[0]] = key; 
     })
@@ -259,8 +264,9 @@ function do_photoList(
     /* --- Build the navigation dropdown list */
 
     var temp = '';
-    var prev = ''; 
+    var prev = '';  
     groupRows.forEach(function(item,key) {
+
       var temp2 = item[0].split('/');
       var level = 'level' + temp2.length;
       if (item[5] != '' && temp2.length < 3) {
@@ -280,8 +286,7 @@ function do_photoList(
     jQuery('#selectionChamp select').html(temp);
 
     /* -- Kick things off by selecting the first item in dropdown */
-
-    var group = 0;
+    var group = $('#selectionChamp option:first-child').val();
     fillImages(group,memberRows);
     jQuery('#cards').data("group",group);
     jQuery('figure').removeClass('active');
