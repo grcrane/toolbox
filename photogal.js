@@ -22,6 +22,70 @@ var baseURI = '/home2/grcranet/public_html/AAHS_Gallery2';
 var csvURI = '/home2/grcranet/public_html/AAHS_Gallery2/gallery2.csv'; 
 var logURI = '/home2/grcranet/public_html/AAHS_Gallery2/logfile.csv'; 
 
+function makeCarousel(selectorID, groupRows, base) {
+  // Build the optional carousel 
+
+    var i = '1';
+    var href = '';
+    var img = '';
+    var title = '';
+    var excerpt = '';
+    var cats = '';
+    var showcats = 'showcats';
+    var testout = `<div class="slickButtons">
+      <button class="prev slick-arrow"> < </button>
+      <button class="next slick-arrow"> > </button>
+      </div>
+      <div class="theCarousel">`;
+    groupRows.forEach(function(item,key) {
+      i = key;
+      title = item[1];
+      excerpt = item[5];
+      img = `https://grcrane2.com/${base}/${item[0]}/${item[6]}`;        
+      testout +=
+        `<div class="item" data-itemid="${i}" data-cat="${item[2]}" data-desc="${item[5]}">
+        <a href="${href}"><img loading="lazy" src="${img}">
+        <div class="title" data-itemid="${i}">${title}</div></a>
+        <div class="classcontent">${excerpt}</div>
+        <div class="readmore"><a href="${href}">Read More →</a></div>
+        <div class="itemFilterCats ${showcats}">${cats}</div>
+        </div>`;
+    })
+    testout += '</div>';
+    $(selectorID).html(testout);  
+}
+
+/* ---------------------------------------------- */
+/* Fills in the top title information either      */
+/* initially or when a new folder is selected     */
+/* ---------------------------------------------- */
+
+function fillTitleInfo (group, groupRows, groupLabels) {
+
+    folderDate = (typeof groupRows[group][3] !== 'undefined') ? groupRows[3] : '';
+    folderLoc  = (typeof groupRows[group][4] !== 'undefined') ? groupRows[4] : '';
+    folderDesc = (typeof groupRows[group][5] !== 'undefined') ? groupRows[5] : '';
+    infotitle = `${groupRows[group][1]}, ${groupRows[group][3]}, ${groupRows[group][4]}`;
+    infotitle = `${groupRows[group][5]}`;
+    var admin = jQuery('#cards').hasClass('canEdit');
+    //admin = true;  // for testing
+    var groupkey = groupLabels[groupRows[group][0]]; 
+    var groupname = groupRows[groupkey][2];
+    if (!admin) {
+    tempinfo = `<span class="info-title">(${groupname}) ${infotitle}</span>
+          <span class="info-location"></span>
+      <span class="info-message">${folderDesc}</span>`;
+    }
+    else {
+      tempinfo = `<span class="info-title"><textarea data-key="${groupkey}" 
+          rows=3 class="titleControl" style="width:100%;">${infotitle}</textarea></span>
+          <span class="info-location"></span>
+      <span class="info-message">${folderDesc}</span>`;
+    }
+    jQuery('#galleryContainer div.info').html(tempinfo);
+
+}
+
 function fillImages(grouping, memberRows) {
   var temp = '<div class="thePhotos">';
   var total = memberRows.length;
@@ -184,16 +248,17 @@ function saveDataRow(cmd, key, newrow, baseURI = '') {
   });
 }
 
-/* ----------------------------------------------------------- */
-/* Initialize variables                                        */
-/* ----------------------------------------------------------- */  
+/* ---------------------------------------------- */
+/* Main routine to build a flexbox array of       */
+/* photos                                         */
+/* ---------------------------------------------- */
 
 function do_photoList(
   selectorID = '#thePhotoGallery', 
   base = 'AAHS_Gallery2',
   theClass = '') {
 
-  if (location.hostname == 'localhost' && base != 'xGallery') {
+  if (location.hostname == 'localhost') {
     photoBase = 'http://localhost/' + base;
     csvURI = '/Users/george/Sites/' + base + '/gallery2.csv'; 
     logURI = '/Users/george/Sites/' + base + '/logfile.csv'; 
@@ -210,6 +275,7 @@ function do_photoList(
   var folderLoc = '';
   var folderDesc = ''; 
   var tempinfo = ''; 
+  var infotitle = ''; 
 
   var temp = `
   <div id="galleryContainer" class="${theClass}">
@@ -229,7 +295,7 @@ function do_photoList(
   </div>
   
   <div id="showing"></div>
-  <div id="displayType" class=" <?php echo $canEdit;?>">
+  <div id="displayType">
     Display Type:<select>
       <option value="">All</option>
       <option value=".show" selected>Active</option>
@@ -252,17 +318,30 @@ function do_photoList(
     groupRows.shift();
     groupLabels = [];
 
-    //WITH FIRST COLUMN
-    groupRows = groupRows.sort(function(a,b) {
-        return a[0] - b[0];
+    // Sort groups 
+    groupRows.sort(function(a,b) {
+      var x = a[0].toLowerCase();
+      var y = b[0].toLowerCase();
+      if (x < y) {return-1;}
+      if (x > y) {return 1;}
+      return 0; 
     });
 
+    // Save labels 
     groupRows.forEach(function(item,key) {
       groupLabels[item[0]] = key; 
     })
 
-    /* --- Build the navigation dropdown list */
+    // Create list of unique types
+    const newArr = groupRows.map(myUniqueFunction);
+    let uniqueItems = [...new Set(newArr)];
+    function myUniqueFunction(item) {
+      return item[2];
+    }
 
+    //makeCarousel('#putCarouselHere',groupRows, base);
+
+    /* --- Build the navigation dropdown list */
     var temp = '';
     var prev = '';  
     groupRows.forEach(function(item,key) {
@@ -288,18 +367,20 @@ function do_photoList(
     /* -- Kick things off by selecting the first item in dropdown */
     var group = jQuery('#selectionChamp option:first-child').val();
     fillImages(group,memberRows);
+
     jQuery('#cards').data("group",group);
     jQuery('figure').removeClass('active');
     currentSearch = 'figure.' + group;
     jQuery(currentSearch + searchModifier + searchName).addClass('active');
-    folderDate = (typeof groupRows[group][3] !== 'undefined') ? groupRows[3] : '';
-    folderLoc  = (typeof groupRows[group][4] !== 'undefined') ? groupRows[4] : '';
-    folderDesc = (typeof groupRows[group][5] !== 'undefined') ? groupRows[5] : '';
-    tempinfo = `<span class="info-title">${groupRows[group][1]}, ${groupRows[group][3]}, ${groupRows[group][4]}</span>
-          <span class="info-location"></span>
-      <span class="info-message">${folderDesc}</span>`;
-    jQuery('div.info').html(tempinfo);
+    fillTitleInfo(group, groupRows, groupLabels); 
+    // for testing search 
+    //jQuery('span.info-title[data-title*="testing" i]').css('background','red');
     setupLightbox();
+
+    /* ---------------------------------------------- */
+    /* Declare events                                 */
+    /* for non-admin                                  */
+    /* ---------------------------------------------- */
 
     jQuery('#nextSelect').click(function() {
       var options = jQuery("#selectionChamp option");
@@ -350,6 +431,7 @@ function do_photoList(
         }
       currentSearch = 'figure';
       searchName = str; 
+      //console.log(currentSearch + searchModifier + searchName);
       jQuery(currentSearch + searchModifier + searchName).addClass('active');
       setupLightbox();
     });  
@@ -369,98 +451,127 @@ function do_photoList(
       setupLightbox();
     });
 
-    /* The following all deal with editing capabilities */
-
-    jQuery("#displayType").change(function(event) {
-      searchModifier = jQuery(this).find(":selected").val();
+    jQuery('#selectionChamp select').on('change', function() {
+      jQuery('.cards').removeClass('addMarker');
+      jQuery(this).addClass('active');
+      var group = this.value;
+      jQuery('#cards').data("group",group);
       jQuery('figure').removeClass('active');
+      currentSearch = 'figure.' + group;
+      searchName = ''; 
       jQuery(currentSearch + searchModifier + searchName).addClass('active');
+      fillTitleInfo(group, groupRows, groupLabels);
+      jQuery('#search').val('');
+      
+      jQuery('#selectionChamp select').removeClass('showSearch');
       setupLightbox();
-    })
-
-    jQuery("#doRefresh").click(function(event) {
-      event.preventDefault();
-      jQuery('figure').removeClass('active');
-      jQuery(currentSearch + searchModifier + searchName).addClass('active');
-      jQuery(this).hide();
-      setupLightbox();
-    })
-
-    jQuery(".imageGalleryCheck").off().click(function(e) {
-      // e.preventDefault();
-      var key = jQuery(this).closest('figure').data('key');
-      currentKey = key;
-      var checkbox = jQuery(this).closest('figure').find('.imageGalleryCheck input').is(':checked')
-      var oldrow = rows[key];
-      var newrow = rows[key].slice(); // make a separate clone 
-      if (checkbox) {
-        newrow[4] = 'Y';
-      }
-      else {
-        newrow[4] = 'N';
-      }
-      saveDataRow('SAVEROW', key, newrow); 
-    })
-
-    jQuery("#cards.canEdit figure a img").hover(function(){
-      jQuery(this).closest('figure').find("div.imageGalleryCheck").show();
-      }, function(){
-      jQuery(this).closest('figure').find("div.imageGalleryCheck").hide();
     });
 
-    jQuery('.captionControl').keypress(function(event) {
-      if (event.which == 13) {
+    /* ---------------------------------------------- */
+    /* Admin only events                              */
+    /* On change and on click events                  */
+    /* ---------------------------------------------- */
+
+    var admin = jQuery('#cards').hasClass('canEdit');
+    if (admin) {
+
+      jQuery("#displayType").change(function(event) {
+        searchModifier = jQuery(this).find(":selected").val();
+        jQuery('figure').removeClass('active');
+        jQuery(currentSearch + searchModifier + searchName).addClass('active');
+        setupLightbox();
+      })
+
+      jQuery("#doRefresh").click(function(event) {
+        event.preventDefault();
+        jQuery('figure').removeClass('active');
+        jQuery(currentSearch + searchModifier + searchName).addClass('active');
+        jQuery(this).hide();
+        setupLightbox();
+      })
+
+      jQuery(".imageGalleryCheck").off().click(function(e) {
+        // e.preventDefault();
         var key = jQuery(this).closest('figure').data('key');
+        currentKey = key;
+        var checkbox = jQuery(this).closest('figure').find('.imageGalleryCheck input').is(':checked')
+        var oldrow = rows[key];
+        var newrow = rows[key].slice(); // make a separate clone 
+        if (checkbox) {
+          newrow[4] = 'Y';
+        }
+        else {
+          newrow[4] = 'N';
+        }
+        saveDataRow('SAVEROW', key, newrow); 
+      })
+
+      jQuery("#cards.canEdit figure a img").hover(function(){
+        jQuery(this).closest('figure').find("div.imageGalleryCheck").show();
+        }, function(){
+        jQuery(this).closest('figure').find("div.imageGalleryCheck").hide();
+      });
+
+      jQuery('.captionControl').keypress(function(event) {
+        if (event.which == 13) {
+          var key = jQuery(this).closest('figure').data('key');
+          var chk = 'Y';
+          var checkbox = jQuery(this).closest('figure').find('.imageGalleryCheck input').is(':checked');
+          if (!checkbox) {chk = 'N';}
+          else {chk = 'Y';}
+          var newrow = rows[key].slice();
+          newrow[4] = chk;
+          newrow[5] = jQuery(this).val();
+          jQuery(this).closest('figure').attr("data-name", newrow[5]);
+          saveDataRow('SAVEROW',key, newrow);
+          event.preventDefault();
+        }
+      });
+
+      jQuery('.captionControl').on('change',function() {
+        var key = jQuery(this).closest('figure').data('key');    
         var chk = 'Y';
         var checkbox = jQuery(this).closest('figure').find('.imageGalleryCheck input').is(':checked');
         if (!checkbox) {chk = 'N';}
-        else {chk = 'Y';}
         var newrow = rows[key].slice();
         newrow[4] = chk;
         newrow[5] = jQuery(this).val();
         jQuery(this).closest('figure').attr("data-name", newrow[5]);
         saveDataRow('SAVEROW',key, newrow);
-        event.preventDefault();
-      }
-    });
+      })
 
-    jQuery('.captionControl').on('change',function() {
-      var key = jQuery(this).closest('figure').data('key');
-      
-      var chk = 'Y';
-      var checkbox = jQuery(this).closest('figure').find('.imageGalleryCheck input').is(':checked');
-      if (!checkbox) {chk = 'N';}
-      var newrow = rows[key].slice();
-      newrow[4] = chk;
-      newrow[5] = jQuery(this).val();
-      jQuery(this).closest('figure').attr("data-name", newrow[5]);
-      saveDataRow('SAVEROW',key, newrow);
-    })
+       jQuery('.titleControl').keypress(function(event) {
+        if (event.which == 13) {
+          var key = jQuery(this).data('key');
+          console.log(groupRows[key]);
+          var newrow = groupRows[key].slice();
+          newrow[5] = jQuery(this).val();
+          console.log(newrow);
+          /*
+          saveDataRow('SAVETITLE',key, newrow);
+          event.preventDefault();
+          */
+        }
+      });
 
-    jQuery('#selectionChamp select').on('change', function() {
-        jQuery('.cards').removeClass('addMarker');
-        jQuery(this).addClass('active');
-        var group = this.value;
-        jQuery('#cards').data("group",group);
-        jQuery('figure').removeClass('active');
-        currentSearch = 'figure.' + group;
-        searchName = ''; 
-        jQuery(currentSearch + searchModifier + searchName).addClass('active');
-        
-        jQuery('#search').val('');
-
-        tempinfo = `<span class="info-title">${groupRows[group][1]}, ${groupRows[group][3]}, ${groupRows[group][4]}</span>
-          <span class="info-location"></span>
-          <span class="info-message">${groupRows[group][5]}</span>`;
-        jQuery('div.info').html(tempinfo);
-        jQuery('#selectionChamp select').removeClass('showSearch');
-        setupLightbox();
+      jQuery('.titleControl').on('change',function() {
+          console.log('titlecontrol change');
+          var key = jQuery(this).data('key');
+          var newrow = groupRows[key].slice();
+          newrow[5] = jQuery(this).val();
+          console.log(newrow);
+          console.log(groupRows[key]);
+          /*
+          saveDataRow('SAVETITLE',key, newrow);
+          event.preventDefault();
+          */
       });
 
       jQuery('#doReconcile').off().click(function(event) {
         console.log('doReconcile ' + baseURI);
         saveDataRow('RECONCILE','', [], baseURI);
       });
+    }
       
   })
 }
