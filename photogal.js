@@ -465,6 +465,28 @@ function do_photoList(
       
       jQuery('#selectionChamp select').removeClass('showSearch');
       setupLightbox();
+
+       jQuery('.titleControl').off().keypress(function(event) {
+        if (event.which == 13) {
+          var key = jQuery(this).data('key');
+          console.log(groupRows[key]);
+          var newrow = groupRows[key].slice();
+          newrow[5] = jQuery(this).val();
+          console.log(newrow);
+          saveDataRow('SAVETITLE',key, newrow, baseURI);
+          event.preventDefault();
+        }
+      });
+
+      jQuery('.titleControl').off().on('change',function() {
+          console.log('titlecontrol change');
+          var key = jQuery(this).data('key');
+          var newrow = groupRows[key].slice();
+          newrow[5] = jQuery(this).val();
+          console.log(newrow);
+          saveDataRow('SAVETITLE',key, newrow, baseURI);
+          event.preventDefault();
+      });
     });
 
     /* ---------------------------------------------- */
@@ -546,6 +568,7 @@ function do_photoList(
           console.log(groupRows[key]);
           var newrow = groupRows[key].slice();
           newrow[5] = jQuery(this).val();
+          console.log(newrow);
           saveDataRow('SAVETITLE',key, newrow, baseURI);
           event.preventDefault();
         }
@@ -556,6 +579,7 @@ function do_photoList(
           var key = jQuery(this).data('key');
           var newrow = groupRows[key].slice();
           newrow[5] = jQuery(this).val();
+          console.log(newrow);
           saveDataRow('SAVETITLE',key, newrow, baseURI);
           event.preventDefault();
       });
