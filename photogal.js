@@ -546,11 +546,8 @@ function do_photoList(
           console.log(groupRows[key]);
           var newrow = groupRows[key].slice();
           newrow[5] = jQuery(this).val();
-          console.log(newrow);
-          /*
-          saveDataRow('SAVETITLE',key, newrow);
+          saveDataRow('SAVETITLE',key, newrow, baseURI);
           event.preventDefault();
-          */
         }
       });
 
@@ -559,12 +556,8 @@ function do_photoList(
           var key = jQuery(this).data('key');
           var newrow = groupRows[key].slice();
           newrow[5] = jQuery(this).val();
-          console.log(newrow);
-          console.log(groupRows[key]);
-          /*
-          saveDataRow('SAVETITLE',key, newrow);
+          saveDataRow('SAVETITLE',key, newrow, baseURI);
           event.preventDefault();
-          */
       });
 
       jQuery('#doReconcile').off().click(function(event) {
