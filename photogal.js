@@ -272,12 +272,12 @@ function do_photoList(
   <div id="message"></div>
   <div class="info">
 
-  <span class="info-groupname">gropuname</span>
-  <span class="info-title">infotitle</span>
+  <span class="info-groupname"></span>
+  <span class="info-title"></span>
   <span class="info-textarea">
-    <textarea rows=2 class="titleControl" style="width:100%;">info title textarea</textarea></span>
-  <span class="info-location">localtin</span>
-  <span class="info-message">message</span>
+    <textarea rows=2 class="titleControl" style="width:100%;"></textarea></span>
+  <span class="info-location"></span>
+  <span class="info-message"></span>
 
 </div>
   <div id="groupSelector">
