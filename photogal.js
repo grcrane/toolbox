@@ -71,19 +71,10 @@ function fillTitleInfo (group, groupRows, groupLabels) {
     //admin = true;  // for testing
     var groupkey = groupLabels[groupRows[group][0]]; 
     var groupname = groupRows[groupkey][2];
-    if (!admin) {
-    tempinfo = `<span class="info-title">(${groupname}) ${infotitle}</span>
-          <span class="info-location"></span>
-      <span class="info-message">${folderDesc}</span>`;
-    }
-    else {
-      tempinfo = `<span class="info-title"><textarea data-key="${groupkey}" 
-          rows=3 class="titleControl" style="width:100%;">${infotitle}</textarea></span>
-          <span class="info-location"></span>
-      <span class="info-message">${folderDesc}</span>`;
-    }
-    jQuery('#galleryContainer div.info').html(tempinfo);
-
+    jQuery('#galleryContainer span.info-groupname').text('(' + groupname+ ') ');
+    jQuery('#galleryContainer span.info-title').text(infotitle);
+    jQuery('#galleryContainer span.info-textarea textarea').text(infotitle);
+    jQuery('#galleryContainer span.info-textarea textarea').data('key',groupkey);
 }
 
 function fillImages(grouping, memberRows) {
@@ -256,7 +247,7 @@ function saveDataRow(cmd, key, newrow, baseURI = '') {
 function do_photoList(
   selectorID = '#thePhotoGallery', 
   base = 'AAHS_Gallery2',
-  theClass = '') {
+  theClass = 'canEdit') {
 
   if (location.hostname == 'localhost') {
     photoBase = 'http://localhost/' + base;
@@ -281,7 +272,16 @@ function do_photoList(
   <div id="galleryContainer" class="${theClass}">
   <a id="doReconcile">Reconcile</a>
   <div id="message"></div>
-  <div class="info"></div>
+  <div class="info">
+
+  <span class="info-groupname">gropuname</span>
+  <span class="info-title">infotitle</span>
+  <span class="info-textarea">
+    <textarea rows=3 class="titleControl" style="width:100%;">info title textarea</textarea></span>
+  <span class="info-location">localtin</span>
+  <span class="info-message">message</span>
+
+</div>
   <div id="groupSelector">
     <a href="#" id="prevSelect">Prev</a>
     <div id="selectionChamp" class="custom-select" >
@@ -465,28 +465,8 @@ function do_photoList(
       
       jQuery('#selectionChamp select').removeClass('showSearch');
       setupLightbox();
-
-       jQuery('.titleControl').off().keypress(function(event) {
-        if (event.which == 13) {
-          var key = jQuery(this).data('key');
-          console.log(groupRows[key]);
-          var newrow = groupRows[key].slice();
-          newrow[5] = jQuery(this).val();
-          console.log(newrow);
-          saveDataRow('SAVETITLE',key, newrow, baseURI);
-          event.preventDefault();
-        }
-      });
-
-      jQuery('.titleControl').off().on('change',function() {
-          console.log('titlecontrol change');
-          var key = jQuery(this).data('key');
-          var newrow = groupRows[key].slice();
-          newrow[5] = jQuery(this).val();
-          console.log(newrow);
-          saveDataRow('SAVETITLE',key, newrow, baseURI);
-          event.preventDefault();
-      });
+      fillTitleInfo (group, groupRows, groupLabels) 
+       
     });
 
     /* ---------------------------------------------- */
@@ -575,6 +555,28 @@ function do_photoList(
       });
 
       jQuery('.titleControl').on('change',function() {
+          console.log('titlecontrol change');
+          var key = jQuery(this).data('key');
+          var newrow = groupRows[key].slice();
+          newrow[5] = jQuery(this).val();
+          console.log(newrow);
+          saveDataRow('SAVETITLE',key, newrow, baseURI);
+          event.preventDefault();
+      });
+
+      jQuery('.titleControl').off().keypress(function(event) {
+        if (event.which == 13) {
+          var key = jQuery(this).data('key');
+          console.log(groupRows[key]);
+          var newrow = groupRows[key].slice();
+          newrow[5] = jQuery(this).val();
+          console.log(newrow);
+          saveDataRow('SAVETITLE',key, newrow, baseURI);
+          event.preventDefault();
+        }
+      });
+
+      jQuery('.titleControl').off().on('change',function() {
           console.log('titlecontrol change');
           var key = jQuery(this).data('key');
           var newrow = groupRows[key].slice();

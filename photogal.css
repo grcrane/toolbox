@@ -60,7 +60,7 @@ div.info {
   text-align: center;
   font-style: italic;
   width: 80%;
-  text-align: c;
+  text-align: center;
   margin: 0 auto;
   margin-top: 10px;
   margin-bottom: 10px;
@@ -72,10 +72,29 @@ div.info span {
 
 div.info span.info-title {
   font-weight:  bold;
+  display: block;
 }
 
-div.info span.info-message {
+div.info span.info-message,
+#galleryContainer span.info-location {
   display: none;
+}
+
+#galleryContainer span.info-textarea,
+#galleryContainer.canEdit span.info-groupname,
+#galleryContainer.canEdit span.info-title {
+  display: none;
+}
+
+#galleryContainer.canEdit span.info-textarea   {
+  display: block;
+}
+
+#galleryContainer span.info-groupname,
+#galleryContainer span.info-title {
+  display:  inline-block;
+  font-weight:  bold;
+  font-style:  italic;
 }
 
 
