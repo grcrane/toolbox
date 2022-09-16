@@ -61,19 +61,17 @@ function makeCarousel(selectorID, groupRows, base) {
 /* ---------------------------------------------- */
 
 function fillTitleInfo (group, groupRows, groupLabels) {
-
     folderDate = (typeof groupRows[group][3] !== 'undefined') ? groupRows[3] : '';
     folderLoc  = (typeof groupRows[group][4] !== 'undefined') ? groupRows[4] : '';
     folderDesc = (typeof groupRows[group][5] !== 'undefined') ? groupRows[5] : '';
     infotitle = `${groupRows[group][1]}, ${groupRows[group][3]}, ${groupRows[group][4]}`;
     infotitle = `${groupRows[group][5]}`;
     var admin = jQuery('#cards').hasClass('canEdit');
-    //admin = true;  // for testing
     var groupkey = groupLabels[groupRows[group][0]]; 
     var groupname = groupRows[groupkey][2];
     jQuery('#galleryContainer span.info-groupname').text('(' + groupname+ ') ');
     jQuery('#galleryContainer span.info-title').text(infotitle);
-    jQuery('#galleryContainer span.info-textarea textarea').text(infotitle);
+    jQuery('#galleryContainer span.info-textarea textarea').val(infotitle);
     jQuery('#galleryContainer span.info-textarea textarea').data('key',groupkey);
 }
 
@@ -277,7 +275,7 @@ function do_photoList(
   <span class="info-groupname">gropuname</span>
   <span class="info-title">infotitle</span>
   <span class="info-textarea">
-    <textarea rows=3 class="titleControl" style="width:100%;">info title textarea</textarea></span>
+    <textarea rows=2 class="titleControl" style="width:100%;">info title textarea</textarea></span>
   <span class="info-location">localtin</span>
   <span class="info-message">message</span>
 
@@ -431,7 +429,6 @@ function do_photoList(
         }
       currentSearch = 'figure';
       searchName = str; 
-      //console.log(currentSearch + searchModifier + searchName);
       jQuery(currentSearch + searchModifier + searchName).addClass('active');
       setupLightbox();
     });  
@@ -465,7 +462,6 @@ function do_photoList(
       
       jQuery('#selectionChamp select').removeClass('showSearch');
       setupLightbox();
-      fillTitleInfo (group, groupRows, groupLabels) 
        
     });
 
@@ -545,44 +541,20 @@ function do_photoList(
        jQuery('.titleControl').keypress(function(event) {
         if (event.which == 13) {
           var key = jQuery(this).data('key');
-          console.log(groupRows[key]);
           var newrow = groupRows[key].slice();
           newrow[5] = jQuery(this).val();
-          console.log(newrow);
           saveDataRow('SAVETITLE',key, newrow, baseURI);
+          groupRows[key] = newrow;
           event.preventDefault();
         }
       });
 
       jQuery('.titleControl').on('change',function() {
-          console.log('titlecontrol change');
           var key = jQuery(this).data('key');
           var newrow = groupRows[key].slice();
           newrow[5] = jQuery(this).val();
-          console.log(newrow);
           saveDataRow('SAVETITLE',key, newrow, baseURI);
-          event.preventDefault();
-      });
-
-      jQuery('.titleControl').off().keypress(function(event) {
-        if (event.which == 13) {
-          var key = jQuery(this).data('key');
-          console.log(groupRows[key]);
-          var newrow = groupRows[key].slice();
-          newrow[5] = jQuery(this).val();
-          console.log(newrow);
-          saveDataRow('SAVETITLE',key, newrow, baseURI);
-          event.preventDefault();
-        }
-      });
-
-      jQuery('.titleControl').off().on('change',function() {
-          console.log('titlecontrol change');
-          var key = jQuery(this).data('key');
-          var newrow = groupRows[key].slice();
-          newrow[5] = jQuery(this).val();
-          console.log(newrow);
-          saveDataRow('SAVETITLE',key, newrow, baseURI);
+          groupRows[key] = newrow;
           event.preventDefault();
       });
 

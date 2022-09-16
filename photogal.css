@@ -56,7 +56,7 @@
    display:  block;
 }
 
-div.info {
+#galleryContainer div.info {
   text-align: center;
   font-style: italic;
   width: 80%;
@@ -66,32 +66,32 @@ div.info {
   margin-bottom: 10px;
 }
 
-div.info span {
+#galleryContainer div.info span {
   display: block;
 }
 
-div.info span.info-title {
+#galleryContainer div.info span.info-title {
   font-weight:  bold;
   display: block;
 }
 
-div.info span.info-message,
-#galleryContainer span.info-location {
+#galleryContainer div.info span.info-message,
+#galleryContainer div.info span.info-location {
   display: none;
 }
 
-#galleryContainer span.info-textarea,
-#galleryContainer.canEdit span.info-groupname,
-#galleryContainer.canEdit span.info-title {
+#galleryContainer div.info span.info-textarea,
+#galleryContainer.canEdit div.info span.info-groupname,
+#galleryContainer.canEdit div.info span.info-title {
   display: none;
 }
 
-#galleryContainer.canEdit span.info-textarea   {
+#galleryContainer.canEdit div.info span.info-textarea   {
   display: block;
 }
 
-#galleryContainer span.info-groupname,
-#galleryContainer span.info-title {
+#galleryContainer div.info span.info-groupname,
+#galleryContainer div.info span.info-title {
   display:  inline-block;
   font-weight:  bold;
   font-style:  italic;
