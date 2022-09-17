@@ -7,7 +7,7 @@ see: https://www.jquerycards.com/ui/dialogs-lightboxes/simplelightbox/
 see: https://simplelightbox.com/
 
 */
-var memberRows = []; 
+vvar memberRows = []; 
 var rows = []; 
 var groupRows = [];
 var groupLabels = [];
@@ -21,6 +21,7 @@ var photoBase = 'https://grcrane2.com/AAHS_Gallery2';
 var baseURI = '/home2/grcranet/public_html/AAHS_Gallery2';
 var csvURI = '/home2/grcranet/public_html/AAHS_Gallery2/gallery2.csv'; 
 var logURI = '/home2/grcranet/public_html/AAHS_Gallery2/logfile.csv'; 
+var foldersURI = '/home2/grcranet/public_html/AAHS_Gallery2/folders2.csv'; 
 
 function makeCarousel(selectorID, groupRows, base) {
   // Build the optional carousel 
@@ -69,8 +70,7 @@ function fillTitleInfo (group, groupRows, groupLabels) {
     var admin = jQuery('#cards').hasClass('canEdit');
     var groupkey = groupLabels[groupRows[group][0]]; 
     var groupname = groupRows[groupkey][2];
-    jQuery('#galleryContainer span.info-groupname').text('(' + groupname+ ') ');
-    jQuery('#galleryContainer span.info-title').text(infotitle);
+    jQuery('#galleryContainer span.info-title').text('(' + groupname+ ') ' + infotitle);
     jQuery('#galleryContainer span.info-textarea textarea').val(infotitle);
     jQuery('#galleryContainer span.info-textarea textarea').data('key',groupkey);
 }
@@ -188,8 +188,7 @@ function saveDataRow(cmd, key, newrow, baseURI = '') {
   if (isEqual) {console.log('Equal - nothing to update'); return;}
   
   var dataval = {cmd: cmd, 
-  row: newrow, csvURI: csvURI, logURI: logURI,
-  baseURI: baseURI,
+  row: newrow, baseURI: baseURI,
   action: 'more_post_ajax'};
   var hidden = (newrow[4] == 'Y') ? true : false; 
   jQuery.ajax({
@@ -198,7 +197,6 @@ function saveDataRow(cmd, key, newrow, baseURI = '') {
       url: the_ajax_script.ajaxurl,
       data: dataval,
       success: function (data) {
-        console.log('data=' + data);
         var results = JSON.parse(data);
         if ('status' in results) { 
           if (results['status'] == 'saved') {
@@ -252,12 +250,14 @@ function do_photoList(
     csvURI = '/Users/george/Sites/' + base + '/gallery2.csv'; 
     logURI = '/Users/george/Sites/' + base + '/logfile.csv'; 
     baseURI = '/Users/george/Sites/' + base;
+    foldersURI = '/Users/george/Sites/' + base + '/folders2.csv'; 
   }
   else {
     photoBase = 'https://grcrane2.com/' + base;
     csvURI = '/home2/grcranet/public_html/' + base + '/gallery2.csv'; 
     logURI = '/home2/grcranet/public_html/' + base + '/logfile.csv'; 
     baseURI = '/home2/grcranet/public_html/' + base;
+    foldersURI = '/home2/grcranet/public_html/' + base + '/folders.csv'; 
   }
 
   var folderDate = ''; 
@@ -272,7 +272,6 @@ function do_photoList(
   <div id="message"></div>
   <div class="info">
 
-  <span class="info-groupname"></span>
   <span class="info-title"></span>
   <span class="info-textarea">
     <textarea rows=2 class="titleControl" style="width:100%;"></textarea></span>
@@ -309,10 +308,14 @@ function do_photoList(
   var time = d.getTime();
   var csvurl = photoBase + '/returndata.php?t=' + time;
   jQuery.get(csvurl, function(data, status){
-    memberRows = data[0];
+    memberRows = ('gallery' in data) ? data['gallery'] : data[0];
+    groupRows = ('folders' in data) ? data['folders'] : data[1];
+    if ('settings' in data) {
+      baseURI = ('baseURI' in data['settings']) ? data['settings']['baseURI'] : baseURI; 
+      csvURI = ('gallerycsv' in data['settings']) ? data['settings']['gallerycsv'] : csvURI; 
+    }
     memberRows.shift(); 
     rows = memberRows;
-    groupRows = data[1];
     groupRows.shift();
     groupLabels = [];
 
@@ -501,7 +504,7 @@ function do_photoList(
         else {
           newrow[4] = 'N';
         }
-        saveDataRow('SAVEROW', key, newrow); 
+        saveDataRow('SAVEROW', key, newrow, baseURI); 
       })
 
       jQuery("#cards.canEdit figure a img").hover(function(){
@@ -521,7 +524,7 @@ function do_photoList(
           newrow[4] = chk;
           newrow[5] = jQuery(this).val();
           jQuery(this).closest('figure').attr("data-name", newrow[5]);
-          saveDataRow('SAVEROW',key, newrow);
+          saveDataRow('SAVEROW',key, newrow, baseURI);
           event.preventDefault();
         }
       });
@@ -535,7 +538,7 @@ function do_photoList(
         newrow[4] = chk;
         newrow[5] = jQuery(this).val();
         jQuery(this).closest('figure').attr("data-name", newrow[5]);
-        saveDataRow('SAVEROW',key, newrow);
+        saveDataRow('SAVEROW',key, newrow, baseURI);
       })
 
        jQuery('.titleControl').keypress(function(event) {
