@@ -7,7 +7,7 @@ see: https://www.jquerycards.com/ui/dialogs-lightboxes/simplelightbox/
 see: https://simplelightbox.com/
 
 */
-vvar memberRows = []; 
+var memberRows = []; 
 var rows = []; 
 var groupRows = [];
 var groupLabels = [];
