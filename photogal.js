@@ -76,7 +76,7 @@ function fillTitleInfo (group, groupRows, groupLabels) {
 }
 
 function fillImages(grouping, memberRows) {
-  var temp = '<hr><div class="thePhotos">';
+  var temp = '<div class="thePhotos">';
   var total = memberRows.length;
   var m1 = '';
   var mm = '';
@@ -94,7 +94,6 @@ function fillImages(grouping, memberRows) {
   var href = '';
   var temparr = []; 
   var templabel = '';
-  folderref = '';
 
   //var result = memberRows.filter(checkGroup);
   //function checkGroup(age, group) {
@@ -116,10 +115,9 @@ function fillImages(grouping, memberRows) {
          
         href= `${photoBase}/${value[0]}/${value[2]}`;
 
-        distype = (value[4] == 'Y') ? 'show' : 'hidden';
+        distype = (value[4] == 'Y') ? ' show' : ' hidden';
         checked = (value[4] == 'Y')  ? ' checked ' : ''; 
         marker = (value[0] in groupLabels) ? groupRows[groupLabels[value[0]]][1] : ''; 
-        folderref = (value[0] in groupLabels) ? groupLabels[value[0]] : ''; 
         marktemp = marker.split(' ');
         marker = marktemp[0];
         temparr = value[0].split('/');
@@ -133,9 +131,9 @@ function fillImages(grouping, memberRows) {
         if (value[3].startsWith('http') == true) {
           thumbimg = value[3];
         }
-        temp += `<figure class="${gclass}${distype}" data-folder="${folderref}" data-key="${key}" data-name="${value[5]}">
+        temp += `<figure class="active ${gclass}${distype}" data-key="${key}" data-name="${value[5]}">
              <a href="${fullimg}" >
-             <img src="${thumbimg}" 
+             <img src="" 
              data-src="${thumbimg}" title="${title}" loading="lazy">
              <div class="marker">${marker}</div></a>
              <div class="imageGalleryCheck"><input tabindex="-1" type="checkbox" ${checked}></i></div>
