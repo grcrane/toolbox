@@ -22,6 +22,11 @@ var baseURI = '/home2/grcranet/public_html/AAHS_Gallery2';
 var csvURI = '/home2/grcranet/public_html/AAHS_Gallery2/gallery2.csv'; 
 var logURI = '/home2/grcranet/public_html/AAHS_Gallery2/logfile.csv'; 
 var foldersURI = '/home2/grcranet/public_html/AAHS_Gallery2/folders2.csv'; 
+var debugflag = false; 
+
+function debug (msg) {
+    if (debugflag) console.log(msg);
+}
 
 function makeCarousel(selectorID, groupRows, base) {
   // Build the optional carousel 
@@ -76,6 +81,7 @@ function fillTitleInfo (group, groupRows, groupLabels) {
 }
 
 function fillImages(grouping, memberRows) {
+  debug('Entry: fillImages');
   var temp = '<div class="thePhotos">';
   var total = memberRows.length;
   var m1 = '';
@@ -94,18 +100,20 @@ function fillImages(grouping, memberRows) {
   var href = '';
   var temparr = []; 
   var templabel = '';
+  folderref = '';
 
   //var result = memberRows.filter(checkGroup);
   //function checkGroup(age, group) {
   //  return age[0] == grouping;
   //}
 
-  result = memberRows;
+  result = memberRows
 
   //const thetest = groupRows.filter(checkGroup);
   var admin = jQuery('#cards').hasClass('canEdit');
   var total = result.length;
       jQuery.each( result, function( key, value ) {
+
         if (value.length > 1) {
         m1 = value[0].split('_');
         mm = m1[1];
@@ -118,6 +126,7 @@ function fillImages(grouping, memberRows) {
         distype = (value[4] == 'Y') ? ' show' : ' hidden';
         checked = (value[4] == 'Y')  ? ' checked ' : ''; 
         marker = (value[0] in groupLabels) ? groupRows[groupLabels[value[0]]][1] : ''; 
+        folderref = (value[0] in groupLabels) ? groupLabels[value[0]] : ''; 
         marktemp = marker.split(' ');
         marker = marktemp[0];
         temparr = value[0].split('/');
@@ -131,9 +140,9 @@ function fillImages(grouping, memberRows) {
         if (value[3].startsWith('http') == true) {
           thumbimg = value[3];
         }
-        temp += `<figure class="active ${gclass}${distype}" data-key="${key}" data-name="${value[5]}">
+        temp += `<figure class="${distype}" data-folder="${folderref}" data-key="${key}" data-name="${value[5]}">
              <a href="${fullimg}" >
-             <img src="" 
+             <img src="${thumbimg}" 
              data-src="${thumbimg}" title="${title}" loading="lazy">
              <div class="marker">${marker}</div></a>
              <div class="imageGalleryCheck"><input tabindex="-1" type="checkbox" ${checked}></i></div>
@@ -156,6 +165,7 @@ function fillImages(grouping, memberRows) {
 
 
 function setupLightbox() {
+  debug('Entry: setupLightBox');
   if (typeof simpleGallery == 'object') {
         simpleGallery.refresh();
   }
@@ -168,10 +178,84 @@ function setupLightbox() {
   jQuery.each(temp, function(index, value) {
     jQuery(this).attr('src',jQuery(this).data('src'));
   });
-  var showing = 'Showing: ' + jQuery('figure.active').length + ' of ' + jQuery('figure').length;
-  jQuery('#showing').text(showing);
-  jQuery('#doRefresh').hide(); 
+  var folderid = jQuery('.cards figure.active').eq(0).data('folder');
+  if (typeof folderid != 'undefined' && folderid != null) {
+    var numshowing = jQuery('figure.active').length;
+    var showing = 'Showing: ' 
+      + numshowing 
+      + ' images of ' + jQuery('figure').length;
+    jQuery('#showing div.count').text(showing);
+    jQuery('#showing div.title').text(groupRows[folderid][5]);
+    jQuery('#galleryContainer span.info-textarea textarea').val(groupRows[folderid][5]).data('key',folderid);
+
+    jQuery('#galleryData div.theCount').text(showing);
+    jQuery('#galleryData div.theTitle').text(groupRows[folderid][5]);
+    jQuery('#galleryData span.info-textarea textarea').val(groupRows[folderid][5]).data('key',folderid);
+
+    jQuery('#doRefresh').hide(); 
+    jQuery('#showing').show();
+  }
+  else {
+    jQuery('#showing').hide();
+  }
 }
+
+function doCarouselFilter(owl,filterType,filter) {
+  debug('Entry: doCarouselFilter');
+  var owl_object = owl.data( 'owl.carousel' );
+  var owl_settings = owl_object.options;
+
+  // Destroy OwlCarousel 
+  owl.trigger( 'destroy.owl.carousel' );
+
+  // Clone
+  if( ! owl.oc2_filter_clone )
+      owl.oc2_filter_clone = owl.clone()
+
+  // Filter elements and clone
+  if (filterType == 'class') {
+    var clone_filter_items = owl.oc2_filter_clone.children(filter).clone();
+  } else {
+    var aval = filter.split(" ");
+    var contains = '';
+    aval.forEach(function(item,index) {
+      if (item) {
+        contains += '[data-desc*="' + item + '"]';
+      }
+    })
+    var clone_filter_items = owl.oc2_filter_clone
+      .find('div.item' + contains).clone();
+  }
+
+  if ($(clone_filter_items).length < 6) {
+    owl_settings.responsive[1000].loop = false;
+  }
+  else {
+    owl_settings.responsive[1000].loop = true;
+  }
+
+  $(clone_filter_items).each(function( index ) {
+      $(this).find('div.marker').text(index + 1);
+    })
+
+  // Put filter items and re-call OwlCarousel
+  owl.empty().append( clone_filter_items ).owlCarousel( owl_settings );
+
+  jQuery('#showing').hide();
+
+  return $(clone_filter_items).length;
+}
+
+/* ------------------------------------------------------------ */
+/* Function to allow case insensitive :contains(xyz) construct  */
+/* Will be used for the carousel title search                   */
+/* ------------------------------------------------------------ */
+// https://css-tricks.com/snippets/jquery/make-jquery-contains-case-insensitive/
+jQuery.expr[":"].contains = $.expr.createPseudo(function(arg) {
+  return function( elem ) {
+      return $(elem).text().toUpperCase().indexOf(arg.toUpperCase()) >= 0;
+  };
+});
 
 //JavaScript program to implement the approach
  
@@ -186,6 +270,13 @@ function saveDataRow(cmd, key, newrow, baseURI = '') {
   
   isEqual = JSON.stringify(newrow) === JSON.stringify(rows[key]);
   if (isEqual) {console.log('Equal - nothing to update'); return;}
+
+  console.log('typeof the_ajax_script.ajaxurl');
+  if (typeof the_ajax_script === 'undefined') {
+    console.log('Error: the_ajax_scripot.ajaxurl is undefined');
+    return;
+  }
+  
   
   var dataval = {cmd: cmd, 
   row: newrow, baseURI: baseURI,
@@ -235,6 +326,33 @@ function saveDataRow(cmd, key, newrow, baseURI = '') {
   });
 }
 
+/*This function will insure that all of the keys of the
+passed in object array are lowercase.  This is so we can
+confidently compare case insensitive keys
+see - https://bobbyhadz.com/blog/javascript-lowercase-object-keys */
+
+function toLowerKeys(obj) {
+  debug('Entry: toLowerKeys');
+  return Object.keys(obj).reduce((accumulator, key) => {
+    accumulator[key.toLowerCase()] = obj[key];
+    return accumulator;
+  }, {});
+}
+
+function galleryControl (selectorID, attr = {}) {
+  debug('Entry: galleryControl');
+  attr = toLowerKeys(attr); // make sure the keys re lowercase
+  var base = ('base' in attr) ? attr['base'] : 'AAHS_Gallery2';
+  var edit = ('edit' in attr) ? attr['edit'] : false;
+  var view = ('view' in attr) ? attr['view'] : 'group';
+  var buttons = ('viewbuttons' in attr) ? attr['viewbuttons'] : false;
+  var theClass = (edit) ? 'canEdit' : ''; 
+  if (typeof the_ajax_script === 'undefined') {
+    theClass = ''; // editing not available.
+  }
+  do_photoList(selectorID, base, theClass, edit, view, buttons); 
+}
+
 /* ---------------------------------------------- */
 /* Main routine to build a flexbox array of       */
 /* photos                                         */
@@ -243,8 +361,11 @@ function saveDataRow(cmd, key, newrow, baseURI = '') {
 function do_photoList(
   selectorID = '#thePhotoGallery', 
   base = 'AAHS_Gallery2',
-  theClass = 'canEdit') {
+  theClass = 'canEdit', edit = false, view = 'group', viewButtons = true) {
 
+  debug('Entry: do_photoList canEdit=' + theClass);
+
+  
   if (location.hostname == 'localhost') {
     photoBase = 'http://localhost/' + base;
     csvURI = '/Users/george/Sites/' + base + '/gallery2.csv'; 
@@ -268,41 +389,76 @@ function do_photoList(
 
   var temp = `
   <div id="galleryContainer" class="${theClass}">
-  <a id="doReconcile">Reconcile</a>
-  <div id="message"></div>
-  <div class="info">
-
-  <span class="info-title"></span>
-  <span class="info-textarea">
-    <textarea rows=2 class="titleControl" style="width:100%;"></textarea></span>
-  <span class="info-location"></span>
-  <span class="info-message"></span>
-
-</div>
-  <div id="groupSelector">
-    <a href="#" id="prevSelect">Prev</a>
-    <div id="selectionChamp" class="custom-select" >
-      <select >
-      </select>
+    <a id="doReconcile">Reconcile</a>
+    <div id="viewButtons">
+    <button id="setGallery">Group View</button>
+    <button id="setFolder">Folder View</button>
     </div>
-    <a href="#" id="nextSelect">Next</a>
-  </div>
-  <div id="searchBox">Search: <input id="search" type="text">
-    <a href="#" id="clearSearch">Clear</a>
-  </div>
-  
-  <div id="showing"></div>
-  <div id="displayType">
-    Display Type:<select>
-      <option value="">All</option>
-      <option value=".show" selected>Active</option>
-      <option value=".hidden">Hidden</option>
-    </select>
-    <a href="#" id="doRefresh">Refresh</a>
-  </div>
-  <div id="cards" class="cards ${theClass}"></div>
-  </div>`;
+    <div id="message"></div>
+   
+    <!-- Group Dropdown View -->
+    <div id="groupView">
+      <div id="groupSelector">
+        <a href="#" class="prevSelect">Prev</a>
+        <div id="selectionChamp" class="custom-select" >
+          <select >
+          </select>
+        </div>
+        <a href="#" class="nextSelect">Next</a>
+      </div>
+      <div id="searchGalleryBox" class="searchBox">Search Captions: <input id="searchGallery" type="text">
+        <a href="#" id="clearSearch">Clear</a>
+      </div>
+    </div>
+
+    <!-- Folder Carousel View -->
+
+    <div id="folderView"> 
+      <div id="folderSelector">
+        <a href="#" class="prevSelect">Prev</a>
+        <div id="filter"></div>
+        <a href="#" class="nextSelect">Next</a>
+        <div id="searchFolderBox" class="searchBox">Search Folders: <input id="searchFolder" type="text">
+            <a href="#" id="clearFolderSearch">Clear</a>
+        </div>
+      </div> 
+      
+      <div id="theCount"></div>
+      <div id="theCarousel"></div>
+    </div>
+
+    <div id='galleryData'>
+      <div class="infoBox">
+          <div class="infoItem theCount">count</div>
+          <div class="infoItem theTitle">the title</div>
+          <div class="infoItem theCat"></div>
+        </div>
+      
+      <span class="info-textarea">
+          <textarea rows=2 class="titleControl" style="width:100%;"></textarea>
+      </span>
+      <hr>
+
+      <div id="displayType">
+        Display Type:<select>
+          <option value="">All</option>
+          <option value=".show" selected>Active</option>
+          <option value=".hidden">Hidden</option>
+        </select>
+        <a href="#" id="doRefresh">Refresh</a>
+      </div>
+    
+      <div id="cards" class="cards ${theClass}"></div>
+    </div><!-- end galleryData -->
+  </div><!-- end galleryContainer -->`;
   jQuery(selectorID).html(temp);
+
+  // Hide the view buttons if directed to by attribute
+  if (viewButtons == false) {
+    jQuery(selectorID + ' #viewButtons').hide(); 
+  }
+
+  jQuery('#galleryContainer').hide(); 
 
   const d = new Date();
   var time = d.getTime();
@@ -345,45 +501,182 @@ function do_photoList(
     /* --- Build the navigation dropdown list */
     var temp = '';
     var prev = '';  
+    var label = '';
     groupRows.forEach(function(item,key) {
-
-      var temp2 = item[0].split('/');
-      var level = 'level' + temp2.length;
-      if (item[5] != '' && temp2.length < 3) {
-       if (prev == '' || prev != item[2]){
-        // new group
-        if (prev != '') {
+       label = (item[2]) ? item[2] : 'Unknown';
+       if (prev == '' || prev != label){ // new group found
+        if (prev != '') { // close out previous group
           temp += '</optgroup>';
         }
         prev = item[2];
-        var gclass = item[2].replace(' ','').toLowerCase(); 
-        temp += `<optgroup label="${item[2]}">`;
+        var gclass = label.replace(' ','').toLowerCase(); 
+        temp += `<optgroup label="${label}">`;
        }
-       temp += `<option class="${level}" value="${key}">${item[1]}</option>`
-     }
+       temp += `<option class="${gclass}" data-folder="${key}" value="${key}">${item[1]}</option>`
+     
     })
     temp += '</optgroup>';
     jQuery('#selectionChamp select').html(temp);
 
+    /* --- END Build the navigation dropdown list */
+
+    /* --- Build the folder carousel list */
+
+    var arr = [];
+    var counts = {};
+    groupRows.forEach(function(item,key) {
+      groupRows[key][2] = item[2].replace(/[\s\:\,]/g, '_')
+      counts[item[2]] = 1 + (counts[item[2]] || 0);
+    });
+
+    // Build the navigation dropdown list 
+    var cats = `<select ><option value="" data-count="${groupRows.length}">All</option>`;
+    var prev = '';  
+    for(let key in counts){
+      cats += `<option value="${key}" data-count="${counts[key]}">${key}</option>`
+    }
+    cats += '</select>';
+    jQuery('#filter').html(cats);
+ 
+    var testout = ``;
+    
+    groupRows.forEach(function(item,key) { 
+      i = key;
+      folderref = (item[0] in groupLabels) ? groupLabels[item[0]] : ''; 
+      title = item[1];
+      excerpt = item[5]; 
+      img = `${photoBase}/${item[0]}/${item[6]}`; 
+      var desc = item[5]; 
+
+      testout +=
+        `<div class="item ${item[2]}" data-folder="${folderref}" 
+          data-itemid="${i}" data-cat="${item[2]}" data-desc="${desc}">
+        <a href=""><img loading="lazy" src="${img}">
+        <div class="marker">${key}</div>
+        <div class="title" data-itemid="${i}">${title}</div></a>
+        <div class="classcontent">${excerpt}</div>
+        </div>`;      
+    })
+
+    $('#theCarousel').html(testout); 
+    /*
+    var box2 = jQuery('#theCarousel div.item');
+    var w = box2.width();
+    w = (w + 10)  * 10;
+    $('#theCarousel').scrollLeft(w);
+    console.log($('#theCarousel').scrollLeft());
+    */
+
+    jQuery('#filter select').on('change', function() {
+        debug('Change: #filter select');
+        $('#theCarousel').scrollLeft(0) ;
+        $('#theCarousel div.item.active').removeClass('active');
+        var filter = this.value;
+        if (filter != '') {
+          filter = '.' + filter;
+          $('#theCarousel div.item').removeClass('show');
+          $('#theCarousel div.item' + filter).addClass('show');
+          
+        } else {
+          $('#theCarousel div.item').addClass('show');
+        }
+        var numitems = $('#theCarousel div.item.show').length;
+        jQuery('#searchFolder').val('');
+
+        var result = $('div.item' + filter);
+        $('#cards figure').removeClass('active');
+
+        $('#theCount').text('Showing: ' + numitems + ' folders of ' + groupRows.length); 
+
+
+        // set the slide number 
+        $('#theCarousel div.item.show').each(function(index, value) {
+          $(value).find('div.marker').text(index + 1);
+        })
+
+        $('div#theCarousel div.item').off().on('click',function(event) {
+          debug('Click: div#theCarousel div.item');
+          event.preventDefault();
+          $('div#theCarousel div.item').removeClass('active');
+          $(this).addClass('active');
+          var itemid = $(this).data('itemid');
+          var folderid = $(this).data('folder');
+          $('#cards figure').removeClass('active');
+          $('#cards figure[data-folder="' + folderid + '"]').addClass('active');
+          setupLightbox();  
+        })   
+
+        jQuery('div#theCarousel div.item.show').eq(0).trigger('click');       
+    });
+
+    jQuery('#filter select').trigger('change');
+       
+    jQuery('#setGallery').on('click',function(event) {
+      debug('Click: #setGallery');
+      jQuery('#groupView').show().addClass('active');
+      jQuery('#folderView').hide().removeClass('active');
+      jQuery('button').removeClass('active');
+      jQuery(this).addClass('active');
+      jQuery('div#theCarousel div.item').eq(0).trigger('click'); 
+    })
+
+    jQuery('#setFolder').on('click',function(event) {
+      debug('Click: setFolder');
+      jQuery('#groupView').hide();
+      jQuery('#folderView').show();
+      jQuery('button').removeClass('active');
+      jQuery(this).addClass('active');
+      jQuery('#cards figure').removeClass('active');
+      jQuery('#theCarousel div.item').removeClass('active');
+
+      jQuery('.cards').removeClass('addMarker');
+      jQuery('figure').removeClass('active');
+      jQuery('div#theCarousel div.item.show').eq(0).trigger('click');
+      setupLightbox();
+
+      /* Experimenting with scolling to specific item */
+        var al = $('#theCarousel').offset().left; // current 
+        var aw = $('#theCarousel').width(); 
+        var iw = $('#theCarousel div.item:first').width();
+        var il = $('#theCarousel div.item:first').offset().left;
+        //console.log('al=' + al + ' aw=' + aw + ' iw=' + iw + ' il=' + il);
+        var w = (iw + 10) * 1;
+        //$('#theCarousel').scrollLeft(w);
+        //console.log('al=' + al + ' aw=' + aw + ' iw=' + iw + ' il=' + il);
+    })
+
+    jQuery('#setGallery').trigger('click');
+    if (view == 'folder') {
+      jQuery('#setFolder').trigger('click');
+    }
+
+    /* --- END Build the folder carousel list */
+
     /* -- Kick things off by selecting the first item in dropdown */
     var group = jQuery('#selectionChamp option:first-child').val();
+    if (typeof group == 'undefined') {
+      group = 0;
+    }
     fillImages(group,memberRows);
 
     jQuery('#cards').data("group",group);
     jQuery('figure').removeClass('active');
-    currentSearch = 'figure.' + group;
+    currentSearch = 'figure[data-folder="' + group + '"]';
+    //currentSearch = 'figure.' + group;
     jQuery(currentSearch + searchModifier + searchName).addClass('active');
-    fillTitleInfo(group, groupRows, groupLabels); 
     // for testing search 
     //jQuery('span.info-title[data-title*="testing" i]').css('background','red');
     setupLightbox();
+
+     jQuery('#galleryContainer').show(); 
 
     /* ---------------------------------------------- */
     /* Declare events                                 */
     /* for non-admin                                  */
     /* ---------------------------------------------- */
 
-    jQuery('#nextSelect').click(function() {
+    jQuery('#groupSelector a.nextSelect').click(function() {
+      debug('Click: #groupSelector a.nextSelect');
       var options = jQuery("#selectionChamp option");
       var i = options.index(options.filter(":selected"));
       if (i >= 0 && i < options.length - 1) {
@@ -394,7 +687,8 @@ function do_photoList(
       }
     })
 
-    jQuery('#prevSelect').click(function() {
+    jQuery('#groupSelector a.prevSelect').click(function() {
+      debug('Click: #groupSelector a.prevSelect');
       var options = jQuery("#selectionChamp option");
       var i = options.index(options.filter(":selected"));
       if (i >= 0 && i < options.length - 1) {
@@ -405,13 +699,39 @@ function do_photoList(
       }
     })
 
-    jQuery('#search').on('keyup', function (event) {
-      var thevalue = jQuery('#search').val();
+    jQuery('#folderSelector a.nextSelect').click(function() {
+      debug('Click: #folderSelector a.nextSelect');
+      var options = jQuery("#filter option");
+      var i = options.index(options.filter(":selected"));
+      if (i >= 0 && i < options.length - 1) {
+          options.eq(i+1).prop("selected", true).trigger("change");
+      }
+      else {
+        options.eq(0).prop("selected", true).trigger("change");
+      }
+    })
+
+    jQuery('#folderSelector a.prevSelect').click(function() {
+      debug('Click: #folderSelector a.prevSelect');
+      var options = jQuery("#filter option");
+      var i = options.index(options.filter(":selected"));
+      if (i >= 0 && i < options.length - 1) {
+        options.eq(i-1).prop("selected", true).trigger("change");
+      }
+      else {
+        options.eq(0).prop("selected", true).trigger("change");
+      }
+    })
+
+    jQuery('#searchGallery').on('keyup', function (event) {
+      debug('keyup: #searchGallery');
+      var thevalue = jQuery('#searchGallery').val();
+      var contains = '';
       jQuery('figure').removeClass('active');
       jQuery('nav a.set').removeClass('active');
       if (!thevalue) {  
           group =   jQuery('#cards').data('group');
-          jQuery('figure.' + group).addClass('active');
+          jQuery('figure[data-folder="' + group + '"]').addClass('active');
           jQuery('.cards').removeClass('addMarker');
           jQuery('nav a[data-group="' + group + '"]').addClass('active');
           simpleGallery.refresh();
@@ -425,6 +745,7 @@ function do_photoList(
             if (item) {
               if (item) {
                 str = str + '[data-name*="' + item + '" i]';
+                contains += ' ' + item;
               }
             }
           })
@@ -436,13 +757,74 @@ function do_photoList(
       setupLightbox();
     });  
 
+    jQuery('#searchFolder').on('keyup', function (event) {
+      debug('keyup: #searchFolder');
+      var thevalue = jQuery('#searchFolder').val();
+      var contains = '';
+      var msg = '';
+      jQuery('figure').removeClass('active');
+      jQuery('nav a.set').removeClass('active');
+      if (!thevalue) {  
+          $('#theCarousel div.item').addClass('show');
+        }
+        else {
+          var str = '';
+          var aval = thevalue.split(" ");
+          aval.forEach(function(item,index) {
+            if (item) {
+              if (item) {
+                contains += '[data-desc*="' + item + '" i]';
+              }
+            }
+          })
+         // jQuery('#selectionChamp select').addClass('showSearch');
+        }
+      currentSearch = 'figure';
+      searchName = str;
+      $('#theCarousel div.item.active').removeClass('active');
+      $('#theCarousel div.item.show').removeClass('show');
+      $('#theCarousel div.item' + contains).addClass('show'); 
+      var numitems = $('#theCarousel div.item.show').length;
+      // set the slide number 
+      $('#theCarousel div.item.show').each(function(index, value) {
+        $(value).find('div.marker').text(index + 1);
+      })
+      $('#theCarousel').scrollLeft(0) ;
+      if (thevalue) {msg = ' (Filtered: ' + thevalue + ')';}
+      $('#theCount').text('Showing: ' + numitems + ' folders of ' + groupRows.length + msg); 
+      setupLightbox();
+
+      $('div#theCarousel div.item').off().on('click',function(event) {
+        debug('Click: div#theCarousel div.item');
+        event.preventDefault();
+        $('div#theCarousel div.item.active').removeClass('active');
+        $(this).addClass('active');
+        var itemid = $(this).data('itemid');
+        var folderid = $(this).data('folder');
+        $('#cards figure.active').removeClass('active');
+        $('#cards figure[data-folder="' + folderid + '"]').addClass('active');
+        setupLightbox();  
+      })     
+
+    }); 
+
+    jQuery('#clearFolderSearch').click(function(event) { 
+      debug('Click: #clearFolderSearch');
+      event.preventDefault();
+      $('#theCarousel div.item').addClass('show'); 
+      jQuery('#searchFolder').val('');
+      $('#theCarousel').scrollLeft(0) ;
+      setupLightbox();
+    })
+
     jQuery('#clearSearch').click(function(event) {
+      debug('Click: #clearSearch');
       event.preventDefault();
       group =   jQuery('#cards').data('group');
       jQuery('figure').removeClass('active');
       jQuery('nav a[data-group="' + group + '"]').addClass('active');
       searchName = ''
-      currentSearch = 'figure.' + group;
+      currentSearch = 'figure[data-folder="' + group + '"]';
 
       jQuery(currentSearch + searchModifier + searchName).addClass('active');
       jQuery('#cards').removeClass('addMarker');
@@ -452,15 +834,15 @@ function do_photoList(
     });
 
     jQuery('#selectionChamp select').on('change', function() {
+      debug('Change: #selectionCamp select');
       jQuery('.cards').removeClass('addMarker');
       jQuery(this).addClass('active');
       var group = this.value;
       jQuery('#cards').data("group",group);
       jQuery('figure').removeClass('active');
-      currentSearch = 'figure.' + group;
+      currentSearch = 'figure[data-folder="' + group + '"]';
       searchName = ''; 
       jQuery(currentSearch + searchModifier + searchName).addClass('active');
-      fillTitleInfo(group, groupRows, groupLabels);
       jQuery('#search').val('');
       
       jQuery('#selectionChamp select').removeClass('showSearch');
@@ -477,6 +859,7 @@ function do_photoList(
     if (admin) {
 
       jQuery("#displayType").change(function(event) {
+        debug('Change: #displayType');
         searchModifier = jQuery(this).find(":selected").val();
         jQuery('figure').removeClass('active');
         jQuery(currentSearch + searchModifier + searchName).addClass('active');
@@ -484,6 +867,7 @@ function do_photoList(
       })
 
       jQuery("#doRefresh").click(function(event) {
+        debug('Click: #doRefresh');
         event.preventDefault();
         jQuery('figure').removeClass('active');
         jQuery(currentSearch + searchModifier + searchName).addClass('active');
@@ -492,6 +876,7 @@ function do_photoList(
       })
 
       jQuery(".imageGalleryCheck").off().click(function(e) {
+        debug('Click: .imageGalleryCheck');
         // e.preventDefault();
         var key = jQuery(this).closest('figure').data('key');
         currentKey = key;
@@ -508,12 +893,14 @@ function do_photoList(
       })
 
       jQuery("#cards.canEdit figure a img").hover(function(){
+        debug('Hover: #cards canEdit figure a img');
         jQuery(this).closest('figure').find("div.imageGalleryCheck").show();
         }, function(){
         jQuery(this).closest('figure').find("div.imageGalleryCheck").hide();
       });
 
       jQuery('.captionControl').keypress(function(event) {
+        debug('keypress: .captionControl');
         if (event.which == 13) {
           var key = jQuery(this).closest('figure').data('key');
           var chk = 'Y';
@@ -530,6 +917,7 @@ function do_photoList(
       });
 
       jQuery('.captionControl').on('change',function() {
+        debug('Change: .captionControl');
         var key = jQuery(this).closest('figure').data('key');    
         var chk = 'Y';
         var checkbox = jQuery(this).closest('figure').find('.imageGalleryCheck input').is(':checked');
@@ -542,6 +930,7 @@ function do_photoList(
       })
 
        jQuery('.titleControl').keypress(function(event) {
+        debug('Keypress: .titleControl');
         if (event.which == 13) {
           var key = jQuery(this).data('key');
           var newrow = groupRows[key].slice();
@@ -553,6 +942,7 @@ function do_photoList(
       });
 
       jQuery('.titleControl').on('change',function() {
+        debug('Change: .titleControl');
           var key = jQuery(this).data('key');
           var newrow = groupRows[key].slice();
           newrow[5] = jQuery(this).val();
@@ -562,8 +952,9 @@ function do_photoList(
       });
 
       jQuery('#doReconcile').off().click(function(event) {
+        debug('Click: #doReconcile');
         console.log('doReconcile ' + baseURI);
-        saveDataRow('RECONCILE','', [], baseURI);
+        //saveDataRow('RECONCILE','', [], baseURI);
       });
     }
       
