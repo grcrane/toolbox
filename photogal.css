@@ -303,3 +303,236 @@ x.modal-body img {
   text-decoration: line-through;
   text-decoration-thickness: 2px;  
 }
+
+/* --------- new 9/29/22 -------- */
+
+#filter {
+  text-align:  center;
+}
+
+#filter a.filterItem {
+  display:  inline-block;
+}
+#filter a.filterItem.active {
+  font-weight:  bold;
+}
+
+#filter {
+  margin-bottom:  10px;
+}
+
+
+#theCarousel div.classcontent {
+    white-space: normal;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+#theCarousel div.item div.title {
+    font-weight: 500;
+    font-size: 1.2em;
+}
+#theCarousel div.item div.classcontent {
+    font-style: italic; 
+}
+#theCarousel div.item img {
+    width: 100%;
+    object-fit: cover;
+    aspect-ratio:  4 / 3;
+}
+#theCarousel div.classcontent {
+    white-space: normal;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+#theCarousel div.item div.title {
+  font-weight: 500;
+  font-size: unset;
+  line-height: unset;
+  padding: 5px 0;
+  color: black;
+}
+
+#theCarousel div.item div.classcontent {
+  font-style: italic;
+  line-height: unset;
+  font-weight: unset;
+  font-size: unset;
+}
+#theCarousel div.readmore {
+  font-size: unset;
+  font-style: italic;
+  display: none;
+}
+#theCarousel div.classcontent p:first-child {
+  margin-top: 0;
+}
+
+#theCarousel div.slick-list .itemFilterCats {
+  font-size: 13px;
+  line-height: 1.4em;
+  text-transform: none;
+  display:  none;
+}
+#theCarousel div.slick-list div.classcontent {
+  margin-bottom: 10px;
+  color: black;
+}
+#theCarousel div.slick-list div.readmore {
+  margin: 0 0 10px 0;
+  font-size: unset;
+  line-height: 20px;
+  text-align: left;
+  display: none;
+}
+
+#theCarousel ul.slick-dots {
+  bottom: unset;
+}
+#theCarousel div.item .itemFilterCats {
+  display: none;
+}
+#theCarousel div.item .itemFilterCats.active {
+  display: block;
+}
+
+#theCarousel div.item.active {
+  border:  2px solid red;
+}
+
+#theCarousel div.owl-nav button  {
+  padding: 0 20px !important;
+  font-size: 30px;
+  border: 1px solid black;
+}
+
+#theCarousel div.marker {
+  position:  absolute;
+  top:  0;
+  left:  0;
+  display:  block;
+  background-color: white;
+  padding: 5px;
+  color: black;
+  border-radius: 0;
+  border:  1px solid black;
+}
+
+#theCarousel {
+  display: flex;
+  flex-wrap: nowrap;
+  overflow-x:  auto;
+}
+
+#theCarousel div.item {
+  flex: 0 0 calc(20% - 0px);
+  margin: 5px;
+  overflow: hidden;
+  position:  relative;
+}
+
+#theCarousel div.item {
+  display: none;
+}
+
+#theCarousel div.item.show {
+  display:  block;
+}
+
+#galleryContainer .searchBox {
+  background:  unset;
+  text-align:  center;
+}
+
+#folderSelector {
+    text-align:  center;
+    margin-bottom:  10px;
+  }
+
+
+
+button#setGallery.active, button#setFolder.active {
+  background:  green;
+  color:  white;
+}
+
+
+
+#showing {
+  margin-top:  20px;
+  display: inline-block;
+  width:  100%;
+}
+#showing div.count {
+  width: 33%;
+  display: inline-block;
+}
+#showing div.title {
+  width: 33%;
+  text-align: center;
+  display: inline-block;
+  font-weight: bold;
+}
+
+#galleryContainer .prevSelect, .nextSelect {
+    display:  inline-block;
+  }
+
+#galleryContainer #filter {
+  display:  inline-block;
+}
+
+#galleryContainer span.info-textarea,
+#galleryContainer span.info-textarea,
+#galleryContainer.canEdit div.info span.info-groupname,
+#galleryContainer.canEdit div.info span.info-title {
+  display: none;
+}
+
+#galleryContainer.canEdit span.info-textarea   {
+  display: block;
+}
+
+#galleryData {
+  margin:  5px;
+  margin-top:  10px;
+}
+
+#galleryData div.infoBox {
+  display:  flex;
+}
+
+#galleryData div.infoBox .infoItem {
+  width:  33%;
+}
+
+#galleryData div.infoBox .infoItem.theCount {
+  text-align:  left;
+}
+
+#galleryData div.infoBox .infoItem.theTitle {
+  text-align:  center;
+  font-weight:  bold;
+}
+
+#galleryData div.infoBox .infoItem.theCat {
+  text-align:  right;
+}
+
+
+@media (max-width: 1000px) {
+  #theCarousel div.item {
+    flex: 0 0 calc(33% - 10px);
+  }
+}
+
+@media (max-width: 800px) {
+  #theCarousel div.item {
+    flex: 0 0 calc(50% - 10px);
+  }
+}
