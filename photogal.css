@@ -498,6 +498,51 @@ button#setGallery.active, button#setFolder.active {
   display: block;
 }
 
+/* --- lrm, left-right-middle flex boxes -- */ 
+#searchGalleryBox,
+#galleryContainer div.lmr {
+  margin-bottom: 10px;
+  display: flex;
+}
+#searchGalleryBox div,
+#galleryContainer div.lmr div {
+  flex:  1;
+}
+#galleryContainer div.lmr div.middleDiv {
+  flex:  0;
+}
+#galleryContainer div.lmr div.leftDiv a,
+#galleryContainer div.lmr div.leftDiv span  {
+  float:  right;
+  margin-right:  10px;
+  white-space:  nowrap;
+  overflow: hidden;
+  text-overflow:  ellipsis;
+}
+#galleryContainer div.lmr div.rightDiv a {
+  float:  left;
+  margin-left:  10px;
+  white-space:  nowrap;
+  overflow: hidden;
+  text-overflow:  ellipsis;
+}
+
+div.infoForm {
+  display:  flex;
+}
+
+div.lr {
+  display:  flex;
+}
+
+div.lr div.leftField {
+  padding-right:  10px;
+}
+
+div.lr div.rightField {
+  flex:  1;
+}
+
 /* -- Gallery Data -- */
 #galleryData {
   margin: 0;
