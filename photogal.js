@@ -75,9 +75,9 @@ function fillTitleInfo (group, groupRows, groupLabels) {
     var admin = jQuery('#cards').hasClass('canEdit');
     var groupkey = groupLabels[groupRows[group][0]]; 
     var groupname = groupRows[groupkey][2];
-    jQuery('#galleryContainer span.info-title').text('(' + groupname+ ') ' + infotitle);
-    jQuery('#galleryContainer span.info-textarea textarea').val(infotitle);
-    jQuery('#galleryContainer span.info-textarea textarea').data('key',groupkey);
+    jQuery('#galleryContainer div.info-title').text('(' + groupname+ ') ' + infotitle);
+    jQuery('#galleryContainer div.info-textarea textarea').val(infotitle);
+    jQuery('#galleryContainer div.info-textarea textarea').data('key',groupkey);
 }
 
 function fillImages(grouping, memberRows) {
@@ -101,6 +101,7 @@ function fillImages(grouping, memberRows) {
   var temparr = []; 
   var templabel = '';
   folderref = '';
+  var filetype = 'image';
 
   //var result = memberRows.filter(checkGroup);
   //function checkGroup(age, group) {
@@ -133,6 +134,8 @@ function fillImages(grouping, memberRows) {
         templabel = temparr[0] + '/' + temparr[1];
         gclass = (templabel in groupLabels) ? groupLabels[templabel] : '';
         fullimg = `${photoBase}/${value[0]}/${value[2]}`;
+        filetype = (fullimg.split('.').pop() == 'mp4') ? 'video' : 'image';
+
         thumbimg = `${photoBase}/${value[0]}/${value[3]}`;
         if (value[2].startsWith('http')) {
           fullimg = value[2];
@@ -140,7 +143,10 @@ function fillImages(grouping, memberRows) {
         if (value[3].startsWith('http') == true) {
           thumbimg = value[3];
         }
-        temp += `<figure class="${distype}" data-folder="${folderref}" data-key="${key}" data-name="${value[5]}">
+        if (filetype == 'video') {
+          capvalue = (capvalue == '') ? value[2] : capvalue;
+        }
+        temp += `<figure class="${filetype} ${distype}" data-folder="${folderref}" data-key="${key}" data-name="${value[5]}">
              <a href="${fullimg}" >
              <img src="${thumbimg}" 
              data-src="${thumbimg}" title="${title}" loading="lazy">
@@ -170,7 +176,7 @@ function setupLightbox() {
         simpleGallery.refresh();
   }
   else {
-    simpleGallery = new SimpleLightbox('.cards figure.active a', {
+    simpleGallery = new SimpleLightbox('.cards figure.image.active a', {
      showCaptions: true,captionAttribute: 'title'}
      );
   }
@@ -179,21 +185,23 @@ function setupLightbox() {
     jQuery(this).attr('src',jQuery(this).data('src'));
   });
   var folderid = jQuery('.cards figure.active').eq(0).data('folder');
+  jQuery('#galleryData').hide(); 
   if (typeof folderid != 'undefined' && folderid != null) {
     var numshowing = jQuery('figure.active').length;
     var showing = 'Showing: ' 
       + numshowing 
       + ' images of ' + jQuery('figure').length;
-    jQuery('#showing div.count').text(showing);
-    jQuery('#showing div.title').text(groupRows[folderid][5]);
-    jQuery('#galleryContainer span.info-textarea textarea').val(groupRows[folderid][5]).data('key',folderid);
-
     jQuery('#galleryData div.theCount').text(showing);
     jQuery('#galleryData div.theTitle').text(groupRows[folderid][5]);
-    jQuery('#galleryData span.info-textarea textarea').val(groupRows[folderid][5]).data('key',folderid);
+    //jQuery('#galleryData div.info-textarea textarea').val(groupRows[folderid][5]).data('key',folderid);
+
+    jQuery('#infoForm textarea.titleControl').val(groupRows[folderid][5]).data('key',folderid);
 
     jQuery('#doRefresh').hide(); 
     jQuery('#showing').show();
+    if (numshowing > 0) {
+      jQuery('#galleryData').show(); 
+    }
   }
   else {
     jQuery('#showing').hide();
@@ -344,13 +352,18 @@ function galleryControl (selectorID, attr = {}) {
   attr = toLowerKeys(attr); // make sure the keys re lowercase
   var base = ('base' in attr) ? attr['base'] : 'AAHS_Gallery2';
   var edit = ('edit' in attr) ? attr['edit'] : false;
+  var header = ('header' in attr) ? attr['header'] : false;
+  var headerTitle = ('title' in attr) ? attr['title'] : 'Photos';
+  var headerSubTitle = ('subtitle' in attr) ? attr['subtitle'] : 'Scanned Photos';
+  debugflag = ('debug' in attr) ? attr['debug'] : false;
   var view = ('view' in attr) ? attr['view'] : 'group';
   var buttons = ('viewbuttons' in attr) ? attr['viewbuttons'] : false;
   var theClass = (edit) ? 'canEdit' : ''; 
   if (typeof the_ajax_script === 'undefined') {
-    theClass = ''; // editing not available.
+    //theClass = ''; // editing not available.
   }
-  do_photoList(selectorID, base, theClass, edit, view, buttons); 
+  do_photoList(selectorID, base, theClass, edit, view, buttons,
+    header, headerTitle, headerSubTitle); 
 }
 
 /* ---------------------------------------------- */
@@ -361,11 +374,11 @@ function galleryControl (selectorID, attr = {}) {
 function do_photoList(
   selectorID = '#thePhotoGallery', 
   base = 'AAHS_Gallery2',
-  theClass = 'canEdit', edit = false, view = 'group', viewButtons = true) {
+  theClass = 'canEdit', edit = false, view = 'group', viewButtons = true,
+   header = false, title='', subtitle='') {
 
   debug('Entry: do_photoList canEdit=' + theClass);
 
-  
   if (location.hostname == 'localhost') {
     photoBase = 'http://localhost/' + base;
     csvURI = '/Users/george/Sites/' + base + '/gallery2.csv'; 
@@ -388,7 +401,30 @@ function do_photoList(
   var infotitle = ''; 
 
   var temp = `
-  <div id="galleryContainer" class="${theClass}">
+  <header id="masthead" class="site-header home" role="banner">
+    <div class="site-branding">
+          <h1 class="site-title"><a href="https://wordpress.org/themes/" rel="home">${title}</a></h1>
+        <p class="site-description">${subtitle}</p>
+    </div>
+  </header>
+  <!-- Trigger/Open The Modal -->
+
+  <!-- The Modal -->
+  <div id="myModal" class="modal">
+
+    <!-- Modal content -->
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <div class="videoContent">
+        <video controls autoplay playsinline poster="">
+          <source src="xxx" type="video/mp4" />
+          <p class="vjs-no-js">This video content is not supported in this browser</p>
+        </video>
+      </div>
+    </div>
+  </div>
+
+  <div id="galleryContainer" class="${theClass}" style="display:none;">
     <a id="doReconcile">Reconcile</a>
     <div id="viewButtons">
     <button id="setGallery">Group View</button>
@@ -398,45 +434,95 @@ function do_photoList(
    
     <!-- Group Dropdown View -->
     <div id="groupView">
-      <div id="groupSelector">
-        <a href="#" class="prevSelect">Prev</a>
-        <div id="selectionChamp" class="custom-select" >
+      <div class="lmr" id="groupSelector">
+        <div class="leftDiv"><a href="#" class="prevSelect">Prev</a></div>
+        <div id="selectionChamp" class="middleDiv custom-select" >
           <select >
           </select>
         </div>
-        <a href="#" class="nextSelect">Next</a>
+        <div class="rightDiv"><a href="#" class="nextSelect">Next</a></div>
       </div>
-      <div id="searchGalleryBox" class="searchBox">Search Captions: <input id="searchGallery" type="text">
-        <a href="#" id="clearSearch">Clear</a>
+    
+      <div id="searchGalleryBox" class="lmr searchBox">
+        <div class="leftDiv"><span>Search Captions:</span></div>
+        <div class="middleDiv"><input id="searchGallery" type="text"></div>
+        <div class="rightDiv"><a href="#" id="clearSearch">Clear</a></div>
       </div>
     </div>
 
     <!-- Folder Carousel View -->
 
     <div id="folderView"> 
-      <div id="folderSelector">
-        <a href="#" class="prevSelect">Prev</a>
-        <div id="filter"></div>
-        <a href="#" class="nextSelect">Next</a>
-        <div id="searchFolderBox" class="searchBox">Search Folders: <input id="searchFolder" type="text">
-            <a href="#" id="clearFolderSearch">Clear</a>
-        </div>
+      <div class="lmr" id="folderSelector">
+        <div class="leftDiv"><a href="#" class="prevSelect">Prev</a></div>
+        <div class="middleDiv" id="filter"></div>
+        <div class="rightDiv"><a href="#" class="nextSelect">Next</a></div>
       </div> 
+
+      <div id="radioButtons">
+        <div class="r">
+          <input type="radio" id="cat1" name="fav_language" value="Events">
+          <label for="cat1">Events</label>
+        </div>
+        <div class="r">
+          <input type="radio" id="cat2" name="fav_language" value="Family">
+          <label for="cat2">Family</label>
+        </div>
+       <div class="r">
+          <input type="radio" id="cat3" name="fav_language" value="Family">
+          <label for="cat3">Family</label>
+        </div>
+        <div class="r">
+          <input type="radio" id="cat4" name="fav_language" value="Family">
+          <label for="cat4">Family</label>
+        </div>
+        <div class="r">
+          <input type="radio" id="cat5" name="fav_language" value="Family">
+          <label for="cat5">Family</label>
+        </div>
+      </div>
+    
+      <div class="lmr" id="searchFolderBox" class="searchBox">
+        <div class="leftDiv"><span>Search titles:</span></div>
+        <div class="middleDiv"><input id="searchFolder" type="text"></div>
+        <div class="rightDiv"><a href="#" id="clearFolderSearch">Clear</a></div>
+      </div>
       
       <div id="theCount"></div>
       <div id="theCarousel"></div>
     </div>
 
+
+
     <div id='galleryData'>
-      <div class="infoBox">
-          <div class="infoItem theCount">count</div>
-          <div class="infoItem theTitle">the title</div>
-          <div class="infoItem theCat"></div>
-        </div>
+      <div class="theTitle">the title</div>
+      <div class="theCount">count</div>
       
-      <span class="info-textarea">
-          <textarea rows=2 class="titleControl" style="width:100%;"></textarea>
-      </span>
+      <!-- For editing folder information -->
+      <div id="infoForm">
+        <ul class="flex-outer">
+            <li>
+              <label>Description</label>
+              <textarea  rows=2 class="titleControl" placeholder="Enter a description" style="width:100%;"></textarea>
+            </li>
+            <!--
+            <li>
+              <label>Location</label>
+              <input class="short" type="text" placeholder="City, State, park etc.">
+            </li>
+            <li>
+              <label>Date</label>
+              <input class="short" type="text" placeholder="mm/dd/yyyy">
+            </li>
+            -->
+          </ul>
+      </div>
+
+      <div class="editFolderInfo">
+          
+
+      </div>
+
       <hr>
 
       <div id="displayType">
@@ -453,9 +539,16 @@ function do_photoList(
   </div><!-- end galleryContainer -->`;
   jQuery(selectorID).html(temp);
 
+  
+
+
   // Hide the view buttons if directed to by attribute
   if (viewButtons == false) {
     jQuery(selectorID + ' #viewButtons').hide(); 
+  }
+
+  if (header == false) {
+    $('#masthead').hide(); 
   }
 
   jQuery('#galleryContainer').hide(); 
@@ -502,6 +595,7 @@ function do_photoList(
     var temp = '';
     var prev = '';  
     var label = '';
+    
     groupRows.forEach(function(item,key) {
        label = (item[2]) ? item[2] : 'Unknown';
        if (prev == '' || prev != label){ // new group found
@@ -532,11 +626,66 @@ function do_photoList(
     // Build the navigation dropdown list 
     var cats = `<select ><option value="" data-count="${groupRows.length}">All</option>`;
     var prev = '';  
+    var radioButtons = `<div class="r">
+          <input type="radio" id="idAll" name="fav_language" value="" checked>
+          <label for="idAll">All</label>
+        </div>`; 
     for(let key in counts){
       cats += `<option value="${key}" data-count="${counts[key]}">${key}</option>`
+      radioButtons += `<div class="r">
+          <input type="radio" id="id${key}" name="fav_language" value="${key}">
+          <label for="id${key}">${key}</label>
+        </div>`;
     }
     cats += '</select>';
     jQuery('#filter').html(cats);
+    jQuery('#radioButtons').html(radioButtons);
+
+    jQuery('#radioButtons div.r input').on('click',function(event) {
+      debug('Change: #filter select');
+        $('#theCarousel').scrollLeft(0) ;
+        $('#theCarousel div.item.active').removeClass('active');
+        var filter = this.value;
+        if (filter != '') {
+          filter = '.' + filter;
+          $('#theCarousel div.item').removeClass('show');
+          $('#theCarousel div.item' + filter).addClass('show');
+          
+        } else {
+          $('#theCarousel div.item').addClass('show');
+        }
+        jQuery('#radioButtons div.r label').removeClass('active');
+        jQuery(this).parent().find('label').addClass('active');
+        var selectLabel = jQuery(this).parent().find('label').text();
+        var numitems = $('#theCarousel div.item.show').length;
+        jQuery('#searchFolder').val('');
+
+        var result = $('div.item' + filter);
+        $('#cards figure').removeClass('active');
+
+        $('#theCount').text('Showing: ' + numitems + ' folders of ' + groupRows.length + ' (' + selectLabel + ')'); 
+
+
+        // set the slide number 
+        $('#theCarousel div.item.show').each(function(index, value) {
+          $(value).find('div.marker').text(index + 1);
+        })
+
+        $('div#theCarousel div.item').off().on('click',function(event) {
+          debug('Click: div#theCarousel div.item');
+          event.preventDefault();
+          $('div#theCarousel div.item').removeClass('active');
+          $(this).addClass('active');
+          var itemid = $(this).data('itemid');
+          var folderid = $(this).data('folder');
+          $('#cards figure').removeClass('active');
+          $('#cards figure[data-folder="' + folderid + '"]').addClass('active');
+          setupLightbox();  
+        })   
+
+        jQuery('div#theCarousel div.item.show').eq(0).trigger('click');       
+
+    })
  
     var testout = ``;
     
@@ -675,6 +824,35 @@ function do_photoList(
     /* for non-admin                                  */
     /* ---------------------------------------------- */
 
+    // When the user clicks on <span> (x), close the modal
+    jQuery('#myModal span.close').on('click',function() {
+      jQuery('#myModal').hide();
+      var media = $('#myModal .videoContent video').get(0);
+            media.pause();
+            media.currentTime = 0;
+    })
+
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function(event) {
+      console.log(event.target.id);
+      if (event.target.id == 'myModal') {
+        jQuery('#myModal span.close').trigger('click');
+      }
+    }
+
+    jQuery('figure.video').click(function(event) {
+        event.preventDefault();
+        var href = $(this).find('a').attr('href');
+        var poster = $(this).find('a img').attr('src');
+        console.log(href);
+        jQuery('#myModal .videoContent video').attr('src',href);
+        jQuery('#myModal .videoContent video').attr('poster',poster).css('object-fit','cover');
+        jQuery('#myModal .videoContent video').css('background','url("' + poster + '")');
+        //jQuery('#myModal .videoContent video').load();
+        
+        jQuery('#myModal').show();
+       })
+
     jQuery('#groupSelector a.nextSelect').click(function() {
       debug('Click: #groupSelector a.nextSelect');
       var options = jQuery("#selectionChamp option");
@@ -792,6 +970,8 @@ function do_photoList(
       $('#theCarousel').scrollLeft(0) ;
       if (thevalue) {msg = ' (Filtered: ' + thevalue + ')';}
       $('#theCount').text('Showing: ' + numitems + ' folders of ' + groupRows.length + msg); 
+      jQuery('#radioButtons div.r label').removeClass('active');
+      $('#radioButtons div.r input[value=""]').prop("checked", true).parent().find('label').addClass('active');
       setupLightbox();
 
       $('div#theCarousel div.item').off().on('click',function(event) {
@@ -814,6 +994,14 @@ function do_photoList(
       $('#theCarousel div.item').addClass('show'); 
       jQuery('#searchFolder').val('');
       $('#theCarousel').scrollLeft(0) ;
+      jQuery('#cards figure').removeClass('active');
+      jQuery('#theCarousel div.item').removeClass('active');
+      jQuery('#theCarousel div.item:first').addClass('active');
+      var folderid = $('#theCarousel div.item:first').data('folder');
+      $('#cards figure.active').removeClass('active');
+      $('#cards figure[data-folder="' + folderid + '"]').addClass('active');
+      $('#theCount').text('Showing: ' + groupRows.length + ' folders of ' + groupRows.length + ' (All)'); 
+      $('#radioButtons div.r input[value=""]').prop("checked", true).parent().find('label').addClass('active');
       setupLightbox();
     })
 
