@@ -404,9 +404,9 @@ function do_photoList(
 
   var temp = `
   <header id="masthead" class="photo-header home" role="banner">
-    <div class="site-branding">
-          <h1 class="site-title"><a href="https://wordpress.org/themes/" rel="home">${title}</a></h1>
-        <p class="site-description">${subtitle}</p>
+    <div class="photo-branding">
+          <h1 class="photo-title"><a href="https://wordpress.org/themes/" rel="home">${title}</a></h1>
+        <p class="photo-description">${subtitle}</p>
     </div>
   </header>
   <!-- Trigger/Open The Modal -->
@@ -550,7 +550,7 @@ function do_photoList(
   }
 
   if (header == false) {
-    jQuery('#masthead').hide(); 
+    jQuery('#masthead.photo-header').hide(); 
   }
 
   jQuery('#galleryContainer').hide(); 
