@@ -753,8 +753,8 @@ div#thePhotoGallery {
   display:  none;
 }
 #galleryData figure.video .playButton {
-  border-top: 10px solid black;
-  border-bottom: 10px solid black;
+  border-top: 10px solid transparent;
+  border-bottom: 10px solid transparent;
   border-left: 20px solid white;
   height: 0px;
   position: absolute;
@@ -766,7 +766,7 @@ div#thePhotoGallery {
 #galleryData figure.video .playCircle {
   height: 35px;
   width: 35px;
-  background-color: black;
+  background-color: transparent;
   border-radius: 50%;
   display: inline-block;
   position: absolute;
