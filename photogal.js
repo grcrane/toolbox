@@ -151,6 +151,8 @@ function fillImages(grouping, memberRows) {
              <img src="${thumbimg}" 
              data-src="${thumbimg}" title="${title}" loading="lazy">
              <div class="marker">${marker}</div></a>
+              <div class="playCircle"></div>
+              <div class="playButton"></div>
              <div class="imageGalleryCheck"><input tabindex="-1" type="checkbox" ${checked}></i></div>
               
              <figcaption>`;

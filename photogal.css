@@ -747,6 +747,35 @@ div#thePhotoGallery {
   font-weight:  normal;
 }
 
+/* video play button */
+#galleryData figure .playButton,
+#galleryData figure.playCircle {
+  display:  none;
+}
+#galleryData figure.video .playButton {
+  border-top: 10px solid black;
+  border-bottom: 10px solid black;
+  border-left: 20px solid white;
+  height: 0px;
+  position: absolute;
+  top: 50%;
+  left: 51%;
+  transform: translate(-51%, -50%);
+  display: inline-block;
+}
+#galleryData figure.video .playCircle {
+  height: 35px;
+  width: 35px;
+  background-color: black;
+  border-radius: 50%;
+  display: inline-block;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border: 1px solid white;
+}
+
 @media (max-width: 640px) {
   div#radioButtons {
     width:  100%;
