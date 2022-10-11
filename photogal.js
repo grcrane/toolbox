@@ -403,7 +403,7 @@ function do_photoList(
   var infotitle = ''; 
 
   var temp = `
-  <header id="masthead" class="site-header home" role="banner">
+  <header id="masthead" class="photo-header home" role="banner">
     <div class="site-branding">
           <h1 class="site-title"><a href="https://wordpress.org/themes/" rel="home">${title}</a></h1>
         <p class="site-description">${subtitle}</p>

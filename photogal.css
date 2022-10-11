@@ -656,18 +656,18 @@ div#radioButtons div.r  label.active {
   margin-bottom:  10px;
 }
 
-.site-header.home {
+.photo-header.home {
   padding: 5px 5px;
   text-align: center;
 }
-.site-header {
+.photo-header {
   background: #0073aa;
   padding: 1rem 0;
   position: relative;
   margin-bottom:  10px;
 }
 
-.site-header h1 {
+.photo-header h1 {
   margin-top:  10px;
   margin-bottom:  10px;
 }
@@ -783,10 +783,10 @@ div#thePhotoGallery {
     div#radioButtons div.r {
     width: 30%;
   }
-  .site-header h1 {
+  .photo-header h1 {
     font-size:  25px;
   }
-  .site-header p {
+  .photo-header p {
     display:  none;
   }
 }
