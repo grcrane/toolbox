@@ -261,7 +261,7 @@ function doCarouselFilter(owl,filterType,filter) {
 /* Will be used for the carousel title search                   */
 /* ------------------------------------------------------------ */
 // https://css-tricks.com/snippets/jquery/make-jquery-contains-case-insensitive/
-$.expr[":"].contains = $.expr.createPseudo(function(arg) {
+jQuery.expr[":"].contains = jQuery.expr.createPseudo(function(arg) {
   return function( elem ) {
       return jQuery(elem).text().toUpperCase().indexOf(arg.toUpperCase()) >= 0;
   };
