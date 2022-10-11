@@ -58,7 +58,7 @@ function makeCarousel(selectorID, groupRows, base) {
         </div>`;
     })
     testout += '</div>';
-    $(selectorID).html(testout);  
+    jQuery(selectorID).html(testout);  
 }
 
 /* ---------------------------------------------- */
@@ -237,15 +237,15 @@ function doCarouselFilter(owl,filterType,filter) {
       .find('div.item' + contains).clone();
   }
 
-  if ($(clone_filter_items).length < 6) {
+  if (jQuery(clone_filter_items).length < 6) {
     owl_settings.responsive[1000].loop = false;
   }
   else {
     owl_settings.responsive[1000].loop = true;
   }
 
-  $(clone_filter_items).each(function( index ) {
-      $(this).find('div.marker').text(index + 1);
+  jQuery(clone_filter_items).each(function( index ) {
+      jQuery(this).find('div.marker').text(index + 1);
     })
 
   // Put filter items and re-call OwlCarousel
@@ -253,7 +253,7 @@ function doCarouselFilter(owl,filterType,filter) {
 
   jQuery('#showing').hide();
 
-  return $(clone_filter_items).length;
+  return jQuery(clone_filter_items).length;
 }
 
 /* ------------------------------------------------------------ */
@@ -263,7 +263,7 @@ function doCarouselFilter(owl,filterType,filter) {
 // https://css-tricks.com/snippets/jquery/make-jquery-contains-case-insensitive/
 jQuery.expr[":"].contains = $.expr.createPseudo(function(arg) {
   return function( elem ) {
-      return $(elem).text().toUpperCase().indexOf(arg.toUpperCase()) >= 0;
+      return jQuery(elem).text().toUpperCase().indexOf(arg.toUpperCase()) >= 0;
   };
 });
 
@@ -550,7 +550,7 @@ function do_photoList(
   }
 
   if (header == false) {
-    $('#masthead').hide(); 
+    jQuery('#masthead').hide(); 
   }
 
   jQuery('#galleryContainer').hide(); 
@@ -645,43 +645,43 @@ function do_photoList(
 
     jQuery('#radioButtons div.r input').on('click',function(event) {
       debug('Change: #filter select');
-        $('#theCarousel').scrollLeft(0) ;
-        $('#theCarousel div.item.active').removeClass('active');
+        jQuery('#theCarousel').scrollLeft(0) ;
+        jQuery('#theCarousel div.item.active').removeClass('active');
         var filter = this.value;
         if (filter != '') {
           filter = '.' + filter;
-          $('#theCarousel div.item').removeClass('show');
-          $('#theCarousel div.item' + filter).addClass('show');
+          jQuery('#theCarousel div.item').removeClass('show');
+          jQuery('#theCarousel div.item' + filter).addClass('show');
           
         } else {
-          $('#theCarousel div.item').addClass('show');
+          jQuery('#theCarousel div.item').addClass('show');
         }
         jQuery('#radioButtons div.r label').removeClass('active');
         jQuery(this).parent().find('label').addClass('active');
         var selectLabel = jQuery(this).parent().find('label').text();
-        var numitems = $('#theCarousel div.item.show').length;
+        var numitems = jQuery('#theCarousel div.item.show').length;
         jQuery('#searchFolder').val('');
 
-        var result = $('div.item' + filter);
-        $('#cards figure').removeClass('active');
+        var result = jQuery('div.item' + filter);
+        jQuery('#cards figure').removeClass('active');
 
-        $('#theCount').text('Showing: ' + numitems + ' folders of ' + groupRows.length + ' (' + selectLabel + ')'); 
+        jQuery('#theCount').text('Showing: ' + numitems + ' folders of ' + groupRows.length + ' (' + selectLabel + ')'); 
 
 
         // set the slide number 
-        $('#theCarousel div.item.show').each(function(index, value) {
-          $(value).find('div.marker').text(index + 1);
+        jQuery('#theCarousel div.item.show').each(function(index, value) {
+          jQuery(value).find('div.marker').text(index + 1);
         })
 
-        $('div#theCarousel div.item').off().on('click',function(event) {
+        jQuery('div#theCarousel div.item').off().on('click',function(event) {
           debug('Click: div#theCarousel div.item');
           event.preventDefault();
-          $('div#theCarousel div.item').removeClass('active');
-          $(this).addClass('active');
-          var itemid = $(this).data('itemid');
-          var folderid = $(this).data('folder');
-          $('#cards figure').removeClass('active');
-          $('#cards figure[data-folder="' + folderid + '"]').addClass('active');
+          jQuery('div#theCarousel div.item').removeClass('active');
+          jQuery(this).addClass('active');
+          var itemid = jQuery(this).data('itemid');
+          var folderid = jQuery(this).data('folder');
+          jQuery('#cards figure').removeClass('active');
+          jQuery('#cards figure[data-folder="' + folderid + '"]').addClass('active');
           setupLightbox();  
         })   
 
@@ -709,51 +709,51 @@ function do_photoList(
         </div>`;      
     })
 
-    $('#theCarousel').html(testout); 
+    jQuery('#theCarousel').html(testout); 
     /*
     var box2 = jQuery('#theCarousel div.item');
     var w = box2.width();
     w = (w + 10)  * 10;
-    $('#theCarousel').scrollLeft(w);
-    console.log($('#theCarousel').scrollLeft());
+    jQuery('#theCarousel').scrollLeft(w);
+    console.log(jQuery('#theCarousel').scrollLeft());
     */
 
     jQuery('#filter select').on('change', function() {
         debug('Change: #filter select');
-        $('#theCarousel').scrollLeft(0) ;
-        $('#theCarousel div.item.active').removeClass('active');
+        jQuery('#theCarousel').scrollLeft(0) ;
+        jQuery('#theCarousel div.item.active').removeClass('active');
         var filter = this.value;
         if (filter != '') {
           filter = '.' + filter;
-          $('#theCarousel div.item').removeClass('show');
-          $('#theCarousel div.item' + filter).addClass('show');
+          jQuery('#theCarousel div.item').removeClass('show');
+          jQuery('#theCarousel div.item' + filter).addClass('show');
           
         } else {
-          $('#theCarousel div.item').addClass('show');
+          jQuery('#theCarousel div.item').addClass('show');
         }
-        var numitems = $('#theCarousel div.item.show').length;
+        var numitems = jQuery('#theCarousel div.item.show').length;
         jQuery('#searchFolder').val('');
 
-        var result = $('div.item' + filter);
-        $('#cards figure').removeClass('active');
+        var result = jQuery('div.item' + filter);
+        jQuery('#cards figure').removeClass('active');
 
-        $('#theCount').text('Showing: ' + numitems + ' folders of ' + groupRows.length); 
+        jQuery('#theCount').text('Showing: ' + numitems + ' folders of ' + groupRows.length); 
 
 
         // set the slide number 
-        $('#theCarousel div.item.show').each(function(index, value) {
-          $(value).find('div.marker').text(index + 1);
+        jQuery('#theCarousel div.item.show').each(function(index, value) {
+          jQuery(value).find('div.marker').text(index + 1);
         })
 
-        $('div#theCarousel div.item').off().on('click',function(event) {
+        jQuery('div#theCarousel div.item').off().on('click',function(event) {
           debug('Click: div#theCarousel div.item');
           event.preventDefault();
-          $('div#theCarousel div.item').removeClass('active');
-          $(this).addClass('active');
-          var itemid = $(this).data('itemid');
-          var folderid = $(this).data('folder');
-          $('#cards figure').removeClass('active');
-          $('#cards figure[data-folder="' + folderid + '"]').addClass('active');
+          jQuery('div#theCarousel div.item').removeClass('active');
+          jQuery(this).addClass('active');
+          var itemid = jQuery(this).data('itemid');
+          var folderid = jQuery(this).data('folder');
+          jQuery('#cards figure').removeClass('active');
+          jQuery('#cards figure[data-folder="' + folderid + '"]').addClass('active');
           setupLightbox();  
         })   
 
@@ -786,13 +786,13 @@ function do_photoList(
       setupLightbox();
 
       /* Experimenting with scolling to specific item */
-        var al = $('#theCarousel').offset().left; // current 
-        var aw = $('#theCarousel').width(); 
-        var iw = $('#theCarousel div.item:first').width();
-        var il = $('#theCarousel div.item:first').offset().left;
+        var al = jQuery('#theCarousel').offset().left; // current 
+        var aw = jQuery('#theCarousel').width(); 
+        var iw = jQuery('#theCarousel div.item:first').width();
+        var il = jQuery('#theCarousel div.item:first').offset().left;
         //console.log('al=' + al + ' aw=' + aw + ' iw=' + iw + ' il=' + il);
         var w = (iw + 10) * 1;
-        //$('#theCarousel').scrollLeft(w);
+        //jQuery('#theCarousel').scrollLeft(w);
         //console.log('al=' + al + ' aw=' + aw + ' iw=' + iw + ' il=' + il);
     })
 
@@ -829,7 +829,7 @@ function do_photoList(
     // When the user clicks on <span> (x), close the modal
     jQuery('#myModal span.close').on('click',function() {
       jQuery('#myModal').hide();
-      var media = $('#myModal .videoContent video').get(0);
+      var media = jQuery('#myModal .videoContent video').get(0);
             media.pause();
             media.currentTime = 0;
     })
@@ -844,8 +844,8 @@ function do_photoList(
 
     jQuery('figure.video').click(function(event) {
         event.preventDefault();
-        var href = $(this).find('a').attr('href');
-        var poster = $(this).find('a img').attr('src');
+        var href = jQuery(this).find('a').attr('href');
+        var poster = jQuery(this).find('a img').attr('src');
         console.log(href);
         jQuery('#myModal .videoContent video').attr('src',href);
         jQuery('#myModal .videoContent video').attr('poster',poster).css('object-fit','cover');
@@ -945,7 +945,7 @@ function do_photoList(
       jQuery('figure').removeClass('active');
       jQuery('nav a.set').removeClass('active');
       if (!thevalue) {  
-          $('#theCarousel div.item').addClass('show');
+          jQuery('#theCarousel div.item').addClass('show');
         }
         else {
           var str = '';
@@ -961,30 +961,30 @@ function do_photoList(
         }
       currentSearch = 'figure';
       searchName = str;
-      $('#theCarousel div.item.active').removeClass('active');
-      $('#theCarousel div.item.show').removeClass('show');
-      $('#theCarousel div.item' + contains).addClass('show'); 
-      var numitems = $('#theCarousel div.item.show').length;
+      jQuery('#theCarousel div.item.active').removeClass('active');
+      jQuery('#theCarousel div.item.show').removeClass('show');
+      jQuery('#theCarousel div.item' + contains).addClass('show'); 
+      var numitems = jQuery('#theCarousel div.item.show').length;
       // set the slide number 
-      $('#theCarousel div.item.show').each(function(index, value) {
-        $(value).find('div.marker').text(index + 1);
+      jQuery('#theCarousel div.item.show').each(function(index, value) {
+        jQuery(value).find('div.marker').text(index + 1);
       })
-      $('#theCarousel').scrollLeft(0) ;
+      jQuery('#theCarousel').scrollLeft(0) ;
       if (thevalue) {msg = ' (Filtered: ' + thevalue + ')';}
-      $('#theCount').text('Showing: ' + numitems + ' folders of ' + groupRows.length + msg); 
+      jQuery('#theCount').text('Showing: ' + numitems + ' folders of ' + groupRows.length + msg); 
       jQuery('#radioButtons div.r label').removeClass('active');
-      $('#radioButtons div.r input[value=""]').prop("checked", true).parent().find('label').addClass('active');
+      jQuery('#radioButtons div.r input[value=""]').prop("checked", true).parent().find('label').addClass('active');
       setupLightbox();
 
-      $('div#theCarousel div.item').off().on('click',function(event) {
+      jQuery('div#theCarousel div.item').off().on('click',function(event) {
         debug('Click: div#theCarousel div.item');
         event.preventDefault();
-        $('div#theCarousel div.item.active').removeClass('active');
-        $(this).addClass('active');
-        var itemid = $(this).data('itemid');
-        var folderid = $(this).data('folder');
-        $('#cards figure.active').removeClass('active');
-        $('#cards figure[data-folder="' + folderid + '"]').addClass('active');
+        jQuery('div#theCarousel div.item.active').removeClass('active');
+        jQuery(this).addClass('active');
+        var itemid = jQuery(this).data('itemid');
+        var folderid = jQuery(this).data('folder');
+        jQuery('#cards figure.active').removeClass('active');
+        jQuery('#cards figure[data-folder="' + folderid + '"]').addClass('active');
         setupLightbox();  
       })     
 
@@ -993,17 +993,17 @@ function do_photoList(
     jQuery('#clearFolderSearch').click(function(event) { 
       debug('Click: #clearFolderSearch');
       event.preventDefault();
-      $('#theCarousel div.item').addClass('show'); 
+      jQuery('#theCarousel div.item').addClass('show'); 
       jQuery('#searchFolder').val('');
-      $('#theCarousel').scrollLeft(0) ;
+      jQuery('#theCarousel').scrollLeft(0) ;
       jQuery('#cards figure').removeClass('active');
       jQuery('#theCarousel div.item').removeClass('active');
       jQuery('#theCarousel div.item:first').addClass('active');
-      var folderid = $('#theCarousel div.item:first').data('folder');
-      $('#cards figure.active').removeClass('active');
-      $('#cards figure[data-folder="' + folderid + '"]').addClass('active');
-      $('#theCount').text('Showing: ' + groupRows.length + ' folders of ' + groupRows.length + ' (All)'); 
-      $('#radioButtons div.r input[value=""]').prop("checked", true).parent().find('label').addClass('active');
+      var folderid = jQuery('#theCarousel div.item:first').data('folder');
+      jQuery('#cards figure.active').removeClass('active');
+      jQuery('#cards figure[data-folder="' + folderid + '"]').addClass('active');
+      jQuery('#theCount').text('Showing: ' + groupRows.length + ' folders of ' + groupRows.length + ' (All)'); 
+      jQuery('#radioButtons div.r input[value=""]').prop("checked", true).parent().find('label').addClass('active');
       setupLightbox();
     })
 
