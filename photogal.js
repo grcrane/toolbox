@@ -419,7 +419,7 @@ function do_photoList(
       <span class="close">&times;</span>
       <div class="videoContent">
         <video controls autoplay playsinline poster="">
-          <source src="xxx" type="video/mp4" />
+          <source src="" type="video/mp4" />
           <p class="vjs-no-js">This video content is not supported in this browser</p>
         </video>
       </div>
