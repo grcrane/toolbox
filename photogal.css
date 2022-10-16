@@ -215,6 +215,14 @@ input[type=checkbox] {
     transform: scale(1.5);
 }
 
+figure div.imageGalleryCheck input[type="checkbox"] {
+  transform: scale(2.5);
+}
+
+figure div.figImage {
+  position:  relative;
+}
+
 
 @media (max-width: 940px) {
   #cards figure{
