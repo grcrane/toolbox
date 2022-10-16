@@ -12,6 +12,7 @@
   09/20/2022 (8:32am) - More cleanup 
   09/23/2022 (12:11pm) - Clean up firstthumb processing
   10/08/2022 - Add mp4 file types
+  10/16/2022 - pick folders found and not already in $folders
 */
 
 function doReconcile($base) {
@@ -175,9 +176,25 @@ function doReconcile($base) {
 
   if(file_exists($base . '/folders2.csv')){
       $folders = array_map('str_getcsv', file($base . '/folders2.csv'));
-      echo "<pre>";
-      echo print_r($folders);
-      echo "<pre>";
+      
+
+      // 10/16/2022 - pick folders found and not already in $folders
+      foreach($foldarr as $key => $file) {
+        $flag = false;
+        foreach($folders as $key2 => $file2) {
+          if ($key == $folders[$key2][0]) {
+            //echo "got: " . $key;
+            $flag = true; 
+          }
+          
+        }
+        if ($flag == false) {
+            echo "<br>did not find " . $key;
+            $folders[] = $file;
+          }
+      }
+
+
       foreach($folders as $key => $file) {
 
           $keyval = $file[0];
