@@ -1021,7 +1021,7 @@ function do_photoList(
 
       jQuery(currentSearch + searchModifier + searchName).addClass('active');
       jQuery('#cards').removeClass('addMarker');
-      jQuery('#search').val('');
+      jQuery('#searchGallery').val('');
       jQuery('#selectionChamp select').removeClass('showSearch');
       setupLightbox();
     });
