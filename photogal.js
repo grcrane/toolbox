@@ -147,12 +147,15 @@ function fillImages(grouping, memberRows) {
           capvalue = (capvalue == '') ? value[2] : capvalue;
         }
         temp += `<figure class="${filetype} ${distype}" data-folder="${folderref}" data-key="${key}" data-name="${value[5]}">
+        <div class="figImage">
              <a href="${fullimg}" >
              <img src="${thumbimg}" 
              data-src="${thumbimg}" title="${title}" loading="lazy">
-             <div class="marker">${marker}</div></a>
-              <div class="playCircle"></div>
+             <div class="marker">${marker}</div>
+             <div class="playCircle"></div>
               <div class="playButton"></div>
+             </a>
+          </div>
              <div class="imageGalleryCheck"><input tabindex="-1" type="checkbox" ${checked}></i></div>
               
              <figcaption>`;
@@ -836,7 +839,7 @@ function do_photoList(
 
     // When the user clicks anywhere outside of the modal, close it
     window.onclick = function(event) {
-      console.log(event.target.id);
+      //console.log(event.target.id);
       if (event.target.id == 'myModal') {
         jQuery('#myModal span.close').trigger('click');
       }
@@ -846,7 +849,7 @@ function do_photoList(
         event.preventDefault();
         var href = jQuery(this).find('a').attr('href');
         var poster = jQuery(this).find('a img').attr('src');
-        console.log(href);
+        //console.log(href);
         jQuery('#myModal .videoContent video').attr('src',href);
         jQuery('#myModal .videoContent video').attr('poster',poster).css('object-fit','cover');
         jQuery('#myModal .videoContent video').css('background','url("' + poster + '")');
