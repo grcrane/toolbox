@@ -578,6 +578,10 @@ div.lr div.rightField {
   text-align:  right;
 }
 
+#galleryData div.editFolderInfo hr {
+  margin:  0;
+}
+
 /* start flexing */
 
 ul.flex-outer {
