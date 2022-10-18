@@ -195,7 +195,7 @@ function setupLightbox() {
     var numshowing = jQuery('figure.active').length;
     var showing = 'Showing: ' 
       + numshowing 
-      + ' images of ' + jQuery('figure').length;
+      + ' items of ' + jQuery('figure').length;
     jQuery('#galleryData div.theCount').text(showing);
     jQuery('#galleryData div.theTitle').text(groupRows[folderid][5]);
     //jQuery('#galleryData div.info-textarea textarea').val(groupRows[folderid][5]).data('key',folderid);
@@ -425,7 +425,9 @@ function do_photoList(
           <source src="" type="video/mp4" />
           <p class="vjs-no-js">This video content is not supported in this browser</p>
         </video>
+        <div class="videoCaption"></div>
       </div>
+
     </div>
   </div>
 
@@ -845,11 +847,13 @@ function do_photoList(
       }
     }
 
-    jQuery('figure.video').click(function(event) {
+    jQuery('figure.video a').click(function(event) {
         event.preventDefault();
-        var href = jQuery(this).find('a').attr('href');
-        var poster = jQuery(this).find('a img').attr('src');
+        var href = jQuery(this).attr('href');
+        var poster = jQuery(this).find('img').attr('src');
         //console.log(href);
+        var caption = jQuery(this).closest('figure').find('figcaption').text();
+        jQuery('#myModal div.videoCaption').text(caption);
         jQuery('#myModal .videoContent video').attr('src',href);
         jQuery('#myModal .videoContent video').attr('poster',poster).css('object-fit','cover');
         jQuery('#myModal .videoContent video').css('background','url("' + poster + '")');
