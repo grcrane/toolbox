@@ -707,7 +707,7 @@ div#thePhotoGallery {
 .videoContent video {
   width:  100%;
   height: auto;
-  aspect-radio:  6/3;
+  aspect-ratio:  16/9;
 }
 
 /* The Modal (background) */
