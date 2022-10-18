@@ -421,7 +421,7 @@ function do_photoList(
     <div class="modal-content">
       <span class="close">&times;</span>
       <div class="videoContent">
-        <video controls autoplay playsinline poster="">
+        <video controls preload="none" playsinline poster="">
           <source src="" type="video/mp4" />
           <p class="vjs-no-js">This video content is not supported in this browser</p>
         </video>
