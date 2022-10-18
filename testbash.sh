@@ -1,5 +1,8 @@
 #! /bin/bash
 
+# 10/17/22 - Changed from 10 sec to 14
+#            added CCLA_Photos/Videos/Events example
+
 srcDir=$1
 dest=$2
 srcExt="mp4"
