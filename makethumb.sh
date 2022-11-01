@@ -20,3 +20,9 @@ done < $filename
 # Reconcile the images again 
 /usr/local/bin/php /home2/grcranet/public_html/Gallery/reconcilecsv.php
 echo "Reconcile Done again"
+
+# Usage
+# ssh grcranet@grcrane2.com
+# enter password 
+# cd /public_html/Gallery
+# ./makethumb.sh
