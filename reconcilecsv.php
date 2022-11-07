@@ -13,6 +13,8 @@
   09/23/2022 (12:11pm) - Clean up firstthumb processing
   10/08/2022 - Add mp4 file types
   10/16/2022 - pick folders found and not already in $folders
+  11/04/2022 - fix problem with folder not picking up thumbnail filename. 
+  11/05/2022 - Do not write gallery csv unless fields[0] != ''
 */
 
 function doReconcile($base) {
@@ -131,14 +133,16 @@ function doReconcile($base) {
       foreach($gallery as $key => $file) {
   
           $pathInfo = pathinfo($file[1]);
-          $thumb = $file[1];
+          // 11/04/2022 - fix problem with folder not picking up thumbnail filename. 
+          $thumb = $file[3];
           if ($pathInfo['extension'] == 'mp4') {
             $thumb = 'thumb/' . $pathInfo['filename'] .  '.jpg';
             
           }
-          $keyval = $file[0] . $thumb ;
+          $keyval = $file[0] . $file[1] ;
           if (!isset($firstthumb[$file[0]])) {
             $firstthumb[$file[0]] = $thumb;
+            //echo "<br>file[0]=" . $file[0] . " thumb=" . $thumb;
           }
           if (isset($filearr[$keyval])) {
               $gallery[$key][2] = $filearr[$keyval][2]; // in case the thumb changed
@@ -164,7 +168,8 @@ function doReconcile($base) {
   array_unshift($gallery , $head);
   $fp = fopen($base . '/gallery2.csv', 'w');
   foreach ($gallery as $fields) {
-      if ($fields[0] != '' or $fields[0] == null) {
+
+      if ($fields[0] != '' ) {
           fputcsv($fp, $fields);
       }
   }

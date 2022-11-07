@@ -145,6 +145,10 @@ function fillImages(grouping, memberRows) {
         }
         if (filetype == 'video') {
           capvalue = (capvalue == '') ? value[2] : capvalue;
+ //         var tempx = value[1].split(" ");  
+//          if (tempx[1] in videoIDs) {
+//            fullimg = videoIDs[tempx[1]];
+//          }
         }
         temp += `<figure class="${filetype} ${distype}" data-folder="${folderref}" data-key="${key}" data-name="${value[5]}">
         <div class="figImage">
@@ -167,6 +171,7 @@ function fillImages(grouping, memberRows) {
             } else {
               temp += `${capvalue}</figure>`;
             }
+
         }
       }); 
       jQuery('#cards').html(temp);
@@ -177,11 +182,12 @@ function fillImages(grouping, memberRows) {
 
 function setupLightbox() {
   debug('Entry: setupLightBox');
+  
   if (typeof simpleGallery == 'object') {
         simpleGallery.refresh();
   }
   else {
-    simpleGallery = new SimpleLightbox('.cards figure.image.active a', {
+    simpleGallery = new SimpleLightbox('.lightBoxVideoLink, .cards figure.image.active a', {
      showCaptions: true,captionAttribute: 'title'}
      );
   }
@@ -421,10 +427,12 @@ function do_photoList(
     <div class="modal-content">
       <span class="close">&times;</span>
       <div class="videoContent">
+        <!--iframe width="560" height="315" src="" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe -->
         <video controls preload="none" playsinline poster="">
           <source src="" type="video/mp4" />
           <p class="vjs-no-js">This video content is not supported in this browser</p>
         </video>
+
         <div class="videoCaption"></div>
       </div>
 
@@ -544,6 +552,7 @@ function do_photoList(
       <div id="cards" class="cards ${theClass}"></div>
     </div><!-- end galleryData -->
   </div><!-- end galleryContainer -->`;
+
   jQuery(selectorID).html(temp);
 
   
@@ -566,6 +575,8 @@ function do_photoList(
   jQuery.get(csvurl, function(data, status){
     memberRows = ('gallery' in data) ? data['gallery'] : data[0];
     groupRows = ('folders' in data) ? data['folders'] : data[1];
+    videoMap = ('video' in data) ? data['video'] : data[3];
+  
     if ('settings' in data) {
       baseURI = ('baseURI' in data['settings']) ? data['settings']['baseURI'] : baseURI; 
       csvURI = ('gallerycsv' in data['settings']) ? data['settings']['gallerycsv'] : csvURI; 
@@ -574,11 +585,12 @@ function do_photoList(
     rows = memberRows;
     groupRows.shift();
     groupLabels = [];
+    videoIDs = {};
 
     // Sort groups 
     groupRows.sort(function(a,b) {
-      var x = a[0].toLowerCase();
-      var y = b[0].toLowerCase();
+      var x = a[1].toLowerCase();
+      var y = b[1].toLowerCase();
       if (x < y) {return-1;}
       if (x > y) {return 1;}
       return 0; 
@@ -587,6 +599,11 @@ function do_photoList(
     // Save labels 
     groupRows.forEach(function(item,key) {
       groupLabels[item[0]] = key; 
+    })
+
+    // Save Video IDs and link
+    videoMap.forEach(function(item,key) {
+      videoIDs[item[0]] = item[1]; 
     })
 
     // Create list of unique types
@@ -695,12 +712,18 @@ function do_photoList(
     })
  
     var testout = ``;
-    
+    var eParts = []; 
+    var eDate = '';
+    var eTitle = ''; 
     groupRows.forEach(function(item,key) { 
       i = key;
       folderref = (item[0] in groupLabels) ? groupLabels[item[0]] : ''; 
       title = item[1];
-      excerpt = item[5]; 
+      excerpt = item[5];
+      eParts = excerpt.split(" ");
+      eDate = (typeof eParts[0] != 'undefined') ? eParts[0] : '1900-00-00';
+      eParts.splice(1,2); 
+      eTitle = eParts.join(" ");
       img = `${photoBase}/${item[0]}/${item[6]}`; 
       var desc = item[5]; 
 
@@ -710,7 +733,7 @@ function do_photoList(
         <a href=""><img loading="lazy" src="${img}">
         <div class="marker">${key}</div>
         <div class="title" data-itemid="${i}">${title}</div></a>
-        <div class="classcontent">${excerpt}</div>
+        <div class="classcontent">${eTitle}</div>
         </div>`;      
     })
 
@@ -720,7 +743,6 @@ function do_photoList(
     var w = box2.width();
     w = (w + 10)  * 10;
     jQuery('#theCarousel').scrollLeft(w);
-    console.log(jQuery('#theCarousel').scrollLeft());
     */
 
     jQuery('#filter select').on('change', function() {
@@ -833,32 +855,40 @@ function do_photoList(
 
     // When the user clicks on <span> (x), close the modal
     jQuery('#myModal span.close').on('click',function() {
+      debug('Click: #myModal span.close');
       jQuery('#myModal').hide();
       var media = jQuery('#myModal .videoContent video').get(0);
             media.pause();
             media.currentTime = 0;
+      //      $("div.videoContent iframe").attr('src', '');
     })
 
     // When the user clicks anywhere outside of the modal, close it
     window.onclick = function(event) {
-      //console.log(event.target.id);
       if (event.target.id == 'myModal') {
         jQuery('#myModal span.close').trigger('click');
       }
     }
 
     jQuery('figure.video a').click(function(event) {
+
         event.preventDefault();
         var href = jQuery(this).attr('href');
         var poster = jQuery(this).find('img').attr('src');
-        //console.log(href);
+ 
+        var datakey = jQuery(this).closest('figure').data('key');
+        var temp = memberRows[datakey][1].split(" "); 
+        var keytemp = temp[1].toString();    
+        //href =  (keytemp in videoIDs) ? videoIDs[keytemp] : href; 
         var caption = jQuery(this).closest('figure').find('figcaption').text();
+
         jQuery('#myModal div.videoCaption').text(caption);
         jQuery('#myModal .videoContent video').attr('src',href);
         jQuery('#myModal .videoContent video').attr('poster',poster).css('object-fit','cover');
         jQuery('#myModal .videoContent video').css('background','url("' + poster + '")');
-        //jQuery('#myModal .videoContent video').load();
-        
+
+
+        $("div.videoContent iframe").attr('src', href);
         jQuery('#myModal').show();
        })
 

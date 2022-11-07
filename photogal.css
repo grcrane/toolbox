@@ -790,6 +790,31 @@ div#thePhotoGallery {
   border: 1px solid white;
 }
 
+#theCarousel div.item div.title {
+  display:  none;
+}
+
+#myModal .modal-content {
+  background-color: #fefefe;
+  margin: auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: auto;
+  max-width: 600px;
+}
+#myModal video {
+  width:  100%;
+  height:  100%;
+  aspect-ratio:  9 / 6;
+}
+@media (max-width: 720px) {
+  #myModal iframe {
+    aspect-ratio: 560 / 315;
+    height: 100%;
+    width: 100%;
+  }
+}
+
 @media (max-width: 640px) {
   div#radioButtons {
     width:  100%;
