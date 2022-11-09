@@ -362,6 +362,7 @@ function galleryControl (selectorID, attr = {}) {
   debug('Entry: galleryControl');
   attr = toLowerKeys(attr); // make sure the keys re lowercase
   var base = ('base' in attr) ? attr['base'] : 'AAHS_Gallery2';
+  var startgroup = ('startgroup' in attr) ? attr['startgroup'] : '';
   var edit = ('edit' in attr) ? attr['edit'] : false;
   var header = ('header' in attr) ? attr['header'] : false;
   var headerTitle = ('title' in attr) ? attr['title'] : 'Photos';
@@ -374,7 +375,7 @@ function galleryControl (selectorID, attr = {}) {
     //theClass = ''; // editing not available.
   }
   do_photoList(selectorID, base, theClass, edit, view, buttons,
-    header, headerTitle, headerSubTitle); 
+    header, headerTitle, headerSubTitle, startgroup); 
 }
 
 /* ---------------------------------------------- */
