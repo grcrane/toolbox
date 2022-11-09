@@ -386,7 +386,7 @@ function do_photoList(
   selectorID = '#thePhotoGallery', 
   base = 'AAHS_Gallery2',
   theClass = 'canEdit', edit = false, view = 'group', viewButtons = true,
-   header = false, title='', subtitle='') {
+   header = false, title='', subtitle='', startgroup = '') {
 
   debug('Entry: do_photoList canEdit=' + theClass);
 
@@ -832,9 +832,13 @@ function do_photoList(
 
     /* -- Kick things off by selecting the first item in dropdown */
     var group = jQuery('#selectionChamp option:first-child').val();
+    if (startgroup != '') {
+      group = jQuery('#selectionChamp option:contains(' + startgroup + ')').val();
+    } 
     if (typeof group == 'undefined') {
       group = 0;
     }
+    jQuery('#selectionChamp option[value="' + group + '"]').attr('selected', 'selected');
     fillImages(group,memberRows);
 
     jQuery('#cards').data("group",group);
