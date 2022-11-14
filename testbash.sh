@@ -34,3 +34,5 @@ done
 # ffmpeg -y -ss 00:00:10 -i "$source" -frames:v 1 "$dest"
 
 # ./testbash.sh "/Users/george/Sites/CCLA_Photos/Videos/Events" "/Users/george/Sites/CCLA_Photos/Videos/Events/thumb"
+
+# ./testbash.sh "/Users/george/Sites/CCLA_Photos/Videos/Jamie" "/Users/george/Sites/CCLA_Photos/Videos/Events/thumb"
