@@ -715,16 +715,16 @@ function do_photoList(
     var testout = ``;
     var eParts = []; 
     var eDate = '';
-    var eTitle = ''; 
+    //var eTitle = ''; 
     groupRows.forEach(function(item,key) { 
       i = key;
       folderref = (item[0] in groupLabels) ? groupLabels[item[0]] : ''; 
       title = item[1];
       excerpt = item[5];
-      eParts = excerpt.split(" ");
+      //eParts = excerpt.split(" ");
       eDate = (typeof eParts[0] != 'undefined') ? eParts[0] : '1900-00-00';
-      eParts.splice(1,2); 
-      eTitle = eParts.join(" ");
+      //eParts.splice(1,2); 
+      //eTitle = eParts.join(" ");
       img = `${photoBase}/${item[0]}/${item[6]}`; 
       var desc = item[5]; 
 
@@ -734,7 +734,7 @@ function do_photoList(
         <a href=""><img loading="lazy" src="${img}">
         <div class="marker">${key}</div>
         <div class="title" data-itemid="${i}">${title}</div></a>
-        <div class="classcontent">${eTitle}</div>
+        <div class="classcontent">${excerpt}</div>
         </div>`;      
     })
 
