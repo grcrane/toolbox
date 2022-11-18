@@ -842,3 +842,23 @@ div#thePhotoGallery {
     flex: 0 0 calc(50% - 10px);
   }
 }
+
+/* added 11/18/2022 for CCLA */
+
+@media (max-width: 640px) {
+  div#searchGalleryBox {
+    flex-wrap: wrap;
+    flex-direction: column;
+    justify-content: center;
+    width: 100%;
+    text-align: center;
+  }
+
+  #galleryContainer div.lmr div.leftDiv span {
+    float: unset !important;
+  }
+
+  #searchGalleryBox.lmr div.rightDiv a {
+    float: unset !important;
+  }
+}
