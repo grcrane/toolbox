@@ -716,6 +716,16 @@ function do_photoList(
     var eParts = []; 
     var eDate = '';
     //var eTitle = ''; 
+
+    // Sort folders (groupRows) on the date column 
+    groupRows.sort(function(a,b) {
+      var x = a[3];
+      var y = b[3];
+      if (x < y) {return-1;}
+      if (x > y) {return 1;}
+      return 0; 
+    });
+
     groupRows.forEach(function(item,key) { 
       i = key;
       folderref = (item[0] in groupLabels) ? groupLabels[item[0]] : ''; 
