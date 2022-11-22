@@ -16,7 +16,13 @@
   11/04/2022 - fix problem with folder not picking up thumbnail filename. 
   11/05/2022 - Do not write gallery csv unless fields[0] != ''
   11/21/2022 - Add ignore folder 'full'
+  11/22/2022 - Add validateDate function
 */
+
+function validateDate($date, $format = 'Y-m-d'){
+    $d = DateTime::createFromFormat($format, $date);
+    return $d && $d->format($format) === $date;
+}
 
 function doReconcile($base) {
   global $foldarr, $filearr;
@@ -195,7 +201,7 @@ function doReconcile($base) {
           
         }
         if ($flag == false) {
-            echo "<br>did not find " . $key;
+            //echo "<br>did not find " . $key;
             $folders[] = $file;
           }
       }
@@ -204,7 +210,7 @@ function doReconcile($base) {
       foreach($folders as $key => $file) {
 
           $keyval = $file[0];
-          echo "<br>" . $keyval;
+          //echo "<br>" . $keyval;
           if (isset($firstthumb[$file[0]])) {
             $folders[$key][6] = $firstthumb[$file[0]];
           }
@@ -213,7 +219,7 @@ function doReconcile($base) {
             $folders[$key][0] = '';
           }
           if (isset($foldarr[$keyval])) {
-            echo "<br>deleting";
+            //echo "<br>deleting";
             unset($foldarr[$keyval]); // delete from foldarr
           }
           else {
@@ -240,6 +246,14 @@ function doReconcile($base) {
 
   $folderCount = 0; 
   foreach ($folders as $key =>  $fields) { 
+
+      $basename = basename($fields[0]);
+      $temp = explode(" ",$basename);
+      if (validateDate($temp[0]) == false ) {
+        echo '<br>"' . $basename . '","' . $basename . '"'; 
+       }
+        $fields[3] = $temp[0]; 
+    
    
       if (isset($firstthumb[$fields[0]])) {
         $fields[6] = $firstthumb[$fields[0]];
