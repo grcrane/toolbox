@@ -748,6 +748,16 @@ function do_photoList(
         </div>`;      
     })
 
+    // Sort groups 
+    groupRows.sort(function(a,b) {
+      var x = a[1].toLowerCase();
+      var y = b[1].toLowerCase();
+      if (x < y) {return-1;}
+      if (x > y) {return 1;}
+      return 0; 
+    });
+
+
     jQuery('#theCarousel').html(testout); 
     /*
     var box2 = jQuery('#theCarousel div.item');
