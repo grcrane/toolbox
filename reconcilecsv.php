@@ -15,6 +15,7 @@
   10/16/2022 - pick folders found and not already in $folders
   11/04/2022 - fix problem with folder not picking up thumbnail filename. 
   11/05/2022 - Do not write gallery csv unless fields[0] != ''
+  11/21/2022 - Add ignore folder 'full'
 */
 
 function doReconcile($base) {
@@ -47,7 +48,7 @@ function doReconcile($base) {
       global $folderCount, $fileCount;
 
       $allowedExtensions = array('jpg','png','jpeg','mp4');
-      $ignoreFolders = array('temp','thumb');
+      $ignoreFolders = array('temp','thumb','full');
 
       // Check directory exists or not
       $folderpath = $base . $path;
@@ -71,7 +72,7 @@ function doReconcile($base) {
                       // Display filename
                       $basename = basename($folderpath);
                       $filetype = pathinfo($folderpath . '/' . $file, PATHINFO_EXTENSION);
-                      if ($basename != 'thumb' and 
+                      if ($basename != 'thumb' and $basename != 'full' and
                           in_array(strtolower($filetype),$allowedExtensions)) {
                           $thumb = $file;
                           $pathInfo = pathinfo($thumb);
@@ -100,7 +101,7 @@ function doReconcile($base) {
                       }
                   } else if(is_dir("$folderpath/$file")){
                       // Recursively call the function if directories found
-                      if ($file != 'thumb' and $path != '') {
+                      if ($file != 'thumb' and $file != 'full' and $path != '') {
                           $cc = count($foldarr);
                           $temp = explode("/",trim($path,'/') . '/'); 
                           $pathinfo = pathinfo(trim($path . '/' . $file,'/'));         
