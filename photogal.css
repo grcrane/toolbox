@@ -197,9 +197,6 @@ div.thePhotos {
     border-radius: 5px;
     cursor: pointer;
 }
-#cards.canEdit figure a img:hover div.imageGalleryCheck {
-  display: block; 
-}
 
 #cards .imageGalleryEdit {
   position: absolute;
