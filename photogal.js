@@ -1144,13 +1144,24 @@ function do_photoList(
         saveDataRow('SAVEROW', key, newrow, baseURI); 
       })
 
+      // The cursor gets into the image area
+    jQuery("#cards.canEdit figure a img").mouseenter(function(){
+        debug('Hover: #cards canEdit figure a img');
+        jQuery(this).closest('figure').find("div.imageGalleryCheck").show();
+    });
+
+    // The cursor leaves the image area
+    jQuery("#cards.canEdit figure a img").mouseleave(function(){
+        jQuery(this).closest('figure').find("div.imageGalleryCheck").hide();
+    });
+/*
       jQuery("#cards.canEdit figure a img").hover(function(){
         debug('Hover: #cards canEdit figure a img');
         jQuery(this).closest('figure').find("div.imageGalleryCheck").show();
         }, function(){
         jQuery(this).closest('figure').find("div.imageGalleryCheck").hide();
       });
-
+*/
       jQuery('.captionControl').keypress(function(event) {
         debug('keypress: .captionControl');
         if (event.which == 13) {
