@@ -972,9 +972,10 @@ function do_photoList(
       var contains = '';
       jQuery('figure').removeClass('active');
       jQuery('nav a.set').removeClass('active');
+      var str = ''; 
       if (!thevalue) {  
           group =   jQuery('#cards').data('group');
-          jQuery('figure[data-folder="' + group + '"]').addClass('active');
+          jQuery('figure[data-folder="' + group + '"]' + searchModifier).addClass('active');
           jQuery('.cards').removeClass('addMarker');
           jQuery('nav a[data-group="' + group + '"]').addClass('active');
           simpleGallery.refresh();
@@ -982,7 +983,7 @@ function do_photoList(
         }
         else {
           jQuery('.cards').addClass('addMarker');
-          var str = '';
+          str = '';
           var aval = thevalue.split(" ");
           aval.forEach(function(item,index) {
             if (item) {
@@ -996,6 +997,11 @@ function do_photoList(
         }
       currentSearch = 'figure';
       searchName = str; 
+      if (str == '') {
+        group =   jQuery('#cards').data('group');
+        searchName = ''
+        currentSearch = 'figure[data-folder="' + group + '"]';
+      }
       jQuery(currentSearch + searchModifier + searchName).addClass('active');
       setupLightbox();
     });  
@@ -1078,7 +1084,6 @@ function do_photoList(
       jQuery('nav a[data-group="' + group + '"]').addClass('active');
       searchName = ''
       currentSearch = 'figure[data-folder="' + group + '"]';
-
       jQuery(currentSearch + searchModifier + searchName).addClass('active');
       jQuery('#cards').removeClass('addMarker');
       jQuery('#searchGallery').val('');
