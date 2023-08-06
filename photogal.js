@@ -1146,7 +1146,7 @@ function do_photoList(
 
       // The cursor gets into the image area
     jQuery("#cards.canEdit figure a img").mouseenter(function(){
-        debug('Hover: #cards canEdit figure a img');
+       // debug('Hover: #cards canEdit figure a img');
         jQuery(this).closest('figure').find("div.imageGalleryCheck").show();
     });
 
