@@ -860,6 +860,7 @@ function do_photoList(
     if (typeof group == 'undefined') {
       group = 0;
     }
+    group = 10; // 60th Reunion pictures as default 
     jQuery('#selectionChamp option[value="' + group + '"]').attr('selected', 'selected');
     fillImages(group,memberRows);
 
