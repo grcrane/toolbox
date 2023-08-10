@@ -22,7 +22,7 @@ var baseURI = '/home2/grcranet/public_html/AAHS_Gallery2';
 var csvURI = '/home2/grcranet/public_html/AAHS_Gallery2/gallery2.csv'; 
 var logURI = '/home2/grcranet/public_html/AAHS_Gallery2/logfile.csv'; 
 var foldersURI = '/home2/grcranet/public_html/AAHS_Gallery2/folders2.csv'; 
-var debugflag = false; 
+var debugflag = true; 
 
 function debug (msg) {
     if (debugflag) console.log(msg);
@@ -861,8 +861,10 @@ function do_photoList(
       group = 0;
     }
     group = '0'; // 60th Reunion pictures as default 
-   // jQuery('#selectionChamp option[value="' + group + '"]').attr('selected', 'selected');
-     jQuery('#selectionChamp option[data-folder="0"]').attr('selected', 'selected');
+    jQuery('#selectionChamp option[value="' + group + '"]').attr('selected', 'selected');
+
+    console.log('setting now');
+    // jQuery('#selectionChamp option[data-folder="0"]').attr('selected', 'selected');
     fillImages(group,memberRows);
 
     jQuery('#cards').data("group",group);
