@@ -184,7 +184,7 @@ function fillImages(grouping, memberRows,groupRows, groupLabels) {
         if (filetype == 'video') {
           capvalue = (capvalue == '') ? value[1] : capvalue;
         }
-        temp += `<figure class="${filetype} ${distype}" data-folder="${folderref}" data-key="${key}" data-name="${value[5]}" data-id="${value[2]}">
+        temp += `<figure class="${filetype} ${distype}" data-folder="${folderref}" data-key="${key}" data-name="${capvalue}" data-id="${value[2]}">
         <div class="figImage">
              <a href="${fullimg}" >
              <img src="${thumbimg}" 
