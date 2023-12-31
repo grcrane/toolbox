@@ -510,7 +510,7 @@ function insertHTML(selectorID,title, subtitle, theClass) {
 function formatURL(file_id, sheet, query) {
   var d = new Date();
   var n = d.getTime(); 
-  var temp = 'http://docs.google.com/spreadsheets/u/0/d/'
+  var temp = 'https://docs.google.com/spreadsheets/u/0/d/'
   + file_id + '/gviz/tq?headers=1&sheet=' + sheet 
   + '&t=' + n 
   + '&tqx=out:json&headers=1&tq=' + 
