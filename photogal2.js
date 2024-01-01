@@ -1169,8 +1169,10 @@ function do_classList(selectorID = 'body', attr = {}) {
 
     do_photoList(selectorID, galleryData, folderData, attr);
 
-    //$('body').addClass("canEdit");
-    //setAdminStatus();
+    var admin = jQuery('#cards').hasClass('canEdit');
+    if (typeof setAdminStatus === "function" && admin == true) {
+        setAdminStatus();
+    }
 
   });
 
