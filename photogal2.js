@@ -8,7 +8,7 @@ var photoBase = 'https://lh3.googleusercontent.com/d';
 var searchModifier = '.show'; 
 var searchName = ''; 
 var classmatefile_id ="11dmQfOIuJt-uPN8kb91amFiyQzFeTYRaeBd5MhwsIxU";
-var classmatesurl = formatURL(classmatefile_id, 'Allfiles', "");
+var classmatesurl = formatURL(classmatefile_id, 'Gallery', "");
 var folderurl = formatURL(classmatefile_id,'Folders',"");
 
 // ---------------------------------------
