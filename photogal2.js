@@ -366,7 +366,7 @@ function setupLightbox2(groupRows) {
     jQuery('#showing').hide();
   }
 
-  //sendPostMessage();
+  sendPostMessage();
 }
 
 function insertHTML(selectorID,title, subtitle, theClass) {
