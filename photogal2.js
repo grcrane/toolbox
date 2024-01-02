@@ -29,7 +29,6 @@ let height;
       window.parent.window.parent.window.parent.postMessage({
         frameHeight: height
       }, '*');
-      console.log(height);
     }
   }
 
@@ -320,7 +319,7 @@ function saveDataRow(cmd, key, oldrow, newrow) {
 /* ------------------------------------------------------------------*/
 
 function toLowerKeys(obj) {
-  debug('Entry: toLowerKeys');
+  //debug('Entry: toLowerKeys');
   return Object.keys(obj).reduce((accumulator, key) => {
     accumulator[key.toLowerCase()] = obj[key];
     return accumulator;
