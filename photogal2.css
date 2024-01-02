@@ -915,6 +915,10 @@ div#thePhotoGallery {
     text-align: center;
   }
 
+  #searchGallery {
+    font-size: 16px;
+  }
+
   #galleryContainer div.lmr div.leftDiv span {
     float: unset !important;
   }
