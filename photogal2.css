@@ -166,6 +166,7 @@ div.thePhotos {
 
 #cards figure figcaption textarea{
   font-weight:  600;
+  display: none;
 }
 
 #cards li:last-child {
