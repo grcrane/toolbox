@@ -33,8 +33,8 @@ let height;
     }
   }
 
-  window.onload = () => sendPostMessage();
-  window.onresize = () => sendPostMessage();
+  //window.onload = () => sendPostMessage();
+  //window.onresize = () => sendPostMessage();
 
 /* ----------------------------------------------------------- */
 /* Fetch one or more URL's from Google                         */
