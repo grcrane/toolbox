@@ -196,17 +196,11 @@ function fillImages(grouping, memberRows,groupRows, groupLabels) {
           </div>
              <div class="imageGalleryCheck"><input tabindex="-1" type="checkbox" ${checked}></i></div>
               
-             <figcaption>`;
-
-          if (admin) {
-        temp += 
-            `<textarea rows=2 class="captionControl" style="width:100%;">${capvalue}</textarea>
+             <figcaption>
+            <textarea rows=2 class="captionControl" style="width:100%;">${capvalue}</textarea>
+            <div class="capValue">${capvalue}</div>
              </figcaption>
              </figure>`;
-            } else {
-              temp += `<div class="capValue">${capvalue}</div></figcaption></figure>`;
-            }
-
         }
       }); 
       jQuery('#cards').html(temp);
@@ -1169,9 +1163,11 @@ function do_classList(selectorID = 'body', attr = {}) {
 
     do_photoList(selectorID, galleryData, folderData, attr);
 
+    jQuery('div#loading').hide();
+
     var admin = jQuery('#cards').hasClass('canEdit');
     if (typeof setAdminStatus === "function" && admin == true) {
-        setAdminStatus();
+        //setAdminStatus();
     }
 
   });
