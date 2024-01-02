@@ -169,6 +169,11 @@ div.thePhotos {
   display: none;
 }
 
+#galleryContainer.canEdit #cards figure figcaption textarea  {
+  margin: 5px;
+  display: block;
+}
+
 #cards li:last-child {
   // There's no science in using "10" here. In all my testing, this delivered the best results.
   flex-grow: 10;
@@ -537,7 +542,8 @@ button#setGallery.active, button#setFolder.active {
 }
 
 div.infoForm {
-  display:  flex;
+  /*display:  flex;*/
+  display: none;
 }
 
 div.lr {
