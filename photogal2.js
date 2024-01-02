@@ -19,6 +19,23 @@ function debug (msg) {
     if (debugflag) console.log(msg);
 }
 
+
+/* ------- Initialize window communications ------- */
+
+let height;
+    const sendPostMessage = () => {
+    if (height !== document.getElementById('container').offsetHeight) {
+      height = document.getElementById('container').offsetHeight;
+      window.parent.window.parent.window.parent.postMessage({
+        frameHeight: height
+      }, '*');
+      console.log(height);
+    }
+  }
+
+  window.onload = () => sendPostMessage();
+  window.onresize = () => sendPostMessage();
+  
 /* ----------------------------------------------------------- */
 /* Fetch one or more URL's from Google                         */
 /* ----------------------------------------------------------- */  
