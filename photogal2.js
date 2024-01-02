@@ -24,8 +24,8 @@ function debug (msg) {
 
 let height;
     const sendPostMessage = () => {
-    if (height !== document.getElementById('container').offsetHeight) {
-      height = document.getElementById('container').offsetHeight;
+    if (height !== document.getElementById('galleryContainer').offsetHeight) {
+      height = document.getElementById('galleryContainer').offsetHeight;
       window.parent.window.parent.window.parent.postMessage({
         frameHeight: height
       }, '*');
@@ -35,7 +35,7 @@ let height;
 
   window.onload = () => sendPostMessage();
   window.onresize = () => sendPostMessage();
-  
+
 /* ----------------------------------------------------------- */
 /* Fetch one or more URL's from Google                         */
 /* ----------------------------------------------------------- */  
