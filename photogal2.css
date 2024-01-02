@@ -169,9 +169,17 @@ div.thePhotos {
   display: none;
 }
 
+#cards div.capValue {
+  display: block;
+}
+
 #galleryContainer.canEdit #cards figure figcaption textarea  {
   margin: 5px;
   display: block;
+}
+
+#galleryContainer.canEdit #cards div.capValue {
+  display: none;
 }
 
 #cards li:last-child {
