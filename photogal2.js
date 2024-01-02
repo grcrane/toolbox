@@ -1124,7 +1124,8 @@ function do_photoList(selectorID = '#thePhotoGallery', memberRows, groupRows, at
     });
       
     $('#loading').hide();
-    //sendPostMessage();
+    sendPostMessage();
+    window.onresize = () => sendPostMessage();
 
 }
 
