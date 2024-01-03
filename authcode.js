@@ -13,7 +13,7 @@ function onSaveSuccess(ret) {
   console.log(ret); 
   if (ret.code == '0') {
     ret.oldrow = ret.newrow; 
-    $('figure[data-key="' + ret.id + '"] div.capValue').text(ret.newrow[5]);
+    $('figure[data-key="' + ret.row + '"] div.capValue').text(ret.newrow[5]);
   }
 
 }
