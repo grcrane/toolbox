@@ -11,6 +11,9 @@
 function onSaveSuccess(ret) {
   console.log('onSaveSuccess return');
   console.log(ret); 
+  if (ret.code == 0) {
+    rows[ret.id] = ret.newrow;
+  }
 }
 
 function saveDataRow(cmd, key, oldrow, newrow) {
@@ -27,7 +30,6 @@ function saveDataRow(cmd, key, oldrow, newrow) {
   google.script.run
         .withSuccessHandler(onSaveSuccess)
         .updateRow(key, 'Gallery',oldrow, newrow);
-
 }
   
   function onForgotSuccess(ret) {
