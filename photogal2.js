@@ -1121,6 +1121,10 @@ function do_photoList(selectorID = '#thePhotoGallery', memberRows, groupRows, at
       setupLightbox2(groupRows);
        
     });
+
+    if (setupForEditing != 'undefined') {
+      setupForEditing('#thePhotoGallery');
+    }
       
     $('#loading').hide();
     sendPostMessage();
