@@ -11,9 +11,10 @@
 function onSaveSuccess(ret) {
   console.log('onSaveSuccess return');
   console.log(ret); 
-  if (ret.code == 0) {
+  if (ret.code == '0') {
     rows[ret.id] = ret.newrow;
   }
+  
 }
 
 function saveDataRow(cmd, key, oldrow, newrow) {
