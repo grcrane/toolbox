@@ -11,12 +11,10 @@
 function onSaveSuccess(ret) {
   console.log('onSaveSuccess return');
   console.log(ret); 
-  ret.oldrow = ret.newrow; 
-
- /* if (ret.code == '0') {
-    rows[ret.id] = ret.newrow;
-    //$('figure[data-key="' + ret.id + '"] ttextarae.captionControl').text(
-  }*/
+  if (ret.code == '0') {
+    ret.oldrow = ret.newrow; 
+    $('figure[data-key="' + ret.id + '"] textarea.captionControl').text(ret.newrow[5]);
+  }
 
 }
 
