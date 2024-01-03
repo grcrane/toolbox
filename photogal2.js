@@ -10,6 +10,9 @@ var searchName = '';
 var classmatefile_id ="11dmQfOIuJt-uPN8kb91amFiyQzFeTYRaeBd5MhwsIxU";
 var classmatesurl = formatURL(classmatefile_id, 'Gallery', "");
 var folderurl = formatURL(classmatefile_id,'Folders',"");
+var rows = [];
+var memberrows = []; 
+var result = []; 
 
 // ---------------------------------------
 // ------- Debugging console logs
