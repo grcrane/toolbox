@@ -17,6 +17,7 @@
   }
 
   function onLoginSuccess(ret) {
+    console.log('entry onLoginSuccess');
     console.log(ret);
     $('#accountMsg').html(ret.message);
     if (ret.status == 'success' ) {
@@ -39,6 +40,7 @@
   }
 
   function onLogoutSuccess(ret) {
+    console.log('entry onLogoutSuccess');
     console.log(ret);
     $('#accountMsg').html(ret.message);
     if (ret.status == 'success' ) {
