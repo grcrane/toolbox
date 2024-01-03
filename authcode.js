@@ -8,6 +8,11 @@
 /* SAVE data changes back to spreadsheet                       */
 /* ----------------------------------------------------------- */  
 
+function onSaveSuccess(ret) {
+  console.log('onSaveSuccess return');
+  console.log(ret); 
+}
+
 function saveDataRow(cmd, key, oldrow, newrow) {
   
   isEqual = JSON.stringify(oldrow) === JSON.stringify(newrow);
@@ -19,6 +24,9 @@ function saveDataRow(cmd, key, oldrow, newrow) {
   console.log('key=' + key);
   console.log(oldrow);
   console.log(newrow);
+  google.script.run
+        .withSuccessHandler(onSaveSuccess)
+        .updateRow(key, 'Gallery',oldrow, newrow);
 
 }
   
