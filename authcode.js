@@ -3,6 +3,24 @@
   Authcode - functions used to edit and maintain photogallery
   George Crane, 1/3/2024
   */
+
+/* ----------------------------------------------------------- */
+/* SAVE data changes back to spreadsheet                       */
+/* ----------------------------------------------------------- */  
+
+function saveDataRow(cmd, key, oldrow, newrow) {
+  
+  isEqual = JSON.stringify(oldrow) === JSON.stringify(newrow);
+  if (isEqual) {console.log('Equal - nothing to update'); return;}
+
+  
+  console.log('Rows are different, needs updating');
+  console.log('cmd=' + cmd);
+  console.log('key=' + key);
+  console.log(oldrow);
+  console.log(newrow);
+
+}
   
   function onForgotSuccess(ret) {
     console.log(ret);
