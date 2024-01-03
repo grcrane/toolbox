@@ -34,6 +34,7 @@
       $('#accountMsg').css('color','red');
       //document.cookie = "login=None; SameSite=Lax; max-age=0; path=/;";
     }
+    setAdminStatus('canEdit');
     sendPostMessage();
   }
 
@@ -50,6 +51,7 @@
     else {
       $('#accountMsg').css('color','red');
     }
+    setAdminStatus('noEdit');
     sendPostMessage();
   }
 /* looks the same
