@@ -295,22 +295,6 @@ function isEqual(a, b)
     return JSON.stringify(a) === JSON.stringify(b);
 }
 
-/* ----------------------------------------------------------- */
-/* SAVE data changes back to spreadsheet                       */
-/* ----------------------------------------------------------- */  
-
-function saveDataRow(cmd, key, oldrow, newrow) {
-  
-  isEqual = JSON.stringify(oldrow) === JSON.stringify(newrow);
-  if (isEqual) {console.log('Equal - nothing to update'); return;}
-
-  
-  console.log('Rows are different, needs updating');
-  console.log(oldrow);
-  console.log(newrow);
-
-}
-
 /* ------------------------------------------------------------------*/
 /* This function will insure that all of the keys of the             */
 /* passed in object array are lowercase.  This is so we can          */
