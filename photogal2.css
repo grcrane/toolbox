@@ -891,6 +891,160 @@ div#thePhotoGallery {
   }
 }
 
+/* 
+Authcode css - used to edit and maintain photogallery
+George Crane, 1/3/2024
+*/
+
+#menu {
+  width: 100%;
+  margin: 0 auto;
+  display: inline-block;
+  float: ;
+  position: relative;
+  display: flex;
+  justify-content: center;
+}
+#menu li {
+  float: left;
+  list-style: none;
+  text-align: center;
+  margin-right: 10px;
+  margin-left: 10px;
+  width: 150px;
+  background: black;
+  color: white;
+  padding: 5px;
+  border-radius: 10px;
+}
+
+#menu li.active {
+  background: #4CAF50;
+}
+
+#menu li a {
+  text-decoration: none;
+  color: #FFFFFF;
+  display: block;
+}
+
+#menu li a:hover {
+  text-decoration: none;
+  color: #000000;
+  background-color: #33B5E5;
+}
+
+#menu li:hover {
+  cursor: pointer;
+}
+
+#contentBox1,
+#contentBox2 {
+  display: none;
+}
+
+#contentBox1.active,
+#contentBox2.active {
+  display: block;
+}
+
+/* ---------------- Container ---------------- */
+
+#container {
+  width: 100%;
+ /* border: 3px solid #eee;
+  border-radius: 10px;
+  margin: 0 auto;
+  padding: 10px;
+  margin-top: 20px;
+  visibility: hidden; */
+  position: relative;
+}
+
+
+#account {
+  background: #eee;
+  color: black;
+  width: 100%;
+  font-size: 1em;
+}
+
+#account form {
+  display: block;
+  padding: 10px;
+}
+
+#accountMsg {
+  color: red;
+  padding: 10px;
+}
+
+#account #forgot {
+  display: inline-block;
+}
+
+#logoutLink {
+  display: display;
+  float: right;
+  padding-right: 10px; 
+}
+
+#loginLink {
+  float: right;
+  padding-right: 10px;
+  display: none; 
+}
+
+#container #account form { 
+  display: none;
+}
+
+#container.login #account #loginForm {
+  display: block;
+}
+#container.forgot #account #loginForm {
+  display: none;
+}
+#container #keyRequestForm,
+#container #enterKeyform {
+  display: none; 
+}
+#container.forgot #keyRequestForm,
+#container.forgot #enterKeyForm {
+  display: block; 
+}
+
+#container.noedit .createButton,
+#container.noedit .submitButton,
+#container.noedit .delete1,
+#container.noedit .delete2btn,
+#container.noedit .addButton,
+#container.noedit #logoutLink,
+#container.noedit #modalSubmit,
+#container.noedit #promptModalSubmit { 
+  display: none;
+}
+#container.noedit #loginLink { 
+  display: block;
+}
+
+.noEditPrivs {
+  display: none; 
+}
+
+#container.noedit .noEditPrivs {
+  display: inline-block; 
+  padding: 10px;
+  margin-top: 10px;
+  background: red;
+  color: white;
+  adding: 10px;
+  margin-top: 10px;
+}
+
+
+/* end authcode css */
+
 
 @media (max-width: 1000px) {
   #theCarousel div.item {
