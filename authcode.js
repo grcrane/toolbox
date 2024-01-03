@@ -71,6 +71,7 @@
   }
 */
   function setAdminStatus(status = 'canEdit') {
+    console.log('entry SetAdminStatus status=' + status);
 
     jQuery("body.canEdit #displayType").off(); 
     jQuery("body.canEdit #doRefresh").off();
