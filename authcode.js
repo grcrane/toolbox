@@ -11,14 +11,14 @@
 function onSaveSuccess(ret) {
   console.log('onSaveSuccess return');
   console.log(ret); 
-  if (ret.code == '0') {
+ /* if (ret.code == '0') {
     rows[ret.id] = ret.newrow;
-  }
-  
+    //$('figure[data-key="' + ret.id + '"] ttextarae.captionControl').text(
+  }*/
+
 }
 
 function saveDataRow(cmd, key, oldrow, newrow) {
-  
   isEqual = JSON.stringify(oldrow) === JSON.stringify(newrow);
   if (isEqual) {console.log('Equal - nothing to update'); return;}
 
@@ -28,6 +28,7 @@ function saveDataRow(cmd, key, oldrow, newrow) {
   console.log('key=' + key);
   console.log(oldrow);
   console.log(newrow);
+  rows[key] = newrow;
   google.script.run
         .withSuccessHandler(onSaveSuccess)
         .updateRow(key, 'Gallery',oldrow, newrow);
