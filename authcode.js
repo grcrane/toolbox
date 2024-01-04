@@ -47,6 +47,7 @@ function saveDataRow(cmd, key, oldrow, newrow, rows) {
     sendPostMessage();
   }
 
+/* -------- remove login/logout functionality
   function onLoginSuccess(ret) {
     console.log('entry onLoginSuccess');
     console.log(ret);
@@ -87,22 +88,8 @@ function saveDataRow(cmd, key, oldrow, newrow, rows) {
     setAdminStatus('noEdit');
     sendPostMessage();
   }
-/* looks the same
-  function onLogoutSuccess(ret) {
-    console.log(ret);
-    $('#accountMsg').html(ret.message);
-    if (ret.status == 'success' ) {
-      $('#container').addClass('noedit');
-      $('#container').removeClass('forgot');
-      $('#container').removeClass('login');
-      $('#accountMsg').css('color','green');
-    }
-    else {
-      $('#accountMsg').css('color','red');
-    }
-    sendPostMessage();
-  }
-*/
+  */
+
   function setAdminStatus(status = 'canEdit') {
     console.log('entry SetAdminStatus status=' + status);
 
@@ -236,6 +223,7 @@ function saveDataRow(cmd, key, oldrow, newrow, rows) {
     } // if status == canEdit
   }
 
+/* disable login/logout functionality
   function setupForEditing(selectorID) {
 
     var editHtml = `<div id="container" class="noedit">
@@ -342,3 +330,4 @@ function saveDataRow(cmd, key, oldrow, newrow, rows) {
         sendPostMessage();
     });
   }
+  */
