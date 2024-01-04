@@ -1,5 +1,4 @@
-
-  /* 
+ /* 
   Authcode - functions used to edit and maintain photogallery
   George Crane, 1/3/2024
   */
@@ -11,27 +10,29 @@
 function onSaveSuccess(ret) {
   console.log('onSaveSuccess return');
   console.log(ret); 
-  if (ret.code == '0') {
-    ret.oldrow = ret.newrow; 
-    $('figure[data-key="' + ret.row + '"] div.capValue').text(ret.newrow[5]);
-  }
-
 }
 
-function saveDataRow(cmd, key, oldrow, newrow) {
+function saveDataRow(cmd, key, oldrow, newrow, rows) {
   isEqual = JSON.stringify(oldrow) === JSON.stringify(newrow);
-  if (isEqual) {console.log('Equal - nothing to update'); return;}
-
-  
+  if (isEqual) {console.log('Equal - nothing to update'); return newrow;}
   console.log('Rows are different, needs updating');
-  console.log('cmd=' + cmd);
-  console.log('key=' + key);
-  console.log(oldrow);
-  console.log(newrow);
-  //rows[key] = newrow;
+
+  var what = ''; 
+  if (cmd == 'SAVEROW') {
+    $('figure[data-key="' + key + '"] div.capValue').text(newrow[5]);
+    what = 'Gallery';
+  }
+  if (cmd == 'SAVETITLE') {
+    what = 'Folders';
+    $('#galleryData div.theTitle').text(newrow[5]);
+  }
+  
+  if (what != '') {
   google.script.run
         .withSuccessHandler(onSaveSuccess)
-        .updateRow(key, 'Gallery',oldrow, newrow);
+        .updateRow(key, what ,oldrow, newrow);
+  }
+  return newrow;
 }
   
   function onForgotSuccess(ret) {
@@ -162,7 +163,7 @@ function saveDataRow(cmd, key, oldrow, newrow) {
           else {
             newrow[4] = 'N';
           }
-          saveDataRow('SAVEROW', key, oldrow, newrow); 
+          rows[key] = saveDataRow('SAVEROW', key, oldrow, newrow, rows); 
         })
 
         jQuery("body.canEdit #cards.canEdit figure a img").hover(function(){
@@ -185,7 +186,7 @@ function saveDataRow(cmd, key, oldrow, newrow) {
             newrow[4] = chk;
             newrow[5] = jQuery(this).val();
             jQuery(this).closest('figure').attr("data-name", newrow[5]);
-            saveDataRow('SAVEROW',key, oldrow, newrow);
+            rows[key] = saveDataRow('SAVEROW',key, oldrow, newrow, rows);
             event.preventDefault();
           }
         });
@@ -201,18 +202,19 @@ function saveDataRow(cmd, key, oldrow, newrow) {
           newrow[4] = chk;
           newrow[5] = jQuery(this).val();
           jQuery(this).closest('figure').attr("data-name", newrow[5]);
-          saveDataRow('SAVEROW',key, oldrow, newrow);
+          rows[key] = saveDataRow('SAVEROW',key, oldrow, newrow, rows);
         })
 
         jQuery('body.canEdit .titleControl').keypress(function(event) {
           debug('Keypress: .titleControl');
           if (event.which == 13) {
             var key = jQuery(this).data('key');
-            var oldrow = groupRows[key];
-            var newrow = groupRows[key].slice();
+            console.log('key=' + key);
+            console.log(folderData);
+            var oldrow = folderData[key];
+            var newrow = folderData[key].slice();
             newrow[5] = jQuery(this).val();
-            saveDataRow('SAVETITLE',key, oldrow, newrow);
-            groupRows[key] = newrow;
+            folderData[key] = saveDataRow('SAVETITLE',key, oldrow, newrow, rows);
             event.preventDefault();
           }
         });
@@ -220,11 +222,10 @@ function saveDataRow(cmd, key, oldrow, newrow) {
         jQuery('body.canEdit .titleControl').on('change',function() {
           debug('Change: .titleControl');
             var key = jQuery(this).data('key');
-            var oldrow = groupRows[key];
-            var newrow = groupRows[key].slice();
+            var oldrow = folderData[key];
+            var newrow = folderData[key].slice();
             newrow[5] = jQuery(this).val();
-            saveDataRow('SAVETITLE',key, oldrow, newrow);
-            groupRows[key] = newrow;
+            folderData[key] = saveDataRow('SAVETITLE',key, oldrow, newrow, rows);
             event.preventDefault();
         });
 
