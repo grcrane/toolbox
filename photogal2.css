@@ -171,6 +171,7 @@ div.thePhotos {
 
 #cards div.capValue {
   display: block;
+  padding-top: 10px;
 }
 
 #galleryContainer.canEdit #cards figure figcaption textarea  {
