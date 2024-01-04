@@ -47,7 +47,7 @@ function saveDataRow(cmd, key, oldrow, newrow, rows) {
     sendPostMessage();
   }
 
-/* -------- remove login/logout functionality
+
   function onLoginSuccess(ret) {
     console.log('entry onLoginSuccess');
     console.log(ret);
@@ -88,7 +88,7 @@ function saveDataRow(cmd, key, oldrow, newrow, rows) {
     setAdminStatus('noEdit');
     sendPostMessage();
   }
-  */
+
 
   function setAdminStatus(status = 'canEdit') {
     console.log('entry SetAdminStatus status=' + status);
