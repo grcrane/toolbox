@@ -223,7 +223,7 @@ function saveDataRow(cmd, key, oldrow, newrow, rows) {
     } // if status == canEdit
   }
 
-/* disable login/logout functionality
+
   function setupForEditing(selectorID) {
 
     var editHtml = `<div id="container" class="noedit">
@@ -330,4 +330,4 @@ function saveDataRow(cmd, key, oldrow, newrow, rows) {
         sendPostMessage();
     });
   }
-  */
+  
