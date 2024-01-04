@@ -1110,7 +1110,6 @@ function do_photoList(selectorID = '#thePhotoGallery', memberRows, groupRows, at
        
     });
 
- --- remove login/logout functionality
     if (setupForEditing != 'undefined') {
       setupForEditing('#thePhotoGallery');
     }
