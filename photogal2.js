@@ -13,6 +13,7 @@ var folderurl = formatURL(classmatefile_id,'Folders',"");
 var rows = [];
 var memberrows = []; 
 var result = []; 
+folderData = [];
 
 // ---------------------------------------
 // ------- Debugging console logs
@@ -1157,7 +1158,7 @@ function do_classList(selectorID = 'body', attr = {}) {
     });
 
     // -- convert the json folder list into an array 
-    var folderData = [];
+    folderData = [];
     folderArray.forEach(function(item,key) {
       if (item.c[0] != null) {
         var ar = [];
