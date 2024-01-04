@@ -198,6 +198,10 @@ div.thePhotos {
    aspect-ratio:  6 / 6;
 }
 
+#cards figure.video img {
+  aspect-ratio: 9 / 6;
+}
+
 #cards figure.hidden img {
   border:  5px solid purple;
 }
