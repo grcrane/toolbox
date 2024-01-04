@@ -1181,6 +1181,30 @@ function do_classList(selectorID = 'body', attr = {}) {
         //setAdminStatus();
     }
 
+    $('#enableEdit').on('click',function(event) {
+      event.preventDefault(); 
+      $('#container, #galleryContainer').removeClass('noedit');
+      $('#container, #galleryContainer').addClass('canEdit');
+      $('#container, #galleryContainer').removeClass('login');
+      $('#disableEdit').show();
+      $('#enableEdit').hide();
+      setAdminStatus('canEdit');
+      console.log('Enable Edit');
+    })
+    $('#disableEdit').on('click',function(event) {
+      console.log('Disable Edit');
+      $('#container, #galleryContainer').removeClass('canEdit');
+      $('#container, #galleryContainer').addClass('noedit');
+      $('#container').removeClass('forgot');
+      $('#container').removeClass('login');
+      $('#enableEdit').show();
+      $('#disableEdit').hide();
+      setAdminStatus('noEdit');
+      event.preventDefault(); 
+    })
+
+    $('#disableEdit').hide();
+
   });
 
 }
