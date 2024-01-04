@@ -96,7 +96,7 @@ function saveDataRow(cmd, key, oldrow, newrow, rows) {
     jQuery("body.canEdit #displayType").off(); 
     jQuery("body.canEdit #doRefresh").off();
      jQuery("body.canEdit .imageGalleryCheck").off();
-     jQuery("body.canEdit #cards.canEdit figure a img").off();
+     jQuery("body.canEdit figure a img").off();
      jQuery('body.canEdit .captionControl').off();
      jQuery('body.canEdit .titleControl').off();
      jQuery('body.canEdit #doReconcile').off();
@@ -153,7 +153,7 @@ function saveDataRow(cmd, key, oldrow, newrow, rows) {
           rows[key] = saveDataRow('SAVEROW', key, oldrow, newrow, rows); 
         })
 
-        jQuery("body.canEdit #cards.canEdit figure a img").hover(function(){
+        jQuery("body.canEdit figure a img").hover(function(){
           debug('Hover: #cards canEdit figure a img');
           jQuery(this).closest('figure').find("div.imageGalleryCheck").show();
           }, function(){
