@@ -332,7 +332,7 @@ function setupLightbox2(groupRows) {
     jQuery(this).attr('src',jQuery(this).data('src'));
   });
   var folderid = jQuery('.cards figure.active').eq(0).data('folder');
-  jQuery('#galleryData').hide(); 
+  //jQuery('#galleryData').hide(); 
   if (typeof folderid != 'undefined' && folderid != null) {
     var numshowing = jQuery('figure.active').length;
     var showing = 'Showing: ' 
@@ -347,7 +347,7 @@ function setupLightbox2(groupRows) {
     jQuery('#doRefresh').hide(); 
     jQuery('#showing').show();
     if (numshowing > 0) {
-      jQuery('#galleryData').show(); 
+      //jQuery('#galleryData').show(); 
     }
   }
   else {
