@@ -2,18 +2,23 @@
 
 #enableDisable {
   background:  rgba(64, 77, 92, 0.05);
+  position: relative;
+  display: block;
 }
+
 #enableDisable .modeButton {
   padding: 5px;
   text-decoration: none; 
+  display: none;
 }
+
 
 #enableEdit, #disableEdit {
   display: none;
 }
 
 #doAction {
-  display:  none;
+  display: none;
 }
 
 #doAction.canEdit {
