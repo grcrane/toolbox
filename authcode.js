@@ -60,7 +60,11 @@ function saveDataRow(cmd, key, oldrow, newrow, rows) {
       $('#logoutEmail').html('(' + ret.email + ') ');
       //$('#addButton').css('display','block');
       $('#inputPass').val('')
+      
       $('#enableEdit').show(); 
+      $('#container, #galleryContainer').removeClass('canEdit');
+      $('#container, #galleryContainer').addClass('noedit');
+
       setAdminStatus('canEdit');
       //$('#container #loginForm').removeClass('login');
       //document.cookie = "login=" + ret.email + "; SameSite=Lax; max-age=" + 5*60 + "; path=/;";
