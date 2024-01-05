@@ -1180,8 +1180,8 @@ function do_classList(selectorID = 'body', attr = {}) {
     if (typeof setAdminStatus === "function") {
 
       var temp = `<div id="enableDisable">
-      <a href="#" id="enableEdit" class="modeButton">Edit</a>
-      <a href="#" id="disableEdit" class="modeButton">Stop Editing</a>
+      <a href="#" id="enableEdit" class="modeButton" style="display:block;">Edit</a>
+      <a href="#" id="disableEdit" class="modeButton" style="display:block;">Stop Editing</a>
       </div>`;
       $(temp).insertBefore(selectorID);
     
