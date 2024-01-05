@@ -60,6 +60,8 @@ function saveDataRow(cmd, key, oldrow, newrow, rows) {
       $('#logoutEmail').html('(' + ret.email + ') ');
       //$('#addButton').css('display','block');
       $('#inputPass').val('')
+      $('#enableEdit').show(); 
+      setAdminStatus('canEdit');
       //$('#container #loginForm').removeClass('login');
       //document.cookie = "login=" + ret.email + "; SameSite=Lax; max-age=" + 5*60 + "; path=/;";
     }
@@ -67,7 +69,7 @@ function saveDataRow(cmd, key, oldrow, newrow, rows) {
       $('#accountMsg').css('color','red');
       //document.cookie = "login=None; SameSite=Lax; max-age=0; path=/;";
     }
-    setAdminStatus('canEdit');
+    
     sendPostMessage();
   }
 
@@ -81,10 +83,12 @@ function saveDataRow(cmd, key, oldrow, newrow, rows) {
       $('#container').removeClass('forgot');
       $('#container').removeClass('login');
       $('#accountMsg').css('color','green');
+
     }
     else {
       $('#accountMsg').css('color','red');
     }
+    $('#enableEdit').hide(); 
     setAdminStatus('noEdit');
     sendPostMessage();
   }
