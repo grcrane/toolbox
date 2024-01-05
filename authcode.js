@@ -61,7 +61,7 @@ function saveDataRow(cmd, key, oldrow, newrow, rows) {
       //$('#addButton').css('display','block');
       $('#inputPass').val('')
 
-      $('#enableEdit').show(); 
+      $('#enableEdit').css('display','inline-block'); 
       $('#container, #galleryContainer').removeClass('canEdit');
       $('#container, #galleryContainer').addClass('noedit');
 
