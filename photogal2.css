@@ -942,3 +942,7 @@ div#thePhotoGallery {
   padding: 5px;
   text-decoration: none; 
 }
+
+#enableEdit, #disableEdit {
+  display: none;
+}
