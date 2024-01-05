@@ -1190,7 +1190,7 @@ function do_classList(selectorID = 'body', attr = {}) {
         $('#container, #galleryContainer').removeClass('noedit');
         $('#container, #galleryContainer').addClass('canEdit');
         $('#container, #galleryContainer').removeClass('login');
-        $('#disableEdit').show();
+        $('#disableEdit').css('display','block');
         $('#enableEdit').hide();
         setAdminStatus('canEdit');
         console.log('Enable Edit');
@@ -1201,7 +1201,7 @@ function do_classList(selectorID = 'body', attr = {}) {
         $('#container, #galleryContainer').addClass('noedit');
         $('#container').removeClass('forgot');
         $('#container').removeClass('login');
-        $('#enableEdit').show();
+        $('#enableEdit').css('display','block');
         $('#disableEdit').hide();
         setAdminStatus('noEdit');
         event.preventDefault(); 
