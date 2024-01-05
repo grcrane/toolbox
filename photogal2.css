@@ -932,3 +932,13 @@ div#thePhotoGallery {
     float: unset !important;
   }
 }
+
+/* Enable and disable editing link buttons */
+
+#enableDisable {
+  background:  rgba(64, 77, 92, 0.05);
+}
+#enableDisable .modeButton {
+  padding: 5px;
+  text-decoration: none; 
+}
