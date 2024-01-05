@@ -54,8 +54,8 @@ function saveDataRow(cmd, key, oldrow, newrow, rows) {
     $('#accountMsg').html(ret.message);
     if (ret.status == 'success' ) {
       $('#accountMsg').css('color','green');
-      $('#container, #galleryContainer').removeClass('noedit');
-      $('#container, #galleryContainer').addClass('canEdit');
+   //   $('#container, #galleryContainer').removeClass('noedit');
+   //   $('#container, #galleryContainer').addClass('canEdit');
       $('#container, #galleryContainer').removeClass('login');
       $('#logoutEmail').html('(' + ret.email + ') ');
       //$('#addButton').css('display','block');
