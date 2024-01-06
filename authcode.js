@@ -62,6 +62,8 @@ function saveDataRow(cmd, key, oldrow, newrow, rows) {
       $('#container, #galleryContainer').addClass('canEdit');
       $('#container, #galleryContainer').removeClass('noedit');
       $('#myLoginModal').hide();
+      $('#loginLink').hide();
+      $('#logoutLink').show(); 
       setAdminStatus('noEdit');
     }
     else {
@@ -344,7 +346,7 @@ function saveDataRow(cmd, key, oldrow, newrow, rows) {
         sendPostMessage();
     });
 
-    $('#loginLink a').click(function(event) {
+  /*  $('#loginLink a').click(function(event) {
         event.preventDefault();
         $('#container').removeClass('forgot');
         $('#container').addClass('login');
@@ -352,6 +354,7 @@ function saveDataRow(cmd, key, oldrow, newrow, rows) {
         $('#accountMsg').css('color','green');
         sendPostMessage();
     });
+    */
   }
   
   
