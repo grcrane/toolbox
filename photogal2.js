@@ -1225,7 +1225,7 @@ function do_classList(selectorID = 'body', attr = {}) {
       <a href="#" id="enableEdit" class="modeButton" style="display:none;">Edit</a>
       <a href="#" id="disableEdit" class="modeButton" style="display:none;">Stop Editing</a>
       </div>`;
-      $(temp).insertBefore(selectorID);
+      //$(temp).insertBefore(selectorID);
     
       $('#enableEdit').on('click',function(event) {
         event.preventDefault(); 
