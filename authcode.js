@@ -283,23 +283,24 @@ function saveDataRow(cmd, key, oldrow, newrow, rows) {
     //$('#accountMsg').hide();
 
 
-    $('#account #forgot').click(function(event) {
+    $('#forgot').click(function(event) {
         event.preventDefault();
         $('#accountMsg').html('');
         $('#container').addClass('forgot');
         $('#container').removeClass('login');
         sendPostMessage();
     });
-    $('#account #loginLink a').click(function(event) {
+    $('#loginLink a').click(function(event) {
         event.preventDefault();
         $('#container').removeClass('forgot');
         $('#container').addClass('login');
         $('#accountMsg').html('Enter you login credentials');
         $('#accountMsg').css('color','green');
+        $('#myLoginModal').show();
         sendPostMessage();
     });
 
-    $('#account #logoutLink a').click(function(event) {
+    $('#logoutLink a').click(function(event) {
         event.preventDefault();
         google.script.run
         .withSuccessHandler(onLogoutSuccess)
@@ -350,7 +351,7 @@ function saveDataRow(cmd, key, oldrow, newrow, rows) {
         sendPostMessage();
     });
 
-    $('#account #loginLink a').click(function(event) {
+    $('#loginLink a').click(function(event) {
         event.preventDefault();
         $('#container').removeClass('forgot');
         $('#container').addClass('login');
