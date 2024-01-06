@@ -65,6 +65,7 @@ function saveDataRow(cmd, key, oldrow, newrow, rows) {
       $('#loginLink').hide();
       $('#logoutLink').show(); 
       setAdminStatus('noEdit');
+      loggedIn = true;
     }
     else {
       $('#accountMsg').css('color','red');
@@ -83,6 +84,9 @@ function saveDataRow(cmd, key, oldrow, newrow, rows) {
       $('#container').removeClass('forgot');
       $('#container').removeClass('login');
       $('#accountMsg').css('color','green');
+      $('#loginLink').show();
+      $('#logoutLink').hide(); 
+      loggedIn = false;
 
     }
     else {
