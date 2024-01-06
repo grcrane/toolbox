@@ -266,6 +266,10 @@ function saveDataRow(cmd, key, oldrow, newrow, rows) {
         <div id="account">
           <div>
             <span id="accountMsg">Login to edit</span>
+            <div id="enableDisable">
+      <a href="#" id="enableEdit" class="modeButton" style="display:none;">Edit</a>
+      <a href="#" id="disableEdit" class="modeButton" style="display:none;">Stop Editing</a>
+      </div>
             <span id="logoutLink"><span id="logoutEmail"></span><a href="#">Logout</a></span>
             <span id="loginLink"><a href="#">Login</a></span>
         </div>
