@@ -14,6 +14,7 @@ var rows = [];
 var memberrows = []; 
 var result = []; 
 folderData = [];
+var loggedIn = false; 
 
 // ---------------------------------------
 // ------- Debugging console logs
@@ -931,6 +932,19 @@ function do_photoList(selectorID = '#thePhotoGallery', memberRows, groupRows, at
       if (event.target.id == 'myModal') {
        // jQuery('#myModal span.close').trigger('click');
        // jQuery('#myModal iframe').attr('src','');
+      }
+    }
+
+    // When the user clicks on <span> (x), close the modal
+    jQuery('#myLoginModal span.close').on('click',function() {
+      debug('Click: #myLoginModal span.close');
+      jQuery('#myLoginModal').hide();
+    })
+
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function(event) {
+      if (event.target.id == 'myLoginModal') {
+
       }
     }
 
