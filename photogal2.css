@@ -890,6 +890,78 @@ div#thePhotoGallery {
   width: 100%;
 } 
 
+/* Login modal window */
+
+#myLoginModal.loginmodal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  padding-top: 100px; /* Location of the box */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+#myLoginModal .loginmodal-content {
+  background-color: #fefefe;
+  margin: auto;
+  border: 1px solid #888;
+  width: auto;
+  max-width: 600px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+#myLoginModal  #main {
+    margin: 0 auto;
+    padding-top: 30px;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+#myLoginModal  .responsive {
+
+  height: 0;
+  padding-bottom: 56.25%;
+  position: relative;
+}
+
+#myLoginModal .responsive iframe {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+#myLoginModal .close {
+  color: #aaaaaa;
+  text-align: right;
+  font-size: 28px;
+  font-weight: bold;
+  margin-right: 10px;
+}
+
+#myLoginModal .close:hover,
+#myLoginModal .close:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+#myLoginModal div.videoCaption {
+  padding: 10px 0 10px 20px;
+}
+
+#myLoginModal .loginmodal {
+  padding-top: 120px;
+}
+
+/* end login modal window */
+
 #cards figure figcaption {
   font-weight: 500;
   font-size: 15px;
