@@ -89,7 +89,7 @@
 }
 
 #logoutLink {
-  display: display;
+  display: none;
   float: right;
   padding-right: 10px; 
 }
@@ -97,7 +97,7 @@
 #loginLink {
   float: right;
   padding-right: 10px;
-  display: none; 
+  display: block; 
 }
 
 #container #account form { 
@@ -124,7 +124,7 @@
 #container.noedit .delete1,
 #container.noedit .delete2btn,
 #container.noedit .addButton,
-#container.noedit #logoutLink,
+x#container.noedit #logoutLink,
 #container.noedit #modalSubmit,
 #container.noedit #promptModalSubmit { 
   display: none;
