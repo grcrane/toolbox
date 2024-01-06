@@ -263,7 +263,18 @@ function saveDataRow(cmd, key, oldrow, newrow, rows) {
         <div id="messageBox"></div>
       </div><!-- end container -->`;
 
-    //$(editHtml).insertBefore(selectorID);
+     var editHtml = `<div id="container" class="noedit">
+        <div id="account">
+          <div>
+            <span id="accountMsg">Login to edit</span>
+            <span id="logoutLink"><span id="logoutEmail"></span><a href="#">Logout</a></span>
+            <span id="loginLink"><a href="#">Login</a></span>
+        </div>
+        <div id="messageBox"></div>
+      </div><!-- end container -->`;
+
+
+    $(editHtml).insertBefore(selectorID);
     
     $('#container').css('display','block'); 
     $('#loading').css('display','none');
