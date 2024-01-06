@@ -3,7 +3,7 @@
 #enableDisable {
   background:  rgba(64, 77, 92, 0.05);
   position: relative;
-  display: block;
+  display: inline-block;
 }
 
 #enableDisable .modeButton {
