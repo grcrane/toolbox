@@ -298,7 +298,7 @@ function saveDataRow(cmd, key, oldrow, newrow, rows) {
         $('#container').addClass('forgot');
         $('#container').removeClass('login');
 
-        $('#keyRequetFormModal').show(); 
+        $('#keyRequestFormModal').show(); 
         $('#loginFormModal, #enterKeyFormModal').hide(); 
 
         sendPostMessage();
@@ -325,7 +325,7 @@ function saveDataRow(cmd, key, oldrow, newrow, rows) {
         sendPostMessage();
     });
 
-    $('#keyRequestForm').submit(function(event) {
+    $('#keyRequestFormModal').submit(function(event) {
         event.preventDefault();
         var username = $('#inputRequestEmail').val();
         google.script.run
@@ -348,7 +348,7 @@ function saveDataRow(cmd, key, oldrow, newrow, rows) {
         sendPostMessage();
     });
 
-    $('#account #loginForm').submit(function(event) {
+ /*   $('#account #loginForm').submit(function(event) {
         event.preventDefault();
         var username = $('#inputEmail').val();
         var password = $('#inputPass').val(); 
@@ -356,7 +356,7 @@ function saveDataRow(cmd, key, oldrow, newrow, rows) {
         .withSuccessHandler(onLoginSuccess)
         .checkLogin(username, password); 
         sendPostMessage();
-    });
+    });*/
 
     $('#loginFormModal').submit(function(event) {
         event.preventDefault();
