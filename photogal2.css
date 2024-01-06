@@ -885,8 +885,9 @@ div#thePhotoGallery {
 
 #myModal .modal {
   padding-top: 120px;
+}
 
-   #galleryContainer {
+#galleryContainer {
   width: 100%;
 } 
 
