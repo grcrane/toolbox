@@ -892,7 +892,7 @@ div#thePhotoGallery {
 
 /* Login modal window */
 
-#myLoginModal.loginmodal {
+#myLoginModal.loginModal {
   display: none; /* Hidden by default */
   position: fixed; /* Stay in place */
   z-index: 1; /* Sit on top */
@@ -906,7 +906,7 @@ div#thePhotoGallery {
   background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
 }
 
-#myLoginModal .loginmodal-content {
+#myLoginModal .loginModal-content {
   background-color: #fefefe;
   margin: auto;
   border: 1px solid #888;
