@@ -54,25 +54,18 @@ function saveDataRow(cmd, key, oldrow, newrow, rows) {
     $('#accountMsg').html(ret.message);
     if (ret.status == 'success' ) {
       $('#accountMsg').css('color','green');
-   //   $('#container, #galleryContainer').removeClass('noedit');
-   //   $('#container, #galleryContainer').addClass('canEdit');
       $('#container, #galleryContainer').removeClass('login');
       $('#logoutEmail').html('(' + ret.email + ') ');
       //$('#addButton').css('display','block');
       $('#inputPass').val('')
-
       $('#enableEdit').css('display','inline-block'); 
       $('#container, #galleryContainer').addClass('canEdit');
       $('#container, #galleryContainer').removeClass('noedit');
-
-
+      $('#myLoginModal').hide();
       setAdminStatus('noEdit');
-      //$('#container #loginForm').removeClass('login');
-      //document.cookie = "login=" + ret.email + "; SameSite=Lax; max-age=" + 5*60 + "; path=/;";
     }
     else {
       $('#accountMsg').css('color','red');
-      //document.cookie = "login=None; SameSite=Lax; max-age=0; path=/;";
     }
     
     sendPostMessage();
