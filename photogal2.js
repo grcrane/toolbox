@@ -382,6 +382,34 @@ function insertHTML(selectorID,title, subtitle, theClass) {
     </div>
   </div>
 
+  <!-- The Login Modal -->
+  <div id="myLoginModal" class="loginModal">
+
+    <!-- Login Modal content -->
+    <div class="loginModal-content">
+      <span class="close">&times;</span>
+      <div id="loginForm">
+         <form id="loginForm">
+              Email:&nbsp;<input type=email id="inputEmail" class="input-lg" required>
+              Password:&nbsp;<input type=password id="inputPass"  class="input-lg" required>
+              <button id="accontSubmit" type="submit">Login</button>
+              <div id="forgot"><a href="#">Reset password</a></div>
+          </form>
+
+          <form id="keyRequestForm">
+              Email:&nbsp;<input type=email id="inputRequestEmail"  class="input-lg" required>
+              <button  type="submit">Request activation key</button>
+          </form>
+
+          <form id="enterKeyForm">
+              Activation key:&nbsp;<input type=text id="inputKeyActivate" class="input-lg"  required>
+              New password:&nbsp;<input type=password id="inputKeyPass" class="input-lg"  required>
+              <button  type="submit">Save password</button>
+        </form>
+      </div>   
+    </div>
+  </div>
+
   <div id="galleryContainer" class="${theClass}" style="display:none;">
     <a id="doReconcile">Reconcile</a>
     <div id="viewButtons">
