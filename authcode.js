@@ -62,8 +62,8 @@ function saveDataRow(cmd, key, oldrow, newrow, rows) {
       $('#inputPass').val('')
 
       $('#enableEdit').css('display','inline-block'); 
-      $('#container, #galleryContainer').removeClass('canEdit');
-      $('#container, #galleryContainer').addClass('noedit');
+      $('#container, #galleryContainer').addClass('canEdit');
+      $('#container, #galleryContainer').removeClass('noedit');
 
 
       setAdminStatus('noEdit');
