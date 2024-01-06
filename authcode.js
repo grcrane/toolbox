@@ -334,7 +334,7 @@ function saveDataRow(cmd, key, oldrow, newrow, rows) {
         sendPostMessage();
     });
 
-    $('#enterKeyForm').submit(function(event) {
+    $('#enterKeyFormModal').submit(function(event) {
         event.preventDefault();
         $('#container').removeClass('forgot');
         $('#container').removeClass('login');
