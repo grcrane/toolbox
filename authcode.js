@@ -41,7 +41,7 @@ function saveDataRow(cmd, key, oldrow, newrow, rows) {
     if (ret.status == 'Success' ) {
       $('#accountMsg').css('color','green');
       $('#enterKeyFormModal').show();
-      $('keyRequestFormModal, #loginFormModal').hide(); 
+      $('#keyRequestFormModal, #loginFormModal').hide(); 
     }
     else {
       $('#accountMsg').css('color','red');
