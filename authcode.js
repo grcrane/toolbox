@@ -40,6 +40,8 @@ function saveDataRow(cmd, key, oldrow, newrow, rows) {
     $('#accountMsg').html(ret.message);
     if (ret.status == 'success' ) {
       $('#accountMsg').css('color','green');
+      $('#enterKeyFormModal').show();
+      $('keyRequestFormModal, #loginFormModal').hide(); 
     }
     else {
       $('#accountMsg').css('color','red');
@@ -64,6 +66,10 @@ function saveDataRow(cmd, key, oldrow, newrow, rows) {
       $('#myLoginModal').hide();
       $('#loginLink').hide();
       $('#logoutLink').show(); 
+
+      $('#loginFormModal').show(); 
+      $('#keyRequestFormModal, #enterKeyFormModal').hide(); 
+
       setAdminStatus('noEdit');
       loggedIn = false;
     }
@@ -291,6 +297,10 @@ function saveDataRow(cmd, key, oldrow, newrow, rows) {
         $('#accountMsg').html('');
         $('#container').addClass('forgot');
         $('#container').removeClass('login');
+
+        $('#keyRequetFormModal').show(); 
+        $('#loginFormModal, #enterKeyFormModal').hide(); 
+
         sendPostMessage();
     });
     $('#loginLink a').click(function(event) {
@@ -311,7 +321,7 @@ function saveDataRow(cmd, key, oldrow, newrow, rows) {
         sendPostMessage();
     });
 
-    $('#account #keyRequestForm').submit(function(event) {
+    $('#keyRequestForm').submit(function(event) {
         event.preventDefault();
         var username = $('#inputRequestEmail').val();
         google.script.run
@@ -320,7 +330,7 @@ function saveDataRow(cmd, key, oldrow, newrow, rows) {
         sendPostMessage();
     });
 
-    $('#account #enterKeyForm').submit(function(event) {
+    $('#enterKeyForm').submit(function(event) {
         event.preventDefault();
         $('#container').removeClass('forgot');
         $('#container').removeClass('login');
