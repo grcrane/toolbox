@@ -38,7 +38,7 @@ function saveDataRow(cmd, key, oldrow, newrow, rows) {
   function onForgotSuccess(ret) {
     console.log(ret);
     $('#accountMsg').html(ret.message);
-    if (ret.status == 'success' ) {
+    if (ret.status == 'Success' ) {
       $('#accountMsg').css('color','green');
       $('#enterKeyFormModal').show();
       $('keyRequestFormModal, #loginFormModal').hide(); 
