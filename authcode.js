@@ -311,7 +311,7 @@ function saveDataRow(cmd, key, oldrow, newrow, rows) {
         $('#accountMsg').css('color','green');
         $('#myLoginModal').show();
         $('#loginFormModal').show();
-        $('#keyRequetFormModal, #enterKeyFormModal').hide(); 
+        $('#keyRequestFormModal, #enterKeyFormModal').hide(); 
 
         $('')
         sendPostMessage();
