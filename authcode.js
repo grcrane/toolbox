@@ -310,6 +310,10 @@ function saveDataRow(cmd, key, oldrow, newrow, rows) {
         $('#accountMsg').html('Enter you login credentials');
         $('#accountMsg').css('color','green');
         $('#myLoginModal').show();
+        $('#loginFormModal').show();
+        $('#keyRequetFormModal, #enterKeyFormModal').hide(); 
+
+        $('')
         sendPostMessage();
     });
 
