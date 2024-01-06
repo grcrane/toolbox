@@ -263,7 +263,7 @@ function saveDataRow(cmd, key, oldrow, newrow, rows) {
         <div id="messageBox"></div>
       </div><!-- end container -->`;
 
-    $(editHtml).insertBefore(selectorID);
+    //$(editHtml).insertBefore(selectorID);
     
     $('#container').css('display','block'); 
     $('#loading').css('display','none');
@@ -323,6 +323,16 @@ function saveDataRow(cmd, key, oldrow, newrow, rows) {
         event.preventDefault();
         var username = $('#inputEmail').val();
         var password = $('#inputPass').val(); 
+        var ret = google.script.run
+        .withSuccessHandler(onLoginSuccess)
+        .checkLogin(username, password); 
+        sendPostMessage();
+    });
+
+    $('#loginFormModal').submit(function(event) {
+        event.preventDefault();
+        var username = $('#loginFormModal #inputEmail').val();
+        var password = $('#loginFormModal #inputPass').val(); 
         var ret = google.script.run
         .withSuccessHandler(onLoginSuccess)
         .checkLogin(username, password); 
