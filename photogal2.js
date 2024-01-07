@@ -394,17 +394,14 @@ function insertHTML(selectorID,title, subtitle, theClass) {
 
            <div class="form-group">
             <label for="email">Email address:</label>
-            <input type="email" class="form-control" id="email">
+            <input type="email" class="form-control" id="inputEmail">
           </div>
           <div class="form-group">
             <label for="pwd">Password:</label>
-            <input type="password" class="form-control" id="pwd">
+            <input type="password" class="form-control" id="inputPass">
           </div>
-  
-              Email:&nbsp;<input type=email id="inputEmail" class="input-lg" required>
-              Password:&nbsp;<input type=password id="inputPass"  class="input-lg" required>
-              <button id="accontSubmit" type="submit">Login</button>
-              <div id="forgot"><a href="#">Reset password</a></div>
+
+           
           </form>
 
           <form id="keyRequestFormModal">
