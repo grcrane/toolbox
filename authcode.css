@@ -57,15 +57,12 @@
 
 #container {
   width: 100%;
- /* border: 3px solid #eee; */
   border-radius: 10px;
   margin: 0 auto;
-  padding: 10px;
   margin-top: 20px;
   visibility: hidden; */
   position: relative;
 }
-
 
 #account {
   color: black;
@@ -80,7 +77,6 @@
 
 #accountMsg {
   color: red;
-  padding: 10px;
 }
 
 #account #forgot {
