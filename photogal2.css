@@ -732,7 +732,7 @@ div#radioButtons div.r  label.active {
 }
 
 div#thePhotoGallery {
-  background:  rgba(64, 77, 92, 0.05);
+ /* background:  rgba(64, 77, 92, 0.05); */
 }
 
 #theCarousel div.item.active {
