@@ -963,6 +963,18 @@ div#thePhotoGallery {
   padding-top: 120px;
 }
 
+#myLoginModal #myModalHeader {
+  margin-bottom: 20px;
+}
+#myLoginModal #myModalHeader div.title {
+  font-weight: bold;
+  font-size: 1.5em; 
+  float: left;
+}
+#myLoginModal #myModalHeader div.close {
+  float: right; 
+}
+
 /* end login modal window */
 
 #cards figure figcaption {
