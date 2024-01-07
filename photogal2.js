@@ -401,7 +401,10 @@ function insertHTML(selectorID,title, subtitle, theClass) {
             <input type="password" class="form-control" id="inputPass">
           </div>
 
-           
+          <button id="accontSubmit" type="submit">Login</button>
+          <div id="forgot"><a href="#">Reset password</a></div>
+
+             
           </form>
 
           <form id="keyRequestFormModal">
