@@ -247,6 +247,17 @@ function saveDataRow(cmd, key, oldrow, newrow, rows) {
             <span id="loginLink"><a href="#">Login</a></span>
 
             <form id="loginForm">
+
+              <div class="form-group">
+                <label for="email">Email address:</label>
+                <input type="email" class="form-control" id="email">
+              </div>
+              <div class="form-group">
+                <label for="pwd">Password:</label>
+                <input type="password" class="form-control" id="pwd">
+              </div>
+              
+
               Email:&nbsp;<input type=email id="inputEmail" class="input-lg" required>
               Password:&nbsp;<input type=password id="inputPass"  class="input-lg" required>
               <button id="accontSubmit" type="submit">Login</button>
