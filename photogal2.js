@@ -390,8 +390,8 @@ function insertHTML(selectorID,title, subtitle, theClass) {
     <div class="loginModal-content">
       <span class="close">&times;</span>
       <div id="loginForm">
-         <form id="loginFormModal">
 
+        <form id="loginFormModal">
            <div class="form-group">
             <label for="email">Email address:</label>
             <input type="email" class="form-control" id="inputEmail">
@@ -400,23 +400,30 @@ function insertHTML(selectorID,title, subtitle, theClass) {
             <label for="pwd">Password:</label>
             <input type="password" class="form-control" id="inputPass">
           </div>
-
           <button id="accontSubmit" type="submit">Login</button>
-          <div id="forgot"><a href="#">Reset password</a></div>
-
-             
-          </form>
-
-          <form id="keyRequestFormModal">
-              Email:&nbsp;<input type=email id="inputRequestEmail"  class="input-lg" required>
-              <button  type="submit">Request activation key</button>
-          </form>
-
-          <form id="enterKeyFormModal">
-              Activation key:&nbsp;<input type=text id="inputKeyActivate" class="input-lg"  required>
-              New password:&nbsp;<input type=password id="inputKeyPass" class="input-lg"  required>
-              <button  type="submit">Save password</button>
+          <div id="forgot"><a href="#">Reset password</a></div>             
         </form>
+
+        <form id="keyRequestFormModal">
+          <div class="form-group">
+            <label for="email">Email address:</label>
+            <input type="email" class="form-control" id="inputRequestEmail">
+          </div>
+          <button  type="submit">Request activation key</button>
+        </form>
+
+        <form id="enterKeyFormModal">
+          <div class="form-group">
+              <label for="email">Activation Key:</label>
+              <input type="text" class="form-control" id="inputKeyActivate">
+            </div>
+            <div class="form-group">
+            <label for="pwd">New Password:</label>
+            <input type="password" class="form-control" id="inputKeyPass">
+          </div>
+          <button  type="submit">Save password</button>
+        </form>
+        
       </div>   
     </div>
   </div>
