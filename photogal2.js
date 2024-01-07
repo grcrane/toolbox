@@ -388,7 +388,12 @@ function insertHTML(selectorID,title, subtitle, theClass) {
 
     <!-- Login Modal content -->
     <div class="loginModal-content">
-      <span class="close">&times;</span>
+      
+      <div id="myModalHeader">
+        <div class="title">Login</div>
+        <div class="close">&times;</div>
+      </div>
+
       <div id="loginForm">
 
         <form id="loginFormModal">
@@ -423,7 +428,7 @@ function insertHTML(selectorID,title, subtitle, theClass) {
           </div>
           <button  type="submit">Save password</button>
         </form>
-        
+
       </div>   
     </div>
   </div>
@@ -953,8 +958,8 @@ function do_photoList(selectorID = '#thePhotoGallery', memberRows, groupRows, at
     }
 
     // When the user clicks on <span> (x), close the modal
-    jQuery('#myLoginModal span.close').on('click',function() {
-      debug('Click: #myLoginModal span.close');
+    jQuery('#myLoginModal div.close').on('click',function() {
+      debug('Click: #myLoginModal div.close');
       jQuery('#myLoginModal').hide();
     })
 
