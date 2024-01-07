@@ -283,7 +283,7 @@ function saveDataRow(cmd, key, oldrow, newrow, rows) {
       </div><!-- end container -->`;
 
 
-    $(editHtml).insertBefore(selectorID);
+    $(editHtml).prependTo(selectorID);
     
     $('#container').css('display','block'); 
     $('#loading').css('display','none');
