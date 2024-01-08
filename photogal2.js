@@ -177,7 +177,7 @@ function fillImages(grouping, memberRows,groupRows, groupLabels) {
         href= `${photoBase}/${value[2]}`;
         href= `${photoBase}/${value[3]}`;
 
-        distype = (value[4] == 'Y') ? ' show' : ' hidden';
+        distype = (value[4] == 'Y') ? ' showFig' : ' hidden';
         checked = (value[4] == 'Y')  ? ' checked ' : ''; 
         marker = (value[0] in groupLabels) ? groupRows[groupLabels[value[0]]][1] : ''; 
         folderref = (value[0] in groupLabels) ? groupLabels[value[0]] : ''; 
