@@ -71,6 +71,7 @@
    position:  relative;
 }
 
+
 #cards figure.active {
    display:  block;
 }
