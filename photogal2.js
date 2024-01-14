@@ -1200,7 +1200,6 @@ function do_classList(selectorID = 'body', attr = {}) {
   // -- Get data from Google spreadsheet
   attr = toLowerKeys(attr); // make sure the keys re lowercase
   classmatefile_id = ('fileid' in attr) ? attr['fileid'] : classmatefile_id;
-  classmatefile_id = ("11dmQfOIuJt-uPN8kb91amFiyQzFeTYRaeBd5MhwsIxU";
   classmatesurl = formatURL(classmatefile_id, 'Gallery', "");
   folderurl = formatURL(classmatefile_id,'Folders',"");
   fetchGoogleDataAll([classmatesurl,folderurl]).then(dataArrayx => {
