@@ -1198,6 +1198,11 @@ function do_classList(selectorID = 'body', attr = {}) {
   var memberRows = []; 
   myTimer1 = setTimeout(function(){ jQuery('div#loading').show(); }, 2000);
   // -- Get data from Google spreadsheet
+  attr = toLowerKeys(attr); // make sure the keys re lowercase
+  classmatefile_id = ('fileid' in attr) ? attr['fileid'] : classmatefile_id;
+  classmatefile_id = ("11dmQfOIuJt-uPN8kb91amFiyQzFeTYRaeBd5MhwsIxU";
+  classmatesurl = formatURL(classmatefile_id, 'Gallery', "");
+  folderurl = formatURL(classmatefile_id,'Folders',"");
   fetchGoogleDataAll([classmatesurl,folderurl]).then(dataArrayx => {
     if (dataArrayx[1]) {  // if there was a status error of some kind
       clearTimeout(myTimer1);
