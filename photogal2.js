@@ -1175,7 +1175,7 @@ function do_photoList(selectorID = '#thePhotoGallery', memberRows, groupRows, at
     });
 
 
-    if (setupForEditing != 'undefined') {
+    if (typeof setupForEditing == 'function') {
       setupForEditing('#thePhotoGallery');
     }
 
